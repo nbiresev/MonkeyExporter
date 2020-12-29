@@ -15,6 +15,8 @@ namespace MonkeyExporter
         public Form1()
         {
             InitializeComponent();
+            this.SetDesktopLocation(100000, 1000000);    
+            
         }
 
         private void button1_Click(object sender, EventArgs e)

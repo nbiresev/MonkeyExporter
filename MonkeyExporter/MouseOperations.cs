@@ -37,9 +37,8 @@ public class MouseOperations
     {
         MouseOperations.SetCursorPosition(point.X, point.Y);
         mouse_event(0x00000002, 0, 0, 0, 0);
+        Thread.Sleep(100);
         mouse_event(0x00000004, 0, 0, 0, 0);
-        Thread.Sleep(50);
-
     }
 
 

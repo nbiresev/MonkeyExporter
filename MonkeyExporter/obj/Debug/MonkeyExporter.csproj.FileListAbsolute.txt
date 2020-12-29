@@ -8,3 +8,5 @@ C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\bin\Debug\MonkeyExpor
 C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\bin\Debug\MonkeyExporter.pdb
 C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.exe
 C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.pdb
+C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\bin\Debug\HumanMouse.dll
+C:\Users\Sparta\source\repos\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.csproj.CopyComplete

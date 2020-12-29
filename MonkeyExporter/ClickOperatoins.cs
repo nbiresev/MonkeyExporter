@@ -7,55 +7,99 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Collections;
 using System.IO;
+using System.Drawing;
 
 namespace MonkeyExporter
 {
     class ClickOperatoins
     {
-        public static MouseOperations.MousePoint backBtn = new MouseOperations.MousePoint(40, 920);
-        public static MouseOperations.MousePoint checkBtn = new MouseOperations.MousePoint(110, 920);
-        public static MouseOperations.MousePoint firstBetsize = new MouseOperations.MousePoint(170, 920);
-        public static MouseOperations.MousePoint secondBetsize = new MouseOperations.MousePoint(220, 920);
+        public static Point backBtn = new Point(40, 920);
+        public static Point checkBtn = new Point(110, 920);
+        public static Point firstBetsize = new Point(170, 920);
+        public static Point secondBetsize = new Point(220, 920);
 
-        public static MouseOperations.MousePoint openSolution = new MouseOperations.MousePoint(136, 104);
+        public static Point openSolution = new Point(136, 104);
 
-        public static MouseOperations.MousePoint checkSolution = new MouseOperations.MousePoint(470, 80);
-        public static MouseOperations.MousePoint firstSizeSolutin = new MouseOperations.MousePoint(1040, 80);
-        public static MouseOperations.MousePoint scndSizeSolt = new MouseOperations.MousePoint(1700, 80);
+        public static Point checkSolution = new Point(470, 80);
+        public static Point firstSizeSolutin = new Point(1040, 80);
+        public static Point scndSizeSolt = new Point(1700, 80);
 
-        public static MouseOperations.MousePoint loadOneStreet = new MouseOperations.MousePoint(1005, 820);
-        public static MouseOperations.MousePoint loadAll = new MouseOperations.MousePoint(914, 820);
+        public static Point loadOneStreet = new Point(1005, 820);
+        public static Point loadAll = new Point(914, 820);
 
-        public static MouseOperations.MousePoint copyToClip = new MouseOperations.MousePoint(1100, 505);
-        public static MouseOperations.MousePoint saveOK = new MouseOperations.MousePoint(925, 610);
+        public static Point copyToClip = new Point(1100, 505);
+        public static Point saveOK = new Point(925, 610);
 
 
         public static string savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\";
 
-
+        public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
 
 
         public static void OpenSolutionOneStreet(int solutionsPosition)
         {
-            MouseOperations.leftClick(openSolution);
+            mouse.PointClick(openSolution);
 
             for (int i = 0; i < solutionsPosition; i++)
             {
                 SendKeys.SendWait("{DOWN}");
             }
-            MouseOperations.leftClick(loadOneStreet);
+            mouse.PointClick(loadOneStreet);
             Thread.Sleep(8000);
+        }
+
+        private static string GetClipBoradData()
+        {
+            try
+            {
+                string clipboardData = null;
+                Exception threadEx = null;
+                Thread staThread = new Thread(
+                    delegate ()
+                    {
+                        try
+                        {
+                            clipboardData = Clipboard.GetText(TextDataFormat.Text);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            threadEx = ex;
+                        }
+                    });
+                staThread.SetApartmentState(ApartmentState.STA);
+                staThread.Start();
+                staThread.Join();
+                return clipboardData;
+            }
+            catch (Exception exception)
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string CopyTryClipboard()
+        {
+            try
+            {
+                return Clipboard.GetText();
+            }
+            catch
+            {
+                Thread.Sleep(300);
+               return CopyTryClipboard();
+            }
         }
 
         public static void OpenSolutionFull(int solutionsPosition)
         {
-            MouseOperations.leftClick(openSolution);
+            mouse.PointClick(openSolution);
 
             for (int i = 0; i < solutionsPosition; i++)
             {
                 SendKeys.SendWait("{DOWN}");
             }
-            MouseOperations.leftClick(loadAll);
+            mouse.PointClick(loadAll);
             Thread.Sleep(10000);
         }
 
@@ -71,74 +115,62 @@ namespace MonkeyExporter
 
         public static void saveOneBetsizeStrat(string board, string spotDescription, string betsize)
         {
-            CopyPasteTwoPartSolution(board, spotDescription, "check", betsize);
+            copySolution(checkSolution, board, spotDescription, "check", "");
+
+            Thread.Sleep(1000);
+
+            copySolution(scndSizeSolt, board, spotDescription, "bet", betsize);
         }
-        public static void CopyPasteTwoPartSolution(string board, string spotDesc, string action, String betSize)
+
+        public static bool writeClipToFile (string path,string text)
         {
-            // GetCheckSolution
-            MouseOperations.leftClick(checkSolution);
-            Thread.Sleep(2000);
-
-            string path = savePath + spotDesc + "\\" + board +"\\check";
-            System.IO.Directory.CreateDirectory(path);
-
-
-            Clipboard.Clear();
-            Thread.Sleep(1000);
-
-            MouseOperations.leftClick(copyToClip);
-            Thread.Sleep(1000);
-
-            MouseOperations.leftClick(saveOK);
-            MouseOperations.leftClick(saveOK);
-
-            Thread.Sleep(2000);
-
-            var text = Clipboard.GetText();
 
             if (text.Length > 0)
             {
-                File.WriteAllText(path + action + ".txt", text);
-                Thread.Sleep(500);
+                File.WriteAllText(path + ".txt", text);
+                Clipboard.Clear();
+                return true;
             }
             else
             {
-                MouseOperations.leftClick(saveOK);
-                CopyPasteTwoPartSolution(board, spotDesc, action, betSize);
+                mouse.PointClick(saveOK);
+                return false;
             }
+        }
 
-
-            // GetBetSolution
-            MouseOperations.leftClick(scndSizeSolt);
+        public static void copySolution(Point solutionPoint, string board, string spotDesc, string action, String betSize)
+        {
+            mouse.PointClick(solutionPoint);
             Thread.Sleep(2000);
-
-            string path2 = savePath + spotDesc + "\\" + board + "\\Bet"+ betSize;
+            string path = savePath + spotDesc + "\\" + board + "\\";
             System.IO.Directory.CreateDirectory(path);
 
-
-            Clipboard.Clear();
-            Thread.Sleep(500);
-
-            MouseOperations.leftClick(copyToClip);
+            mouse.PointClick(copyToClip);
+            string text = GetClipBoradData();
+            writeClipToFile(path + action + betSize, text );
             Thread.Sleep(1000);
-            MouseOperations.leftClick(saveOK);
-            Thread.Sleep(2000);
+            mouse.PointClick(saveOK);
+        }
 
-            text = Clipboard.GetText();
+        public static void ReadSolution()
+        {
+            
+        }
 
-            if (text.Length > 0)
-            {
-                File.WriteAllText(path + action + ".txt", text);
-                Thread.Sleep(500);
-            }
-            else
-            {
-                MouseOperations.leftClick(saveOK);
-                CopyPasteTwoPartSolution(board, spotDesc, action, betSize);
-            }
+        public static void ReadOopTree()
+        {
+            /* oop bet check
+             * ip raise call fold: vs bet
+             * oop raise call fold: vs Raise
+             * ip raise call fold: vs Reraise
+        }
 
+        public static void ReadIpTree()
+        {
 
         }
+
+
 
     }
 }
