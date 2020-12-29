@@ -32,8 +32,9 @@ namespace MonkeyExporter
 
 
         public static string savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\";
-
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
+
+        public static string defaultRaiseSize = "100";
 
 
         public static void OpenSolutionOneStreet(int solutionsPosition)
@@ -113,7 +114,7 @@ namespace MonkeyExporter
             return board;
         }
 
-        public static void saveOneBetsizeStrat(string board, string spotDescription, string betsize)
+        public static void saveTwoItemSolution(string board, string spotDescription, string betsize)
         {
             copySolution(checkSolution, board, spotDescription, "check", "");
 
@@ -121,6 +122,31 @@ namespace MonkeyExporter
 
             copySolution(scndSizeSolt, board, spotDescription, "bet", betsize);
         }
+
+        public static void saveTwoBetsizeSolution(string board, string spotDescription, string betsize, string betsize2)
+        {
+            copySolution(checkSolution, board, spotDescription, "check", "");
+            Thread.Sleep(1000);
+
+            copySolution(firstSizeSolutin, board, spotDescription, "bet", betsize);
+            Thread.Sleep(1000);
+
+            copySolution(scndSizeSolt, board, spotDescription, "bet", betsize2);
+        }
+
+        public static void saveVsActionSolution(string board, string spotDescription, string raiseSize)
+        {
+            copySolution(checkSolution, board, spotDescription, "fold", "");
+            Thread.Sleep(1000);
+
+            copySolution(firstSizeSolutin, board, spotDescription, "call", "");
+            Thread.Sleep(1000);
+
+            copySolution(scndSizeSolt, board, spotDescription, "raise", raiseSize);
+        }
+
+
+
 
         public static bool writeClipToFile (string path,string text)
         {
@@ -154,20 +180,67 @@ namespace MonkeyExporter
 
         public static void ReadSolution()
         {
-            
+            string board = GetBoard();
+            string betsize = "50";
+            string raiseSize = "75";
+
+            ReadOopTreeSingleSize(board, betsize, raiseSize);
+            ReadIpTreeSingleSize(board, betsize, raiseSize);
         }
 
-        public static void ReadOopTree()
+        public static void ReadOopTreeSingleSize(string board, string betsize, string raiseSize)
         {
+
+            saveTwoItemSolution(board, "oopBetCheck", betsize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(1000);
+
+            saveVsActionSolution(board, "ipVsBet", raiseSize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(1000);
+
+            saveVsActionSolution(board, "oopVsRaise", defaultRaiseSize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(1000);
+
+            saveVsActionSolution(board, "ipVsReraise", defaultRaiseSize);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+
+
             /* oop bet check
              * ip raise call fold: vs bet
              * oop raise call fold: vs Raise
              * ip raise call fold: vs Reraise
+             * */
         }
 
-        public static void ReadIpTree()
+        public static void ReadIpTreeSingleSize(string board, string betsize, string raiseSize)
         {
+            mouse.PointClick(checkBtn);
+            Thread.Sleep(200);
 
+            saveTwoItemSolution(board, "ipBetCheck", betsize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(200);
+            saveVsActionSolution(board, "oopVsBet", raiseSize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(200);
+            saveVsActionSolution(board, "ipVsRaise", defaultRaiseSize);
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(200);
+            saveVsActionSolution(board, "oopVsReraise", defaultRaiseSize);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+
+            /* ip bet check
+            * oop raise call fold: vs bet
+            * ip raise call fold: vs Raise
+            * oop raise call fold: vs Reraise
+            * */
         }
 
 

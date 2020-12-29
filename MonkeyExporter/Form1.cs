@@ -22,8 +22,8 @@ namespace MonkeyExporter
         private void button1_Click(object sender, EventArgs e)
         {
             // ClickOperatoins.OpenSolutionOneStreet(4);
-            string board = ClickOperatoins.GetBoard();
-            ClickOperatoins.saveOneBetsizeStrat("\\" + ClickOperatoins.GetBoard() + "\\", "oopBet", "50");
+            // string board = ClickOperatoins.GetBoard();
+            ClickOperatoins.ReadSolution();
         }
 
         private void Form1_Load(object sender, EventArgs e)
