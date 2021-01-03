@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MonkeyExporter
@@ -122,6 +123,67 @@ namespace MonkeyExporter
             smallBmp.UnlockBits(smallData);
 
             return locations;
+        }
+
+        public static bool CompareTwoImages (Bitmap bmp1, Bitmap bmp2)
+        {
+            bool equals = true;
+            Rectangle rect = new Rectangle(0, 0, bmp1.Width, bmp1.Height);
+            BitmapData bmpData1 = bmp1.LockBits(rect, ImageLockMode.ReadOnly, bmp1.PixelFormat);
+            BitmapData bmpData2 = bmp2.LockBits(rect, ImageLockMode.ReadOnly, bmp2.PixelFormat);
+            unsafe
+            {
+                byte* ptr1 = (byte*)bmpData1.Scan0.ToPointer();
+                byte* ptr2 = (byte*)bmpData2.Scan0.ToPointer();
+                int width = rect.Width * 3; // for 24bpp pixel data
+                for (int y = 0; equals && y < rect.Height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        if (*ptr1 != *ptr2)
+                        {
+                            equals = false;
+                            break;
+                        }
+                        ptr1++;
+                        ptr2++;
+                    }
+                    ptr1 += bmpData1.Stride - width;
+                    ptr2 += bmpData2.Stride - width;
+                }
+            }
+            bmp1.UnlockBits(bmpData1);
+            bmp2.UnlockBits(bmpData2);
+
+            return equals;
+        }
+
+        public static bool HasLoaded (Bitmap bmp1 ,Point p1, Point p2)
+        {
+            bool loaded = true;
+            Thread.Sleep(100);
+
+            for (int i = 0; i < 100; i++)
+            {
+                Bitmap bmp2 = PrintScreen(p1, GetSize(p1, p2));
+                loaded = CompareTwoImages(bmp1, bmp2);
+                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+
+                if (loaded  == false)
+                {
+                    return loaded;
+                }
+                Thread.Sleep(100);
+            }
+            return loaded;
+        }
+
+        public static Size GetSize (Point p1, Point p2)
+        {
+            int width = p2.X - p1.X;
+            int height = p2.Y - p1.Y;
+
+            return new Size(width, height);
         }
 
         public static Point GetSubPosition(Bitmap bigBmp, Bitmap smallBmp, double tolerance = 0.05)

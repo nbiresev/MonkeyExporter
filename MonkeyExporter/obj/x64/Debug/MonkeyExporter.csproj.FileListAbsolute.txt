@@ -1,0 +1,14 @@
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.Form1.resources
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.Properties.Resources.resources
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.csproj.GenerateResource.cache
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.csproj.CoreCompileInputs.cache
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.csprojAssemblyReference.cache
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\Libs\MouseKeyboardActivityMonitor.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\MonkeyExporter.exe.config
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\MonkeyExporter.exe
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\MonkeyExporter.pdb
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\HumanMouse.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\MouseKeyboardActivityMonitor.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.csproj.CopyComplete
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.exe
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.pdb

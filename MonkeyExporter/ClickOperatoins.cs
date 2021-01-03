@@ -31,6 +31,11 @@ namespace MonkeyExporter
         public static Point saveOK = new Point(925, 610);
 
 
+
+        public static Point ChangeSultionPoint1 = new Point(338, 67);
+        public static Point ChangeSultionPoint2 = new Point(422, 85);
+
+
         public static string savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\";
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
 
@@ -46,8 +51,8 @@ namespace MonkeyExporter
                 SendKeys.SendWait("{DOWN}");
             }
             mouse.PointClick(loadOneStreet);
-            Thread.Sleep(8000);
         }
+
 
         private static string GetClipBoradData()
         {
@@ -78,6 +83,38 @@ namespace MonkeyExporter
                 return string.Empty;
             }
         }
+
+        private static string ClearClip()
+        {
+            try
+            {
+                string clipboardData = null;
+                Exception threadEx = null;
+                Thread staThread = new Thread(
+                    delegate ()
+                    {
+                        try
+                        {
+                            Clipboard.Clear();
+                        }
+
+
+                        catch (Exception ex)
+                        {
+                            threadEx = ex;
+                        }
+                    });
+                staThread.SetApartmentState(ApartmentState.STA);
+                staThread.Start();
+                staThread.Join();
+                return clipboardData;
+            }
+            catch (Exception exception)
+            {
+                return string.Empty;
+            }
+        }
+
 
         public static string CopyTryClipboard()
         {
@@ -154,7 +191,7 @@ namespace MonkeyExporter
             if (text.Length > 0)
             {
                 File.WriteAllText(path + ".txt", text);
-                Clipboard.Clear();
+                ClearClip();
                 return true;
             }
             else
@@ -190,18 +227,21 @@ namespace MonkeyExporter
 
         public static void ReadOopTreeSingleSize(string board, string betsize, string raiseSize)
         {
+            var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSize(ChangeSultionPoint1, ChangeSultionPoint2));
+            image1.Save((@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png"));
+
 
             saveTwoItemSolution(board, "oopBetCheck", betsize);
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(1000);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
 
             saveVsActionSolution(board, "ipVsBet", raiseSize);
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(1000);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
 
             saveVsActionSolution(board, "oopVsRaise", defaultRaiseSize);
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(1000);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
 
             saveVsActionSolution(board, "ipVsReraise", defaultRaiseSize);
             mouse.PointClick(backBtn);
@@ -218,19 +258,23 @@ namespace MonkeyExporter
 
         public static void ReadIpTreeSingleSize(string board, string betsize, string raiseSize)
         {
-            mouse.PointClick(checkBtn);
-            Thread.Sleep(200);
+            var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSize(ChangeSultionPoint1, ChangeSultionPoint2));
+            image1.Save((@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png"));
 
+            mouse.PointClick(checkBtn);
             saveTwoItemSolution(board, "ipBetCheck", betsize);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(200);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             saveVsActionSolution(board, "oopVsBet", raiseSize);
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(200);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             saveVsActionSolution(board, "ipVsRaise", defaultRaiseSize);
             mouse.PointClick(firstBetsize);
-            Thread.Sleep(200);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             saveVsActionSolution(board, "oopVsReraise", defaultRaiseSize);
+
             mouse.PointClick(backBtn);
             mouse.PointClick(backBtn);
             mouse.PointClick(backBtn);

@@ -21,3 +21,5 @@ C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.csproj.CopyComplete
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.exe
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.pdb
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Libs\MouseKeyboardActivityMonitor.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\MouseKeyboardActivityMonitor.dll
