@@ -165,20 +165,22 @@ namespace MonkeyExporter
 
             for (int i = 0; i < 100; i++)
             {
-                Bitmap bmp2 = PrintScreen(p1, GetSize(p1, p2));
+                Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
                 loaded = CompareTwoImages(bmp1, bmp2);
-                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                // bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
 
                 if (loaded  == false)
                 {
+                    Thread.Sleep(100);
                     return loaded;
                 }
                 Thread.Sleep(100);
+
             }
             return loaded;
         }
 
-        public static Size GetSize (Point p1, Point p2)
+        public static Size GetSizeFromPoint (Point p1, Point p2)
         {
             int width = p2.X - p1.X;
             int height = p2.Y - p1.Y;

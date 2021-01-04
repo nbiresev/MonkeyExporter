@@ -30,10 +30,16 @@ namespace MonkeyExporter
         private void button1_Click(object sender, EventArgs e)
         {
             // ClickOperatoins.OpenSolutionOneStreet(4);
-            // string board = ClickOperatoins.GetBoard();
+            string board = ClickOperatoins.GetBoard();
 
+
+            ClickOperatoins.ReadOopTreeTwoSize(board, "50", "100", "100");
+
+            /*
             Task t = new Task(() => ClickOperatoins.ReadSolution());
                 t.Start();
+            */
+
         }
 
         private void HookManager_KeyUp(object sender, KeyEventArgs e)
