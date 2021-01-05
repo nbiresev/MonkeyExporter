@@ -341,68 +341,134 @@ namespace MonkeyExporter
             
         }
 
-        public static void ImportNextSolution(Bitmap image1, string board, string actionSize)
+        public static void ImportNextSolution(Bitmap image1, string board, string actionSize, bool isAlternateBetsize, string flopBetsize = "")
         {
-
             int noOpt = NumberOfOptions();
-            if(noOpt == 1)
+
+            if (isAlternateBetsize)
             {
-                if (ip)
+                if (noOpt == 1)
                 {
-                    SaveVsActionSolutionNoRaise(board, "IpVs" + actions[treePosition]);
-                    TreeReadComplete();
+                    if (ip)
+                    {
+                        SaveVsActionSolutionNoRaise(board, "IpVs" + actions[treePosition] + flopBetsize);
+                        TreeReadComplete();
+                    }
+                    else
+                    {
+                        SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition] + flopBetsize);
+                        TreeReadComplete();
+                    }
                 }
-                else
+                else if (noOpt == 2)
                 {
-                    SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition]);
-                    TreeReadComplete();
+                    if (ip)
+                    {
+                        SaveTwoItemSolution(board, "IpVs" + actions[treePosition] + flopBetsize, actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(checkBtn);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = false;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                    }
+                    else
+                    {
+                        SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(checkBtn);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = true;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                    }
+                }
+                else if (noOpt == 3)
+                {
+                    if (ip)
+                    {
+                        SaveVsActionSolution(board, "IpVs" + actions[treePosition] + flopBetsize, actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(firstBetsize);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = false;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                    }
+                    else
+                    {
+                        SaveVsActionSolution(board, "OopVs" + actions[treePosition] + flopBetsize, actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(firstBetsize);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = true;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                    }
                 }
             }
-            else if (noOpt == 2)
+            else
             {
-                if (ip)
+                if (noOpt == 1)
                 {
-                    SaveTwoItemSolution(board, "IpVs" + actions[treePosition], actionSize);
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(checkBtn);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    ip = false;
-                    treePosition++;
-                    ImportNextSolution(image1, board, actionSize);
+                    if (ip)
+                    {
+                        SaveVsActionSolutionNoRaise(board, "IpVs" + actions[treePosition]);
+                        TreeReadComplete();
+                    }
+                    else
+                    {
+                        SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition]);
+                        TreeReadComplete();
+                    }
                 }
-                else
+                else if (noOpt == 2)
                 {
-                    SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(checkBtn);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    ip = true;
-                    treePosition++;
-                    ImportNextSolution(image1, board, actionSize);
+                    if (ip)
+                    {
+                        SaveTwoItemSolution(board, "IpVs" + actions[treePosition], actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(checkBtn);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = false;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, false);
+                    }
+                    else
+                    {
+                        SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(checkBtn);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = true;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, false);
+                    }
                 }
-            }
-            else if (noOpt == 3)
-            {
-                if (ip)
+                else if (noOpt == 3)
                 {
-                    SaveVsActionSolution(board, "IpVs" + actions[treePosition], actionSize);
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    ip = false;
-                    treePosition++;
-                    ImportNextSolution(image1, board, actionSize);
+                    if (ip)
+                    {
+                        SaveVsActionSolution(board, "IpVs" + actions[treePosition], actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(firstBetsize);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = false;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, false);
+                    }
+                    else
+                    {
+                        SaveVsActionSolution(board, "OopVs" + actions[treePosition], actionSize);
+                        image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        mouse.PointClick(firstBetsize);
+                        SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                        ip = true;
+                        treePosition++;
+                        ImportNextSolution(image1, board, actionSize, false);
+                    }
                 }
-                else
-                {
-                    SaveVsActionSolution(board, "OopVs" + actions[treePosition], actionSize);
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    ip = true;
-                    treePosition++;
-                    ImportNextSolution(image1, board, actionSize);
-                }
+         
             }
         }
 
@@ -416,7 +482,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize);
+                ImportNextSolution(image1, board, raiseSize, false);
             }
 
             /* oop bet check
@@ -430,104 +496,70 @@ namespace MonkeyExporter
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             SaveTwoBetsizeSolution(board, "OopBetCheck" + betsize, betsize, betsize2);
+            mouse.PointClick(firstBetsize);
+            ip = true;
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+
+            if (HasSecondButton())
+            {
+                ImportNextSolution(image1, board, raiseSize, true, betsize);
+            }
 
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-            mouse.PointClick(firstBetsize);
+            mouse.PointClick(secondBetsize);
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+            SaveVsActionSolution(board, "IpVsBet" + betsize2, raiseSize);
+            ip = false;
+            treePosition++;
+            if (HasSecondButton())
+            {
+                ImportNextSolution(image1, board, raiseSize, true, betsize2);
+            }
 
-
-
-
-            /* oop bet check
-             * ip raise call fold: vs bet
-             * oop raise call fold: vs Raise
-             * ip raise call fold: vs Reraise
-             * */
         }
 
         public static void ReadIpTreeSingleSize(string board, string betsize, string raiseSize)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-            SaveTwoItemSolution(board, "ipBetCheck", betsize);
-
-
-
-
-
-            image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+            SaveTwoItemSolution(board, "IpBetCheck", betsize);
             mouse.PointClick(firstBetsize);
+            ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-            SaveVsActionSolution(board, "oopVsBet", raiseSize);
 
-            /* ip bet check
-            * oop raise call fold: vs bet
-            * ip raise call fold: vs Raise
-            * oop raise call fold: vs Reraise
-            * */
+            if (HasSecondButton())
+            {
+                ImportNextSolution(image1, board, raiseSize, false);
+            }
+
+            mouse.PointClick(backBtn);
+
         }
 
         public static void ReadIpTreeTwoSizes(string board, string betsize, string betsize2, string raiseSize)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-            SaveTwoItemSolution(board, "ipBetCheck", betsize);
-            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-
-            image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+            SaveTwoBetsizeSolution(board, "IpBetCheck"+ betsize, betsize, betsize2);
             mouse.PointClick(firstBetsize);
+            ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-            SaveVsActionSolution(board, "oopVsBet" + betsize, raiseSize);
 
-            if (HasThirdButton())
+            if (HasSecondButton())
             {
-                image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                mouse.PointClick(firstBetsize);
-                SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                SaveVsActionSolution(board, "ipVsRaise" + betsize, defaultRaiseSize);
-                if (HasThirdButton())
-                {
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    SaveVsActionSolution(board, "oopVsReraise" + betsize, defaultRaiseSize);
-                    mouse.PointClick(backBtn);
-                }
-                mouse.PointClick(backBtn);
+                ImportNextSolution(image1, board, raiseSize, true, betsize);
             }
-
-            mouse.PointClick(backBtn);
-            mouse.PointClick(backBtn);
 
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             mouse.PointClick(secondBetsize);
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-            SaveVsActionSolution(board, "oopVsBet" + betsize2, raiseSize);
-
-            if (HasThirdButton())
+            SaveVsActionSolution(board, "OopVsBet"+ betsize2, raiseSize);
+            ip = true;
+            treePosition++;
+            if (HasSecondButton())
             {
-                image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                mouse.PointClick(firstBetsize);
-                SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                SaveVsActionSolution(board, "ipVsRaise" + betsize2, defaultRaiseSize);
-                if (HasThirdButton())
-                {
-                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-                    mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
-                    SaveVsActionSolution(board, "oopVsReraise" + betsize2, defaultRaiseSize);
-                    mouse.PointClick(backBtn);
-                }
-                mouse.PointClick(backBtn);
+                ImportNextSolution(image1, board, raiseSize, true, betsize2);
             }
-            mouse.PointClick(backBtn);
-            mouse.PointClick(backBtn);
 
-
-            /* ip bet check
-            * oop raise call fold: vs bet
-            * ip raise call fold: vs Raise
-            * oop raise call fold: vs Reraise
-            * */
+            mouse.PointClick(backBtn);
         }
-
-
     }
 }
