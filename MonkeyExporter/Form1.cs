@@ -32,7 +32,8 @@ namespace MonkeyExporter
             // ClickOperatoins.OpenSolutionOneStreet(4);
             string board = ClickOperatoins.GetBoard();
 
-            ClickOperatoins.ReadSolution();
+
+          ClickOperatoins.ReadSolution();
           //  ClickOperatoins.ReadOopTreeTwoSize(board, "50", "100", "100");
 
             /*
@@ -72,6 +73,11 @@ namespace MonkeyExporter
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ClickOperatoins.SnapAllButtons();
         }
     }
 }

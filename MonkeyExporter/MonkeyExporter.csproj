@@ -120,6 +120,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\100Button3.png" />
+    <Content Include="Images\100Button4.png" />
+    <Content Include="Images\33Button3.png" />
+    <Content Include="Images\50Button3.png" />
+    <Content Include="Images\66Button3.png" />
+    <Content Include="Images\75Button3.png" />
+    <Content Include="Images\AllinButton2.png" />
+    <Content Include="Images\AllInButton3.png" />
+    <Content Include="Images\backButton.png" />
+    <Content Include="Images\CheckButton.png" />
     <Content Include="Images\HasSecondButton.png" />
     <Content Include="Images\HasThirdButton.png" />
     <Content Include="Images\HasFourthButton.png" />
