@@ -163,7 +163,7 @@ namespace MonkeyExporter
             bool loaded = true;
             Thread.Sleep(100);
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
                 loaded = CompareTwoImages(bmp1, bmp2);
@@ -171,7 +171,35 @@ namespace MonkeyExporter
 
                 if (loaded  == false)
                 {
-                    Thread.Sleep(100);
+                    return loaded;
+                }
+                else
+                {
+                    Thread.Sleep(200);
+                }
+                Thread.Sleep(100);
+
+            }
+            return loaded;
+        }
+
+        public static bool HasLoadedSolution(Bitmap bmp1, Point p1, Point p2)
+        {
+            bool loaded = true;
+            Thread.Sleep(100);
+
+            for (int i = 0; i < 50; i++)
+            {
+                Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
+                loaded = CompareTwoImages(bmp1, bmp2);
+                // bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+
+                if (loaded == false)
+                {
+                    Thread.Sleep(200);
+                }
+                else
+                {
                     return loaded;
                 }
                 Thread.Sleep(100);

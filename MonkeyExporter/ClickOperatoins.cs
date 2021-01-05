@@ -45,16 +45,31 @@ namespace MonkeyExporter
 
         public static int treePosition = 0;
 
+        public static void OpenAllSolutions(int numOfSolutions)
+        {
 
+            for (int i = 0; i < numOfSolutions; i++)
+            {
+                OpenSolutionOneStreet(i+2);
+                ReadSolution();
+
+            }
+        }
         public static void OpenSolutionOneStreet(int solutionsPosition)
         {
             mouse.PointClick(openSolution);
+            Thread.Sleep(1000);
+            var image1 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSolution.png");
+
 
             for (int i = 0; i < solutionsPosition; i++)
             {
                 SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(100);
             }
             mouse.PointClick(loadOneStreet);
+            Thread.Sleep(1000);
+            SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
         }
 
         private static string GetClipBoradData()
@@ -129,19 +144,6 @@ namespace MonkeyExporter
                 Thread.Sleep(300);
                return CopyTryClipboard();
             }
-        }
-
-        public static void OpenSolutionFull(int solutionsPosition)
-        {
-            mouse.PointClick(openSolution);
-
-            for (int i = 0; i < solutionsPosition; i++)
-            {
-                SendKeys.SendWait("{DOWN}");
-            }
-            mouse.PointClick(loadAll);
-
-            Thread.Sleep(10000);
         }
 
         public static string GetBoard()
@@ -251,6 +253,7 @@ namespace MonkeyExporter
 
         public static void SnapAllButtons()
         {
+            /*
             var image1 = SubImageFinder.PrintScreen(new Point(12, 910), new Size(54, 26));
             image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\firstButton.png");
 
@@ -262,6 +265,10 @@ namespace MonkeyExporter
 
             var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
             image4.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\FourthButton.png");
+            */
+            var image1 = SubImageFinder.PrintScreen(new Point(165, 243), new Size(20, 15));
+            image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSulution.png");
+
         }
 
         public static string ReadBetsizeFrom3rdBtn()
@@ -350,7 +357,6 @@ namespace MonkeyExporter
             return nrOf;
         }
 
-
         public static void ReadSolution()
         {
             string board = GetBoard();
@@ -399,7 +405,7 @@ namespace MonkeyExporter
             
         }
 
-        public static void ImportNextSolution(Bitmap image1, string board, string actionSize, bool isAlternateBetsize, string flopBetsize = "")
+        public static void ImportNextStreet(Bitmap image1, string board, string actionSize, bool isAlternateBetsize, string flopBetsize = "")
         {
             int noOpt = NumberOfOptions();
 
@@ -429,7 +435,7 @@ namespace MonkeyExporter
                         ip = false;
                         treePosition++;
                         actionSize = ReadBetsizeFrom3rdBtn();
-                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                        ImportNextStreet(image1, board, actionSize, true, flopBetsize);
                     }
                     else
                     {
@@ -440,7 +446,7 @@ namespace MonkeyExporter
                         ip = true;
                         treePosition++;
                         actionSize = ReadBetsizeFrom3rdBtn();
-                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                        ImportNextStreet(image1, board, actionSize, true, flopBetsize);
                     }
                 }
                 else if (noOpt == 3)
@@ -454,7 +460,7 @@ namespace MonkeyExporter
                         ip = false;
                         treePosition++;
                         actionSize = ReadBetsizeFrom3rdBtn();
-                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                        ImportNextStreet(image1, board, actionSize, true, flopBetsize);
                     }
                     else
                     {
@@ -465,7 +471,7 @@ namespace MonkeyExporter
                         ip = true;
                         treePosition++;
                         actionSize = ReadBetsizeFrom3rdBtn();
-                        ImportNextSolution(image1, board, actionSize, true, flopBetsize);
+                        ImportNextStreet(image1, board, actionSize, true, flopBetsize);
                     }
                 }
             }
@@ -494,7 +500,7 @@ namespace MonkeyExporter
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = false;
                         treePosition++;
-                        ImportNextSolution(image1, board, actionSize, false);
+                        ImportNextStreet(image1, board, actionSize, false);
                     }
                     else
                     {
@@ -504,7 +510,7 @@ namespace MonkeyExporter
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = true;
                         treePosition++;
-                        ImportNextSolution(image1, board, actionSize, false);
+                        ImportNextStreet(image1, board, actionSize, false);
                     }
                 }
                 else if (noOpt == 3)
@@ -517,7 +523,7 @@ namespace MonkeyExporter
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = false;
                         treePosition++;
-                        ImportNextSolution(image1, board, actionSize, false);
+                        ImportNextStreet(image1, board, actionSize, false);
                     }
                     else
                     {
@@ -527,13 +533,12 @@ namespace MonkeyExporter
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = true;
                         treePosition++;
-                        ImportNextSolution(image1, board, actionSize, false);
+                        ImportNextStreet(image1, board, actionSize, false);
                     }
                 }
          
             }
         }
-
         public static void ReadOopTreeSingleSize(string board, string betsize)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
@@ -545,7 +550,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, false);
+                ImportNextStreet(image1, board, raiseSize, false);
             }
 
             /* oop bet check
@@ -566,7 +571,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, true, betsize);
+                ImportNextStreet(image1, board, raiseSize, true, betsize);
             }
 
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
@@ -579,7 +584,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, true, betsize2);
+                ImportNextStreet(image1, board, raiseSize, true, betsize2);
             }
 
         }
@@ -595,7 +600,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, false);
+                ImportNextStreet(image1, board, raiseSize, false);
             }
 
             mouse.PointClick(backBtn);
@@ -613,7 +618,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, true, betsize);
+                ImportNextStreet(image1, board, raiseSize, true, betsize);
             }
 
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
@@ -626,7 +631,7 @@ namespace MonkeyExporter
 
             if (HasSecondButton())
             {
-                ImportNextSolution(image1, board, raiseSize, true, betsize2);
+                ImportNextStreet(image1, board, raiseSize, true, betsize2);
             }
 
             mouse.PointClick(backBtn);

@@ -133,6 +133,7 @@
     <Content Include="Images\HasSecondButton.png" />
     <Content Include="Images\HasThirdButton.png" />
     <Content Include="Images\HasFourthButton.png" />
+    <Content Include="Images\readSolution.png" />
     <Content Include="Libs\MouseKeyboardActivityMonitor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

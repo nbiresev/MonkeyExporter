@@ -33,7 +33,7 @@ namespace MonkeyExporter
             string board = ClickOperatoins.GetBoard();
 
 
-          ClickOperatoins.ReadSolution();
+          ClickOperatoins.OpenAllSolutions(5);
           //  ClickOperatoins.ReadOopTreeTwoSize(board, "50", "100", "100");
 
             /*
