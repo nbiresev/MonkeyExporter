@@ -120,8 +120,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\HasNextSolution.png" />
-    <Content Include="Images\SolutionsButton.png" />
+    <Content Include="Images\HasSecondButton.png" />
+    <Content Include="Images\HasThirdButton.png" />
+    <Content Include="Images\HasFourthButton.png" />
     <Content Include="Libs\MouseKeyboardActivityMonitor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

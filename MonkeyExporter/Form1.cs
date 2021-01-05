@@ -31,9 +31,13 @@ namespace MonkeyExporter
         {
             // ClickOperatoins.OpenSolutionOneStreet(4);
             string board = ClickOperatoins.GetBoard();
+            var z = ClickOperatoins.HasSecondButton();
+            var a = ClickOperatoins.HasThirdButton();
+            var b = ClickOperatoins.HasFourthButton();
+            var xy = ClickOperatoins.NumberOfOptions();
 
-
-            ClickOperatoins.ReadOopTreeTwoSize(board, "50", "100", "100");
+            ClickOperatoins.ReadOopTreeSingleSize(board, "33", "100");
+          //  ClickOperatoins.ReadOopTreeTwoSize(board, "50", "100", "100");
 
             /*
             Task t = new Task(() => ClickOperatoins.ReadSolution());
