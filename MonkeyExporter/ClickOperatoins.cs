@@ -261,7 +261,7 @@ namespace MonkeyExporter
             //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\AllInButton2.png");
 
             //var image3 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
-            //image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\ThrirdButton.png");
+            //image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\halfPotButton.png");
 
             //var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
             //image4.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\FourthButton.png");
@@ -280,6 +280,10 @@ namespace MonkeyExporter
                 return "33";
             }
             else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\50Button3.png")))
+            {
+                return "50";
+            }
+            else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\halfPotButton3.png")))
             {
                 return "50";
             }
@@ -363,9 +367,13 @@ namespace MonkeyExporter
         {
             string board = GetBoard();
             string betsize1 = ReadBetsizeFrom3rdBtn();
-            string betsize2 = ReadBetsizeFrom4thBtn();
-
+            string betsize2 = "";
             bool twosizes = HasFourthButton();
+            if (twosizes)
+            {
+                 betsize2 = ReadBetsizeFrom4thBtn();
+            }
+
             
 
             if (HasFourthButton() == false)
