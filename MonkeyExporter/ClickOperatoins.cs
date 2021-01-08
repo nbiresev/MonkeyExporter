@@ -62,11 +62,10 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
             var image1 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSolution.png");
 
-
             for (int i = 0; i < solutionsPosition; i++)
             {
                 SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
             mouse.PointClick(loadOneStreet);
             Thread.Sleep(1000);
@@ -168,11 +167,11 @@ namespace MonkeyExporter
 
         public static void SaveTwoItemSolution(string board, string spotDescription, string raiseSize)
         {
-            CopySolution(checkSolution, board, spotDescription, "check", raiseSize + actionHistory);
+            CopySolution(checkSolution, board, spotDescription, "fold",  actionHistory);
 
             Thread.Sleep(1000);
 
-            CopySolution(scndSizeSolt, board, spotDescription, "raise", raiseSize + actionHistory);
+            CopySolution(scndSizeSolt, board, spotDescription, "raise" + raiseSize, actionHistory);
         }
 
         public static void SaveTwoBetsizeSolution(string board, string spotDescription, string betsize, string betsize2)
@@ -194,7 +193,7 @@ namespace MonkeyExporter
             CopySolution(firstSizeSolutin, board, spotDescription, "call", actionHistory);
             Thread.Sleep(1000);
 
-            CopySolution(scndSizeSolt, board, spotDescription, "raise", actionHistory);
+            CopySolution(scndSizeSolt, board, spotDescription, "raise" + raiseSize, actionHistory) ;
         }
 
         public static void SaveVsActionSolutionNoRaise(string board, string spotDescription)
@@ -413,7 +412,6 @@ namespace MonkeyExporter
             treePosition = 0;
             ip = false;
             actionHistory = "";
-            
         }
 
         public static void ImportNextAction(Bitmap image1, string board, string actionSize)
@@ -437,25 +435,25 @@ namespace MonkeyExporter
                 {
                     if (ip)
                     {
+                        actionSize = "AllIn";
                         SaveTwoItemSolution(board, "IpVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                         mouse.PointClick(checkBtn);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = false;
                         treePosition++;
-                        actionSize = "AllIn";
                         actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
                     }
                     else
                     {
+                        actionSize = "AllIn";
                         SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                         mouse.PointClick(checkBtn);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = true;
                         treePosition++;
-                        actionSize = "AllIn";
                         actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
                     }
@@ -464,6 +462,7 @@ namespace MonkeyExporter
                 {
                     if (ip)
                     {
+                        actionSize = ReadBetsizeFrom3rdBtn();
                         SaveVsActionSolution(board, "IpVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                         mouse.PointClick(firstBetsize);
@@ -475,6 +474,7 @@ namespace MonkeyExporter
                     }
                     else
                     {
+                        actionSize = ReadBetsizeFrom3rdBtn();
                         SaveVsActionSolution(board, "OopVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                         mouse.PointClick(firstBetsize);
@@ -521,11 +521,21 @@ namespace MonkeyExporter
                 ImportNextAction(image1, board, raiseSize);
             }
 
+
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+            mouse.PointClick(secondBetsize);
+            ip = true;
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             actionHistory += "-bet" + "_" + betsize2;
 
-            mouse.PointClick(secondBetsize);
-            treePosition++;
+            try
+            {
+                raiseSize = ReadBetsizeFrom3rdBtn();
+            }
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
+            }
 
             if (HasSecondButton())
             {
@@ -569,9 +579,21 @@ namespace MonkeyExporter
                 ImportNextAction(image1, board, raiseSize);
             }
 
+
             image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             mouse.PointClick(secondBetsize);
+            ip = false;
+            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             actionHistory += "-bet" + "_" + betsize2;
+
+            try
+            {
+                raiseSize = ReadBetsizeFrom3rdBtn();
+            }
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
+            }
 
             if (HasSecondButton())
             {
