@@ -424,65 +424,77 @@ namespace MonkeyExporter
                     {
                         SaveVsActionSolutionNoRaise(board, "IpVs" + actions[treePosition]);
                         TreeReadComplete();
-                    }
-                    else
+                        return;
+
+                }
+                else
                     {
                         SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition]);
                         TreeReadComplete();
+                        return;
                     }
                 }
                 else if (noOpt == 2)
                 {
                     if (ip)
                     {
-                        actionSize = "AllIn";
+                        
                         SaveTwoItemSolution(board, "IpVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        actionSize = "AllIn";
                         mouse.PointClick(checkBtn);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = false;
                         treePosition++;
                         actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
-                    }
-                    else
+                        return;
+
+                }
+                else
                     {
-                        actionSize = "AllIn";
+                        
                         SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        actionSize = "AllIn";
                         mouse.PointClick(checkBtn);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = true;
                         treePosition++;
                         actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
-                    }
+                        return;
+
                 }
+            }
                 else if (noOpt == 3)
                 {
                     if (ip)
                     {
-                        actionSize = ReadBetsizeFrom3rdBtn();
                         SaveVsActionSolution(board, "IpVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        actionSize = ReadBetsizeFrom3rdBtn();
                         mouse.PointClick(firstBetsize);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = false;
                         treePosition++;
                         actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
-                    }
-                    else
+                        return;
+
+                }
+                else
                     {
-                        actionSize = ReadBetsizeFrom3rdBtn();
                         SaveVsActionSolution(board, "OopVs" + actions[treePosition], actionSize);
                         image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                        actionSize = ReadBetsizeFrom3rdBtn();
                         mouse.PointClick(firstBetsize);
                         SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
                         ip = true;
                         treePosition++;
-                        actionHistory += "-" + actions[treePosition] + "_" + actionSize ;
+                        actionHistory += "-" + actions[treePosition] + "_" + actionSize;
                         ImportNextAction(image1, board, actionSize);
+                        return;
                     }
                 }
             }
