@@ -347,5 +347,40 @@ namespace MonkeyExporter
             }
         }
 
+        public static bool BringToFrontTable(IntPtr hwnd)
+        {
+            try
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    //check if already has focus
+                    if (hwnd == GetForegroundWindow()) return true;
+
+                    //check if window is minimized
+                    if (IsIconic(hwnd))
+                    {
+                        ShowWindow(hwnd, Restore);
+                    }
+
+                    // Simulate a key press
+                    keybd_event((byte)ALT, 0x45, EXTENDEDKEY | 0, 0);
+
+                    //SetForegroundWindow(mainWindowHandle);
+
+                    // Simulate a key release
+                    keybd_event((byte)ALT, 0x45, EXTENDEDKEY | KEYUP, 0);
+
+                    SetForegroundWindow(hwnd);
+                    Thread.Sleep(100);
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                // Singleton.Log("WinActivate:" + e.ToString(), LogLevel.Info);
+                return false;
+            }
+        }
+
     }
 }

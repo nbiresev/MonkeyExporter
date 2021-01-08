@@ -14,7 +14,7 @@ namespace MonkeyExporter
 {
     public partial class Form1 : Form
     {
-
+        
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
@@ -29,7 +29,7 @@ namespace MonkeyExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
             Task t = new Task(() => ClickOperatoins.OpenAllSolutions(1));
                 t.Start();
         }

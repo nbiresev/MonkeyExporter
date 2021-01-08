@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Threading;
+using MonkeyExporter;
 
 public class MouseOperations
 {
@@ -16,6 +17,8 @@ public class MouseOperations
         RightDown = 0x00000008,
         RightUp = 0x00000010
     }
+
+    public static IntPtr handle;
 
     [DllImport("user32.dll", EntryPoint = "SetCursorPos")]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -35,6 +38,7 @@ public class MouseOperations
 
     public static void leftClick(MousePoint point)
     {
+        TableHandles.BringToFrontTable(handle);
         MouseOperations.SetCursorPosition(point.X, point.Y);
         mouse_event(0x00000002, 0, 0, 0, 0);
         Thread.Sleep(100);
