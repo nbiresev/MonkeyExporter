@@ -286,6 +286,10 @@ namespace MonkeyExporter
             {
                 return "50";
             }
+            else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\50Button2nd3.png")))
+            {
+                return "50";
+            }
             else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\66Button3.png")))
             {
                 return "66";
