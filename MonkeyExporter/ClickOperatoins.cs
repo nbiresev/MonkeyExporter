@@ -215,6 +215,7 @@ namespace MonkeyExporter
             }
             else
             {
+                File.WriteAllText(path + ".txt", " ");
                 mouse.PointClick(saveOK);
                 return false;
             }
