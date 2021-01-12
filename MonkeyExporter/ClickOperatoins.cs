@@ -171,7 +171,7 @@ namespace MonkeyExporter
 
             Thread.Sleep(1000);
 
-            CopySolution(scndSizeSolt, board, spotDescription, "raise" + raiseSize, actionHistory);
+            CopySolution(scndSizeSolt, board, spotDescription, "raise", actionHistory);
         }
 
         public static void SaveTwoBetsizeSolution(string board, string spotDescription, string betsize, string betsize2)
@@ -365,13 +365,10 @@ namespace MonkeyExporter
         public static void ReadSolution()
         {
             string board = GetBoard();
-            string betsize1 = ReadBetsizeFrom3rdBtn();
+            string betsize1 = "";
             string betsize2 = "";
             bool twosizes = HasFourthButton();
-            if (twosizes)
-            {
-                 betsize2 = ReadBetsizeFrom4thBtn();
-            }
+          
 
             
 
@@ -381,10 +378,13 @@ namespace MonkeyExporter
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+                    betsize2 = ReadBetsizeFrom4thBtn();
                     ReadIpTreeTwoSizes(board, betsize1, betsize2);
                 }
                 else
                 {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
                     ReadIpTreeSingleSize(board, betsize1);
                 }
             }
@@ -394,10 +394,15 @@ namespace MonkeyExporter
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+                    betsize2 = ReadBetsizeFrom4thBtn();
+
                     ReadIpTreeTwoSizes(board, betsize1, betsize2);
                 }
                 else
                 {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+
                     ReadIpTreeSingleSize(board, betsize1);
                 }
             }
