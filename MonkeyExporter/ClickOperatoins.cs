@@ -260,11 +260,11 @@ namespace MonkeyExporter
             //var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
             //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\image2.png");
 
-            //var image3 = subimagefinder.printscreen(new point(142, 910), new size(54, 26));
-            //image3.save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\halfpot3.png");
+            var image3 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
+            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\75Buttonthree3.png");
 
-            var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
-            image4.Save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\75Button4.png");
+            //var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
+            //image4.Save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\75Button4.png");
 
             //var image1 = SubImageFinder.PrintScreen(new Point(165, 243), new Size(20, 15));
             //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSulution.png");
@@ -299,6 +299,10 @@ namespace MonkeyExporter
             else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\66Button3.png")))
             {
                 return "66";
+            }
+            else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\75Buttonthree3.png")))
+            {
+                return "75";
             }
             else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\75Button3.png")))
             {
