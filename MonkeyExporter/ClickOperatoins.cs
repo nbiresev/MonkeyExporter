@@ -261,11 +261,7 @@ namespace MonkeyExporter
             //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\image2.png");
 
             var image3 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
-<<<<<<< HEAD
-            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\60Button3.png");
-=======
-            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\75Buttonthree3.png");
->>>>>>> e0211ac22f761c0dd539802dcbbc1de304686052
+            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\NewButton3.png");
 
             //var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
             //image4.Save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\75Button4.png");
@@ -399,6 +395,8 @@ namespace MonkeyExporter
 
             if (HasFourthButton() == false)
             {
+                betsize1 = ReadBetsizeFrom3rdBtn();
+
                 ReadOopTreeSingleSize(board, betsize1);
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
@@ -415,6 +413,8 @@ namespace MonkeyExporter
             }
             else
             {
+                betsize1 = ReadBetsizeFrom3rdBtn();
+                betsize2 = ReadBetsizeFrom4thBtn();
                 ReadOopTreeTwoSize(board, betsize1, betsize2);
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
