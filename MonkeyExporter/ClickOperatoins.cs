@@ -229,6 +229,7 @@ namespace MonkeyExporter
             System.IO.Directory.CreateDirectory(path);
 
             mouse.PointClick(copyToClip);
+            Thread.Sleep(500);
             string text = GetClipBoradData();
             WriteClipToFile(path + action + betSize, text );
             Thread.Sleep(500);
