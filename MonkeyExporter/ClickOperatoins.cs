@@ -645,5 +645,12 @@ namespace MonkeyExporter
 
             mouse.PointClick(backBtn);
         }
+
+        public static void ExportTurn()
+        {
+            mouse.PointClick(copyToClip);
+            ReadSolution();
+        }
+
     }
 }

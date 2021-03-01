@@ -70,5 +70,12 @@ namespace MonkeyExporter
         {
             ClickOperatoins.SnapAllButtons();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+            Task t = new Task(() => ClickOperatoins.ExportTurn());
+            t.Start();
+        }
     }
 }
