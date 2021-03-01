@@ -434,6 +434,55 @@ namespace MonkeyExporter
             }
         }
 
+        public static void ReadSolutionWithBoardManuel(string board)
+        {
+            string betsize1 = "";
+            string betsize2 = "";
+            bool twosizes = HasFourthButton();
+
+
+
+
+            if (HasFourthButton() == false)
+            {
+                betsize1 = ReadBetsizeFrom3rdBtn();
+
+                ReadOopTreeSingleSize(board, betsize1);
+                mouse.PointClick(checkBtn);
+                if (HasFourthButton())
+                {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+                    betsize2 = ReadBetsizeFrom4thBtn();
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                }
+                else
+                {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+                    ReadIpTreeSingleSize(board, betsize1);
+                }
+            }
+            else
+            {
+                betsize1 = ReadBetsizeFrom3rdBtn();
+                betsize2 = ReadBetsizeFrom4thBtn();
+                ReadOopTreeTwoSize(board, betsize1, betsize2);
+                mouse.PointClick(checkBtn);
+                if (HasFourthButton())
+                {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+                    betsize2 = ReadBetsizeFrom4thBtn();
+
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                }
+                else
+                {
+                    betsize1 = ReadBetsizeFrom3rdBtn();
+
+                    ReadIpTreeSingleSize(board, betsize1);
+                }
+            }
+        }
+
         public static void TreeReadComplete()
         {
             for (int i = 0; i <= treePosition; i++)
@@ -646,10 +695,10 @@ namespace MonkeyExporter
             mouse.PointClick(backBtn);
         }
 
-        public static void ExportTurn()
+        public static void ExportTurn(string board)
         {
             mouse.PointClick(copyToClip);
-            ReadSolution();
+            ReadSolutionWithBoardManuel(board);
         }
 
     }
