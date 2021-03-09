@@ -227,13 +227,32 @@ namespace MonkeyExporter
             Thread.Sleep(500);
             string path = savePath + spotDesc + "\\" + board + "\\";
             System.IO.Directory.CreateDirectory(path);
-
-            mouse.PointClick(copyToClip);
+            var text = GetCorrectClipboardData(0);
             Thread.Sleep(500);
-            string text = GetClipBoradData();
+
             WriteClipToFile(path + action + betSize, text );
             Thread.Sleep(500);
             mouse.PointClick(saveOK);
+        }
+
+        public static string GetCorrectClipboardData (int counter)
+        {
+            Thread.Sleep(500);
+            mouse.PointClick(copyToClip);
+            Thread.Sleep(500);
+
+            string text = GetClipBoradData();
+            
+
+            if (text == "")
+            {
+                if (counter <= 3)
+                {
+                    GetCorrectClipboardData(counter++);
+                }
+                return text;
+            }
+            return text;
         }
 
         public static bool HasSecondButton()
