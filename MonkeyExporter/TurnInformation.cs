@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
 
+
 namespace MonkeyExporter
 {
     class TurnInformation
     {
+        public static Point TurnPoint = new Point(0, 0);
+
         public static Point GetCardPositionPoint(string card)
         {
             var value = card[0];
@@ -95,6 +98,51 @@ namespace MonkeyExporter
             return new Point(valuePos, suitPos);
         }
 
+        public static void SelectTurnCard(string card)
+        {
+            TurnPoint = GetCardPositionPoint(card);
+            ClickOperatoins.mouse.PointClick(TurnPoint);
+        }
+
+        public static void UnselectTurn()
+        {
+            ClickOperatoins.mouse.PointClick(TurnPoint);
+        }
+
+        public static void NavFlopCC()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+
+        }
+        public static void NavOopbetIpCcall()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+        }
+
+        public static void NavOopbetIpRaiseOopCall()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+
+
+        }
+        public static void NavIpBetOopCcall()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+
+        }
+
+        public static void NavIpBetOopRaiseIpCall()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+        }
     }
 }
 

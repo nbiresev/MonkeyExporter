@@ -92,6 +92,7 @@
     <Compile Include="SubImageFinder.cs" />
     <Compile Include="TableHandles.cs" />
     <Compile Include="TurnExporter.cs" />
+    <Compile Include="TurnInformation.cs" />
     <Compile Include="User32.cs" />
     <Compile Include="Win32API.cs" />
     <Compile Include="WinowHandleInfo.cs" />

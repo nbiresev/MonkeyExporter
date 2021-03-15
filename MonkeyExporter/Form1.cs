@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MonkeyExporter
 {
@@ -81,6 +82,15 @@ namespace MonkeyExporter
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             board = textBox1.Text;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            TurnInformation.NavIpBetOopCcall();
+            TurnInformation.SelectTurnCard("5d");
+            Thread.Sleep(5000);
+            TurnInformation.UnselectTurn();
+
         }
     }
 }
