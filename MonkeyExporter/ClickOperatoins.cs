@@ -248,9 +248,12 @@ namespace MonkeyExporter
             {
                 if (counter <= 3)
                 {
-                    GetCorrectClipboardData(counter++);
+                    GetCorrectClipboardData(counter+1);
                 }
-                return text;
+                else
+                {
+                    return text;
+                }
             }
             return text;
         }

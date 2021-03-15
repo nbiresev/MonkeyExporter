@@ -30,7 +30,7 @@ namespace MonkeyExporter
         private void button1_Click(object sender, EventArgs e)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutions(274));
+            Task t = new Task(() => ClickOperatoins.OpenAllSolutions(273));
                 t.Start();
         }
 
