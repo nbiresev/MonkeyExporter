@@ -348,7 +348,7 @@ namespace MonkeyExporter
             }
             else
             {
-                throw new InvalidOperationException("unknown betsize");
+                Console.WriteLine("betsize could not be read for third button");
                 return "unknownSize";
             }
         }
@@ -372,7 +372,7 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             }
             else
             {
-                throw new InvalidOperationException("unknown betsize");
+                Console.WriteLine("betsize could not be read for fourth button");
                 return "unknownSize";
             }
         }
@@ -434,6 +434,7 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
+
                     ReadIpTreeTwoSizes(board, betsize1, betsize2);
                 }
                 else
@@ -483,11 +484,13 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
+                    Thread.Sleep(500);
                     ReadIpTreeTwoSizes(board, betsize1, betsize2);
                 }
                 else
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
+                    Thread.Sleep(500);
                     ReadIpTreeSingleSize(board, betsize1);
                 }
             }
