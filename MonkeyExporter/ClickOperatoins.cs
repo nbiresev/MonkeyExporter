@@ -349,7 +349,7 @@ namespace MonkeyExporter
             else
             {
                 Console.WriteLine("betsize could not be read for third button");
-                return "unknownSize";
+                return "AllIn";
             }
         }
 
@@ -373,7 +373,7 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             else
             {
                 Console.WriteLine("betsize could not be read for fourth button");
-                return "unknownSize";
+                return "AllIn";
             }
         }
 
@@ -420,9 +420,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             string betsize1 = "";
             string betsize2 = "";
             bool twosizes = HasFourthButton();
-          
-
-            
 
             if (HasFourthButton() == false)
             {
@@ -623,12 +620,8 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
 
-            if (HasSecondButton())
-            {
-                ImportNextAction(image1, board, raiseSize);
-            }
+            ImportNextAction(image1, board, raiseSize);
 
-       
         }
         public static void ReadOopTreeTwoSize(string board, string betsize, string betsize2)
         {
@@ -666,6 +659,12 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             {
                 ImportNextAction(image1, board, raiseSize);
             }
+            else
+            {
+                SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition]);
+                Thread.Sleep(500);
+                mouse.PointClick(backBtn);
+            }
 
         }
         public static void ReadIpTreeSingleSize(string board, string betsize)
@@ -680,13 +679,8 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
 
-            if (HasSecondButton())
-            {
-                ImportNextAction(image1, board, raiseSize);
-            }
-
-            mouse.PointClick(backBtn);
-
+            ImportNextAction(image1, board, raiseSize);
+         
         }
         public static void ReadIpTreeTwoSizes(string board, string betsize, string betsize2)
         {
