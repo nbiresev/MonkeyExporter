@@ -137,6 +137,7 @@
     <Content Include="Images\AllInButton3.png" />
     <Content Include="Images\backButton.png" />
     <Content Include="Images\Button33perc.png" />
+    <Content Include="Images\Button60.png" />
     <Content Include="Images\CheckButton.png" />
     <Content Include="Images\halfPotButton3.png" />
     <Content Include="Images\HasSecondButton.png" />
