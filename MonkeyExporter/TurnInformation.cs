@@ -5,14 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Drawing;
-
+using System.Threading;
 
 namespace MonkeyExporter
 {
     class TurnInformation
     {
-        public static Point TurnPoint = new Point(0, 0);
-
         public static Point GetCardPositionPoint(string card)
         {
             var value = card[0];
@@ -97,35 +95,35 @@ namespace MonkeyExporter
             }
             return new Point(valuePos, suitPos);
         }
-
         public static void SelectTurnCard(string card)
         {
-            TurnPoint = GetCardPositionPoint(card);
+            var TurnPoint = GetCardPositionPoint(card);
             ClickOperatoins.mouse.PointClick(TurnPoint);
         }
-
-        public static void UnselectTurn()
+        public static void UnselectTurn(string card)
         {
-            ClickOperatoins.mouse.PointClick(TurnPoint);
+            ClickOperatoins.mouse.PointClick(GetCardPositionPoint(card));
         }
-
         public static void NavFlopCC()
         {
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            Thread.Sleep(1000);
 
         }
         public static void NavOopbetIpCcall()
         {
             ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
-        }
+            Thread.Sleep(1000);
 
+        }
         public static void NavOopbetIpRaiseOopCall()
         {
             ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            Thread.Sleep(1000);
 
 
         }
@@ -134,15 +132,32 @@ namespace MonkeyExporter
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+            Thread.Sleep(1000);
 
         }
-
         public static void NavIpBetOopRaiseIpCall()
         {
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.firstBetsize);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.checkBtn);
+                        Thread.Sleep(1000);
+
         }
+
+        public static void NavBack()
+        {
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn); 
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
+            ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
+            Thread.Sleep(1000);
+
+
+        }
+
+
     }
 }
 
