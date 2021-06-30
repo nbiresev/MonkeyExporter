@@ -11,6 +11,7 @@ namespace MonkeyExporter
 {
     class TurnInformation
     {
+        public static string SelectedCard =  "";
         public static Point GetCardPositionPoint(string card)
         {
             var value = card[0];
@@ -98,6 +99,7 @@ namespace MonkeyExporter
         public static void SelectTurnCard(string card)
         {
             var TurnPoint = GetCardPositionPoint(card);
+            SelectedCard = card;
             ClickOperatoins.mouse.PointClick(TurnPoint);
         }
         public static void UnselectTurn(string card)
@@ -153,10 +155,11 @@ namespace MonkeyExporter
             ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
             ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);
             Thread.Sleep(1000);
-
-
         }
-
+        public static void UnselectTurn()
+        {
+            ClickOperatoins.mouse.PointClick(GetCardPositionPoint(SelectedCard));
+        }
 
     }
 }

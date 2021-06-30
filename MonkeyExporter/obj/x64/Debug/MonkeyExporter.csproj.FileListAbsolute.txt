@@ -12,3 +12,4 @@ C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\MouseKeybo
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.csproj.CopyComplete
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.exe
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\x64\Debug\MonkeyExporter.pdb
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\x64\Debug\PokerUtil.dll

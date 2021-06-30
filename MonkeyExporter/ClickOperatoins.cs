@@ -53,7 +53,6 @@ namespace MonkeyExporter
             {
                 OpenSolutionOneStreet(i+2);
                 ReadSolution();
-
             }
         }
         public static void OpenSolutionOneStreet(int solutionsPosition)
@@ -68,6 +67,21 @@ namespace MonkeyExporter
                 Thread.Sleep(10);
             }
             mouse.PointClick(loadOneStreet);
+            Thread.Sleep(1000);
+            SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
+        }
+        public static void OpenSolutionMultiStreet(int solutionsPosition)
+        {
+            mouse.PointClick(openSolution);
+            Thread.Sleep(1000);
+            var image1 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSolution.png");
+
+            for (int i = 0; i < solutionsPosition; i++)
+            {
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(10);
+            }
+            mouse.PointClick(loadAll);
             Thread.Sleep(1000);
             SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
         }
@@ -101,7 +115,6 @@ namespace MonkeyExporter
                 return string.Empty;
             }
         }
-
         private static string ClearClip()
         {
             try
@@ -132,7 +145,6 @@ namespace MonkeyExporter
                 return string.Empty;
             }
         }
-
         public static string CopyTryClipboard()
         {
             try
@@ -145,7 +157,6 @@ namespace MonkeyExporter
                return CopyTryClipboard();
             }
         }
-
         public static string GetBoard()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
@@ -155,7 +166,6 @@ namespace MonkeyExporter
             string board = splitted[1].Substring(11);
             return board;
         }
-
         public static void SaveBetSolution(string board, string spotDescription, string betsize)
         {
             CopySolution(checkSolution, board, spotDescription, "check", "");
@@ -164,7 +174,6 @@ namespace MonkeyExporter
 
             CopySolution(scndSizeSolt, board, spotDescription, "bet", betsize);
         }
-
         public static void SaveTwoItemSolution(string board, string spotDescription, string raiseSize)
         {
             CopySolution(checkSolution, board, spotDescription, "fold",  actionHistory);
@@ -173,7 +182,6 @@ namespace MonkeyExporter
 
             CopySolution(scndSizeSolt, board, spotDescription, "raise", actionHistory);
         }
-
         public static void SaveTwoBetsizeSolution(string board, string spotDescription, string betsize, string betsize2)
         {
             CopySolution(checkSolution, board, spotDescription, "check", "");
@@ -184,7 +192,6 @@ namespace MonkeyExporter
 
             CopySolution(scndSizeSolt, board, spotDescription, "bet" , betsize2);
         }
-
         public static void SaveVsActionSolution(string board, string spotDescription, string raiseSize)
         {
             CopySolution(checkSolution, board, spotDescription, "fold", actionHistory);
@@ -195,7 +202,6 @@ namespace MonkeyExporter
 
             CopySolution(scndSizeSolt, board, spotDescription, "raise" + raiseSize, actionHistory) ;
         }
-
         public static void SaveVsActionSolutionNoRaise(string board, string spotDescription)
         {
             CopySolution(checkSolution, board, spotDescription, "fold",  actionHistory);
@@ -220,7 +226,6 @@ namespace MonkeyExporter
                 return false;
             }
         }
-
         public static void CopySolution(Point solutionPoint, string board, string spotDesc, string action, String betSize)
         {
             mouse.PointClick(solutionPoint);
@@ -234,7 +239,6 @@ namespace MonkeyExporter
             Thread.Sleep(500);
             mouse.PointClick(saveOK);
         }
-
         public static string GetCorrectClipboardData (int counter)
         {
             Thread.Sleep(500);
@@ -257,7 +261,6 @@ namespace MonkeyExporter
             }
             return text;
         }
-
         public static bool HasSecondButton()
         {
             var image1 = SubImageFinder.PrintScreen(new Point(73, 908), new Size(10, 20));
@@ -265,7 +268,6 @@ namespace MonkeyExporter
             Bitmap hasNext = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\HasSecondButton.png");
             return SubImageFinder.CompareTwoImages(image1, hasNext);
         }
-
         public static bool HasThirdButton()
         {
             var image1 = SubImageFinder.PrintScreen(new Point(142, 908), new Size(10, 20));
@@ -274,7 +276,6 @@ namespace MonkeyExporter
             Bitmap hasNext = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\HasThirdButton.png");
             return SubImageFinder.CompareTwoImages(image1, hasNext);
         }
-
         public static void SnapAllButtons()
         {
             //var image1 = SubImageFinder.PrintScreen(new Point(12, 910), new Size(54, 26));
@@ -293,7 +294,6 @@ namespace MonkeyExporter
             //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\readSulution.png");
 
         }
-
         public static string ReadBetsizeFrom3rdBtn()
         {
             var image1 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
@@ -356,7 +356,6 @@ namespace MonkeyExporter
                 return "AllIn";
             }
         }
-
         public static string ReadBetsizeFrom4thBtn()
         {
             var image1 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
@@ -380,14 +379,12 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 return "AllIn";
             }
         }
-
         public static bool HasFourthButton()
         {
             var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
             Bitmap twoSizeWind = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\HasFourthButton.png");
             return SubImageFinder.CompareTwoImages(image1, twoSizeWind);
         }
-
         public static int NumberOfOptions()
         {
             int nrOf = 1;
@@ -417,7 +414,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             }
             return nrOf;
         }
-
         public static void ReadSolution()
         {
             string board = GetBoard();
@@ -465,7 +461,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 }
             }
         }
-
         public static void ReadSolutionWithBoardManuel(string board)
         {
             string betsize1 = "";
@@ -516,7 +511,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 }
             }
         }
-
         public static void TreeReadComplete()
         {
             for (int i = 0; i <= treePosition; i++)
@@ -527,7 +521,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             ip = false;
             actionHistory = "";
         }
-
         public static void ImportNextAction(Bitmap image1, string board, string actionSize)
         {
             int noOpt = NumberOfOptions();
@@ -612,7 +605,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                     }
                 }
             }
-         
         public static void ReadOopTreeSingleSize(string board, string betsize)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
@@ -725,7 +717,6 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
 
             mouse.PointClick(backBtn);
         }
-
         public static void ExportTurn(string board)
         {
             mouse.PointClick(copyToClip);

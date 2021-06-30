@@ -24,7 +24,6 @@ namespace MonkeyExporter
 
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         
-        
         public static void OpenAllSolutions(int numOfSolutions)
         {
 
