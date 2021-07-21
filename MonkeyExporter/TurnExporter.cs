@@ -38,15 +38,7 @@ namespace MonkeyExporter
 
         public static void ExportSpot(string board)
         {
-            var cardsforsoltion = new List<string>();
-
-            foreach (var item in cards)
-            {
-                if (item.Key == board)
-                {
-                    cardsforsoltion = item.Value;
-                }
-            }
+            List<string> cardsforsoltion = GetRelevantTurnsForBoard(board);
 
             TurnInformation.NavFlopCC();
             // calc solutoin
@@ -70,8 +62,22 @@ namespace MonkeyExporter
             ReadSpot(cardsforsoltion, board);
             TurnInformation.NavBack();
 
+            Thread.Sleep(5000);
+            TurnInformation.NavIpBetOopRaiseIpCall();
+            Thread.Sleep(1000);
+            ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\CheckBetRaiseCall\\";
+            ReadSpot(cardsforsoltion, board);
+            TurnInformation.NavBack();
+
+            Thread.Sleep(5000);
+            TurnInformation.NavOopbetIpRaiseOopCall();
+            Thread.Sleep(1000);
+            ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\BetRaiseCall\\";
+            ReadSpot(cardsforsoltion, board);
+            TurnInformation.NavBack();
+
         }
-        
+
         public static void ExportSpotTurnwithoughtCalc(string board)
         {
             var cardsforsoltion = new List<string>();
@@ -128,66 +134,121 @@ namespace MonkeyExporter
         public static List<string> GetRelevantTurnsForBoard (string board)
         {
             List<string> relevantCards = new List<string>();
-            var boardchangingCards = new List<string>();
+
             var blanks = new List<string>();
+            List<string> flushouts = new List<string>();
+            List<string> straightouts = new List<string>();
+            List<string> pairedouts = new List<string>();
+            List<string> otherOuts = new List<string>();
 
             var currentboardType = BoardEstimation.GetEnumBoard(board);
-
             var possibleTurn = BoardEstimation.get_all_deck_cards(board);
+
             foreach (var item in possibleTurn)
             {
                 var newBoardType = BoardEstimation.GetEnumBoard(board + item);
-              
-                if (currentboardType == EnumBoards.ThreeSuits)
+                if(currentboardType == EnumBoards.ThreeSuits)
                 {
-                    if( BoardEstimation.IsHighConnectedBoardOmaha(board + item) || BoardEstimation.IsLowConnectedBoardOmaha(board + item))
+                    if (!BoardEstimation.IsConnectedBoard(board))
                     {
-                        relevantCards.Add(item);
+                        if(BoardEstimation.IsConnectedBoard(board + item))
+                        {
+                            straightouts.Add(item);
+                        }
                     }
-                    else if (BoardEstimation.IsPairedOmahaBoard(newBoardType))
+                    else if (newBoardType == EnumBoards.PairedFHDryThreeSuits || newBoardType == EnumBoards.PairedFHHeavyThreeSuits)
                     {
-                        relevantCards.Add(item);
+                        pairedouts.Add(item);
                     }
                     else
                     {
                         blanks.Add(item);
                     }
                 }
-                else if (newBoardType == EnumBoards.HighConnected || newBoardType == EnumBoards.LowConnected || newBoardType == EnumBoards.PairedFHDryLowConn || newBoardType == EnumBoards.PairedFHHeavyHighConn
-                    || newBoardType == EnumBoards.FourConnHigh || newBoardType == EnumBoards.FourConnLow)
+                else if (BoardEstimation.IsPairedOmahaBoard(currentboardType))
                 {
-                    if(boardchangingCards.Count > 0 &&  item[0] != boardchangingCards.Last()[0])
+                    if (newBoardType == EnumBoards.PairedFHDryThreeSuits || newBoardType == EnumBoards.PairedFHHeavyThreeSuits)
                     {
-                        boardchangingCards.Add(item);
+                        flushouts.Add(item);
+                    }
+                    else if(newBoardType == EnumBoards.PairedFHDryLowConn || newBoardType == EnumBoards.PairedFHHeavyHighConn)
+                    {
+                        straightouts.Add(item);
                     }
                     else
                     {
                         blanks.Add(item);
                     }
                 }
-                else if (newBoardType == EnumBoards.PairedFHDry || newBoardType == EnumBoards.PairedFHHeavy || newBoardType == EnumBoards.PairedFHDryThreeSuits || newBoardType == EnumBoards.PairedFHDryThreeSuits
-    || newBoardType == EnumBoards.PairedFHDryLowConn || newBoardType == EnumBoards.PairedFHHeavyHighConn)
+                else 
                 {
-                    if (boardchangingCards.Count > 0 && item[0] != boardchangingCards.Last()[0])
+                    if (newBoardType != currentboardType)
                     {
-                        boardchangingCards.Add(item);
+                        if (newBoardType == EnumBoards.HighConnected || newBoardType == EnumBoards.LowConnected || newBoardType == EnumBoards.PairedFHDryLowConn || newBoardType == EnumBoards.PairedFHHeavyHighConn
+                        || newBoardType == EnumBoards.FourConnHigh || newBoardType == EnumBoards.FourConnLow)
+                        {
+                            straightouts.Add(item);
+                        }
+                        else if (newBoardType == EnumBoards.PairedFHDry || newBoardType == EnumBoards.PairedFHHeavy || newBoardType == EnumBoards.PairedFHDryThreeSuits || newBoardType == EnumBoards.PairedFHDryThreeSuits
+                               || newBoardType == EnumBoards.PairedFHDryLowConn || newBoardType == EnumBoards.PairedFHHeavyHighConn)
+                        {
+                            pairedouts.Add(item);
+                        }
+                        else if (newBoardType == EnumBoards.ThreeSuits)
+                        {
+                            flushouts.Add(item);
+                        }
+                        else
+                        {
+                            blanks.Add(item);
+                        }
+
                     }
                 }
 
-                else if (newBoardType != currentboardType)
-                {
-                    boardchangingCards.Add(item);
-                }
-                else
-                {
-                    blanks.Add(item);
-                }
+
+
             }
-            relevantCards = boardchangingCards;
+            var straightwodup = DeleteDuplicats(straightouts);
+            var pairedwodup = DeleteDuplicats(pairedouts);
+
+            relevantCards.AddRange(straightwodup);
+            relevantCards.AddRange(pairedwodup);
+            if(flushouts.Count() > 0)
+            {
+                relevantCards.Add(flushouts[0]);
+                relevantCards.Add(flushouts.Last());
+            }
             relevantCards.Add(blanks[0]);
             relevantCards.Add(blanks.Last());
 
             return relevantCards;
+        }
+
+        public static List<string> DeleteDuplicats (List<string> outs)
+        {
+            List<string> relOuts = new List<string>();
+            foreach (var item in outs) 
+            {
+                var cardValue = item[0];
+                if (!ContainsCardValue(relOuts, cardValue))
+                {
+                    relOuts.Add(item);
+                }
+            }
+            return relOuts;
+        }
+
+        public static bool ContainsCardValue (List<string> cardList, char cardvalue)
+        {
+            foreach (var item in cardList)
+            {
+                if (item.Contains(cardvalue))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

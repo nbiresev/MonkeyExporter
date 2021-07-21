@@ -10,12 +10,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.IO;
 
 namespace MonkeyExporter
 {
     public partial class Form1 : Form
     {
         public string board = "asd";
+        private string path  = @"C:\Users\Sparta\Desktop\MonkerSolver\savedRuns";
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
@@ -31,8 +33,10 @@ namespace MonkeyExporter
         private void button1_Click(object sender, EventArgs e)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutions(293));
-                t.Start();
+            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length);
+
+            Task t = new Task(() => ClickOperatoins.OpenAllSolutions(fCount));
+            t.Start();
         }
 
         private void HookManager_KeyUp(object sender, KeyEventArgs e)
@@ -86,10 +90,12 @@ namespace MonkeyExporter
 
         private void button4_Click(object sender, EventArgs e)
         {
-            TurnInformation.NavIpBetOopCcall();
-            TurnInformation.SelectTurnCard("5d");
-            Thread.Sleep(5000);
-            TurnInformation.UnselectTurn();
+            // TurnExporter.OpenAllSolutions();
+       //     TurnExporter.GetRelevantTurnsForBoard("AsKd2s");
+            TurnExporter.GetRelevantTurnsForBoard("Ts8s7s");
+            TurnExporter.GetRelevantTurnsForBoard("TcTs6c");
+            TurnExporter.GetRelevantTurnsForBoard("TsTd2h");
+            TurnExporter.GetRelevantTurnsForBoard("3d7cKh");
 
         }
     }
