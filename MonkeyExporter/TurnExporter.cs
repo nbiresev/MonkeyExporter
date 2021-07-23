@@ -49,27 +49,27 @@ namespace MonkeyExporter
 
 
             TurnInformation.NavIpBetOopCcall();
-            Thread.Sleep(5000);
+            Thread.Sleep(20000);
             ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\betcheck\\";
             ReadSpot(cardsforsoltion, board);
             Thread.Sleep(500);
             TurnInformation.NavBack();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(20000);
             TurnInformation.NavIpBetOopCcall();
             Thread.Sleep(1000);
             ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\checkbetcheck\\";
             ReadSpot(cardsforsoltion, board);
             TurnInformation.NavBack();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(20000);
             TurnInformation.NavIpBetOopRaiseIpCall();
             Thread.Sleep(1000);
             ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\CheckBetRaiseCall\\";
             ReadSpot(cardsforsoltion, board);
             TurnInformation.NavBack();
 
-            Thread.Sleep(5000);
+            Thread.Sleep(20000);
             TurnInformation.NavOopbetIpRaiseOopCall();
             Thread.Sleep(1000);
             ClickOperatoins.savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\Turn\\BetRaiseCall\\";
@@ -154,9 +154,11 @@ namespace MonkeyExporter
                         if(BoardEstimation.IsConnectedBoard(board + item))
                         {
                             straightouts.Add(item);
+                            continue;
                         }
                     }
-                    else if (newBoardType == EnumBoards.PairedFHDryThreeSuits || newBoardType == EnumBoards.PairedFHHeavyThreeSuits)
+                    
+                    if (newBoardType != currentboardType)
                     {
                         pairedouts.Add(item);
                     }
@@ -202,7 +204,10 @@ namespace MonkeyExporter
                         {
                             blanks.Add(item);
                         }
-
+                    }
+                    else
+                    {
+                        blanks.Add(item);
                     }
                 }
 

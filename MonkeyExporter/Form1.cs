@@ -33,7 +33,7 @@ namespace MonkeyExporter
         private void button1_Click(object sender, EventArgs e)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
-            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length);
+            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
 
             Task t = new Task(() => ClickOperatoins.OpenAllSolutions(fCount));
             t.Start();
@@ -91,11 +91,16 @@ namespace MonkeyExporter
         private void button4_Click(object sender, EventArgs e)
         {
             // TurnExporter.OpenAllSolutions();
-       //     TurnExporter.GetRelevantTurnsForBoard("AsKd2s");
-            TurnExporter.GetRelevantTurnsForBoard("Ts8s7s");
-            TurnExporter.GetRelevantTurnsForBoard("TcTs6c");
-            TurnExporter.GetRelevantTurnsForBoard("TsTd2h");
-            TurnExporter.GetRelevantTurnsForBoard("3d7cKh");
+            //TurnExporter.GetRelevantTurnsForBoard("8s6d5s");
+
+            TurnExporter.GetRelevantTurnsForBoard("Qs7s6s");
+
+            //MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+            //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
+
+            //Task t = new Task(() => TurnExporter.OpenAllSolutions(fCount));
+            //t.Start();
+
 
         }
     }
