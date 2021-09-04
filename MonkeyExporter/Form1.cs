@@ -103,5 +103,14 @@ namespace MonkeyExporter
 
 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
+
+            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount));
+            t.Start();
+
+        }
     }
 }

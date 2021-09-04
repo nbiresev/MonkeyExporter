@@ -85,6 +85,17 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
             SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
         }
+        public static void OpenAllSolutionsMW(int numOfSolutions)
+        {
+
+            for (int i = 0; i < numOfSolutions; i++)
+            {
+                OpenSolutionOneStreet(i + 2);
+                string board = GetBoard();
+                string betsize = ReadBetsizeFrom3rdBtn();
+                ExportMwOneSize(board, betsize);
+            }
+        }
 
         private static string GetClipBoradData()
         {
@@ -721,6 +732,31 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
         {
             mouse.PointClick(copyToClip);
             ReadSolutionWithBoardManuel(board);
+        }
+        
+        public static void ExportMwOneSize(string board, string betsize)
+        {
+            var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+            SaveBetSolution(board, "BbBetCheck", betsize);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+            SaveBetSolution(board, "CoBetCheck", betsize);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+            SaveBetSolution(board, "BtnBetCheck", betsize);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(500);
+
+            mouse.PointClick(checkBtn);
+            Thread.Sleep(500);
+
+
+            SaveVsActionSolution(board, "CoVsBtnBet", "100");
+
         }
 
     }
