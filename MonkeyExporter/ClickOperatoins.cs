@@ -85,15 +85,13 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
             SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
         }
-        public static void OpenAllSolutionsMW(int numOfSolutions)
+        public static void OpenAllSolutionsMW(int numOfSolutions, string pos1, string pos2, string pos3)
         {
 
             for (int i = 0; i < numOfSolutions; i++)
             {
                 OpenSolutionOneStreet(i + 2);
-                string board = GetBoard();
-                string betsize = ReadBetsizeFrom3rdBtn();
-                ExportMwOneSize(board, betsize);
+                ReadSolutionMw(pos1, pos2, pos3);
             }
         }
 
@@ -472,6 +470,22 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
                 }
             }
         }
+        public static void ReadSolutionMw(string pos1, string pos2, string pos3)
+        {
+            string board = GetBoard();
+            var multibetsize = HasFourthButton();
+            if (multibetsize)
+            {
+                string firstbetsize = ReadBetsizeFrom3rdBtn();
+                string secondbetsize = ReadBetsizeFrom4thBtn();
+                ExportMwTwoSize(board, firstbetsize, secondbetsize, pos1, pos2, pos3);
+            }
+            else
+            {
+                string betsize = ReadBetsizeFrom3rdBtn();
+                ExportMwOneSize(board, betsize, pos1, pos2, pos3);
+            }
+        }
         public static void ReadSolutionWithBoardManuel(string board)
         {
             string betsize1 = "";
@@ -734,28 +748,166 @@ if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sp
             ReadSolutionWithBoardManuel(board);
         }
         
-        public static void ExportMwOneSize(string board, string betsize)
+
+        public static void ExportMwOneSize(string board, string betsize1, string firstPos, string secondPos, string thirdPos)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
-            SaveBetSolution(board, "BbBetCheck", betsize);
-            Thread.Sleep(1000);
-
-            mouse.PointClick(checkBtn);
-            SaveBetSolution(board, "CoBetCheck", betsize);
-            Thread.Sleep(1000);
-
-            mouse.PointClick(checkBtn);
-            SaveBetSolution(board, "BtnBetCheck", betsize);
+            SaveBetSolution(board, firstPos + "BetCheck", betsize1);
             Thread.Sleep(1000);
 
             mouse.PointClick(firstBetsize);
             Thread.Sleep(500);
 
+            SaveVsActionSolution(board, secondPos + "Vs" + firstPos + "Bet", "100");
+            Thread.Sleep(1000);
+
             mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, thirdPos + "Vs" + firstPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, thirdPos + "Vs" + firstPos + "Bet" + thirdPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // first betspot done
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(checkBtn);
+
+            SaveBetSolution(board, secondPos + "BetCheck", betsize1);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
             Thread.Sleep(500);
 
+            SaveVsActionSolution(board, thirdPos + "Vs" + secondPos + "Bet", "100");
+            Thread.Sleep(1000);
 
-            SaveVsActionSolution(board, "CoVsBtnBet", "100");
+            mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + secondPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + secondPos + "Bet" + thirdPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // second betspot done
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(checkBtn);
+            mouse.PointClick(checkBtn);
+
+
+            SaveBetSolution(board, thirdPos + "BetCheck", betsize1);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(500);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + thirdPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, secondPos + "Vs" + thirdPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, secondPos + "Vs" + thirdPos + "Bet" + firstPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // third betspot done
+
+        }
+
+        public static void ExportMwTwoSize(string board, string betsize1,string betsize2, string firstPos, string secondPos, string thirdPos)
+        {
+            var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+            SaveTwoBetsizeSolution(board, firstPos + "BetCheck", betsize1, betsize2);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(500);
+
+            SaveVsActionSolution(board, secondPos + "Vs" + firstPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, thirdPos + "Vs" + firstPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, thirdPos + "Vs" + firstPos + "Bet" + thirdPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // first betspot done
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(checkBtn);
+
+            SaveTwoBetsizeSolution(board, secondPos + "BetCheck", betsize1, betsize2);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(500);
+
+            SaveVsActionSolution(board, thirdPos + "Vs" + secondPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + secondPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + secondPos + "Bet" + thirdPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // second betspot done
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(backBtn);
+            mouse.PointClick(checkBtn);
+            mouse.PointClick(checkBtn);
+
+
+            SaveTwoBetsizeSolution(board, thirdPos + "BetCheck", betsize1, betsize2);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstBetsize);
+            Thread.Sleep(500);
+
+            SaveVsActionSolution(board, firstPos + "Vs" + thirdPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(checkBtn);
+
+            SaveVsActionSolution(board, secondPos + "Vs" + thirdPos + "Bet", "100");
+            Thread.Sleep(1000);
+
+            mouse.PointClick(backBtn);
+            mouse.PointClick(firstBetsize);
+
+            SaveVsActionSolution(board, secondPos + "Vs" + thirdPos + "Bet" + firstPos + "Call", "100");
+            Thread.Sleep(1000);
+
+            // third betspot done
 
         }
 

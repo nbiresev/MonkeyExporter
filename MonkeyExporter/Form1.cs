@@ -108,7 +108,7 @@ namespace MonkeyExporter
         {
             int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
 
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount));
+            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount, "BB", "CO", "BTN"));
             t.Start();
 
         }
