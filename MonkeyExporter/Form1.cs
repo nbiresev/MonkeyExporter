@@ -112,5 +112,11 @@ namespace MonkeyExporter
             t.Start();
 
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var hasfifth = ClickOperatoins.HasFifthButton();
+            ;
+        }
     }
 }
