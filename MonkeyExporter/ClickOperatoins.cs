@@ -232,7 +232,7 @@ namespace MonkeyExporter
             else if (fourth && secondBtnisCall)
             {
                 string raiseSize = ReadBetsizeFrom3rdBtn();
-                SaveVsActionSolutionOneSize(board, spotDescription, raiseSize);
+                SaveVsActionSolutionTwoSize(board, spotDescription, raiseSize, "100");
             }
             else
             {
@@ -343,7 +343,16 @@ namespace MonkeyExporter
         {
             var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
             Bitmap twoSizeWind = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\HasFourthButton.png");
-            return SubImageFinder.CompareTwoImages(image1, twoSizeWind);
+            Bitmap twoSize2 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fourthVsBet.png");
+
+            if(SubImageFinder.CompareTwoImages(image1, twoSizeWind) || SubImageFinder.CompareTwoImages(image1, twoSize2))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public static bool HasFifthButton()
         {
@@ -353,11 +362,14 @@ namespace MonkeyExporter
         }
         public static void SnapAllButtons()
         {
+            var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
+            image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fourthVsBet.png");
+
             //var image1 = SubImageFinder.PrintScreen(new Point(12, 910), new Size(54, 26));
             //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\firstButton.png");
 
-            var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
-            image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\call2.png");
+            //var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
+            //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\call2.png");
 
             //var image3 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
             //image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\Button60.png");
@@ -369,11 +381,10 @@ namespace MonkeyExporter
             //image5.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fifthButton.png");
 
         }
-
         public static bool SecondndButtonIsCall()
         {
             var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
-            if (SubImageFinder.CompareTwoImages(image2, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\33Button3.png")))
+            if (SubImageFinder.CompareTwoImages(image2, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\call2.png")))
             {
                 return true;
             }

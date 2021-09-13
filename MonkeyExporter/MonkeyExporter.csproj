@@ -143,6 +143,7 @@
     <Content Include="Images\Button60.png" />
     <Content Include="Images\CheckButton.png" />
     <Content Include="Images\fifthButton.png" />
+    <Content Include="Images\fourthVsBet.png" />
     <Content Include="Images\halfPotButton3.png" />
     <Content Include="Images\HasSecondButton.png" />
     <Content Include="Images\HasThirdButton.png" />

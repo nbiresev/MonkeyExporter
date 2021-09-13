@@ -115,7 +115,7 @@ namespace MonkeyExporter
 
         }
 
-        public static void ReadSpot (List<string> turncards, string board)
+        public static void ReadSpot(List<string> turncards, string board)
         {
             int cardsPos = 0;
 

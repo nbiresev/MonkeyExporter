@@ -116,6 +116,9 @@ namespace MonkeyExporter
         private void button6_Click(object sender, EventArgs e)
         {
             var hasfifth = ClickOperatoins.HasFifthButton();
+            var hasFourht = ClickOperatoins.HasFourthButton();
+            var iscall = ClickOperatoins.SecondndButtonIsCall();
+            ClickOperatoins.SaveVsActionSolution("abs", "BBvsbet")
             ;
         }
     }
