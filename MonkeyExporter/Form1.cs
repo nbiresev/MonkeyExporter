@@ -17,7 +17,7 @@ namespace MonkeyExporter
     public partial class Form1 : Form
     {
         public string board = "asd";
-        private string path  = @"C:\Users\Sparta\Desktop\MonkerSolver\savedRuns";
+        private string path  = @"C:\Users\Sparta\MonkerSolver\savedRuns";
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
@@ -108,7 +108,7 @@ namespace MonkeyExporter
         {
             int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
 
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount, "BB", "CO", "BTN"));
+            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount, "EP", "CO", "BTN"));
             t.Start();
 
         }
