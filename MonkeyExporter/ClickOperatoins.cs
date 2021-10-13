@@ -13,11 +13,11 @@ namespace MonkeyExporter
 {
     class ClickOperatoins
     {
-        public static Point backBtn = new Point(28, 920);
-        public static Point checkBtn = new Point(70, 920);
-        public static Point firstBetsize = new Point(120, 920);
-        public static Point secondBetsize = new Point(170, 920);
-        public static Point secondRaiseSize = new Point(220, 920);
+        public static Point backBtn = new Point(25, 920);
+        public static Point checkBtn = new Point(45, 920);
+        public static Point firstBetsize = new Point(95, 920);
+        public static Point secondBetsize = new Point(100, 920);
+        public static Point secondRaiseSize = new Point(150, 920);
 
         public static Point openSolution = new Point(136, 104);
 
@@ -26,11 +26,11 @@ namespace MonkeyExporter
         public static Point scndSizeSolt = new Point(1200, 80);
         public static Point thirdSizeSolution = new Point(1700, 80);
 
-        public static Point loadOneStreet = new Point(1005, 820);
-        public static Point loadAll = new Point(914, 820);
+        public static Point loadOneStreet = new Point(915, 830);
+        public static Point loadAll = new Point(795, 830);
 
-        public static Point copyToClip = new Point(1100, 505);
-        public static Point saveOK = new Point(925, 610);
+        public static Point copyToClip = new Point(1140, 525);
+        public static Point saveOK = new Point(890, 615);
 
 
         public static Point ChangeSultionPoint1 = new Point(338, 67);
@@ -365,17 +365,17 @@ namespace MonkeyExporter
             //var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
             //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fourthVsBet.png");
 
-            //var image1 = SubImageFinder.PrintScreen(new Point(12, 910), new Size(54, 26));
-            //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\firstButton.png");
+            var image1 = SubImageFinder.PrintScreen(new Point(45, 900), new Size(54, 26));
+            image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\firstButton.png");
 
-            //var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
-            //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\call2.png");
+            var image2 = SubImageFinder.PrintScreen(new Point(72, 910), new Size(68, 26));
+            image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\SecondButton.png");
 
             var image3 = SubImageFinder.PrintScreen(new Point(142, 910), new Size(54, 26));
-            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\33Button3.png");
+            image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\thirdButton.png");
 
-            //var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
-            //image4.Save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\66Button4.png");
+            var image4 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
+            image4.Save(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\ImagesNEW\fourthButton.png");
 
             //var image5 = SubImageFinder.PrintScreen(new Point(255, 910), new Size(20, 10));
             //image5.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fifthButton.png");
