@@ -125,6 +125,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ImagesNew\callButton.png" />
+    <Content Include="ImagesNew\CheckButton.png" />
+    <Content Include="ImagesNew\HasSecondButton.png" />
+    <Content Include="ImagesNew\HasSecondButton2.png" />
+    <Content Include="ImagesNew\HasThirdButton.png" />
+    <Content Include="ImagesNew\HasThirdButton2.png" />
+    <Content Include="ImagesNew\singeBetsize.png" />
+    <Content Include="ImagesNew\singleBetsize66.png" />
+    <Content Include="ImagesNew\singleRaiseAllIn.png" />
+    <Content Include="ImagesNew\singleRaisesize.png" />
     <Content Include="Images\100Button3.png" />
     <Content Include="Images\100Button4.png" />
     <Content Include="Images\33Button3.png" />
