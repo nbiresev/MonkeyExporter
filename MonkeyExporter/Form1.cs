@@ -122,7 +122,7 @@ namespace MonkeyExporter
             //var result = ClickOperatoins.HasSecondButton();
             //var result2 = ClickOperatoins.HasThirdButton();
             var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
-            
+            var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
             ClickOperatoins.GetBoard();
             ;
         }

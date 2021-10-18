@@ -437,19 +437,11 @@ namespace MonkeyExporter
         }
         public static string ReadBetsizeFrom4thBtn()
         {
-            var image1 = SubImageFinder.PrintScreen(new Point(202, 910), new Size(54, 26));
+            var image1 = SubImageFinder.PrintScreen(ActionthreePart, new Size(25, 13));
 
-            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\images\33Button4.png")))
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\ImagesNew\singleRaiseAllIn.png")))
             {
-                return "75";
-            }
-            else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\100Button4.png")))
-            {
-                return "100";
-            }
-            else if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\66Button4.png")))
-            {
-                return "66";
+                return "AllIn";
             }
             else
             {
