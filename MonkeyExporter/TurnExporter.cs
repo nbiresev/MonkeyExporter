@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -10,17 +11,66 @@ using PokerUtil;
 namespace MonkeyExporter
 {
     /// <summary>
-    ///  1.open solution
-    ///  2.select first turn card
-    ///  3. navigate to spot
-    ///  4. let calculate
-    ///  5. export spot,
-    ///  6. change turn wait export and so on
-    ///  7. navigate different spot
-    ///  8. export
+    ///  1.export flop
+    ///  2. start build tree: new
+    ///  3. set spot info: set game, limit, street, number of player, 
+    ///  4. pot, stacksizes 
+    ///  5. tree
+    ///  6. ranges
+    ///  7. set up scripts and run
     /// </summary>
     class TurnExporter
     {
+        public static Point NewButton = new Point(30, 80);
+        public static Point SaveTree = new Point(66, 80);
+        public static Point RangeBtn = new Point(150, 80);
+
+
+        // New Tree Window 1
+        public static Point GameType = new Point(700, 525);
+
+        public static Point HoldEm = new Point(691, 544);
+        public static Point OmahaHi = new Point(691, 562);
+
+        public static Point Limit = new Point(825, 525);
+        public static Point NL = new Point(814, 544);
+        public static Point PotLimit = new Point(814, 562);
+
+        public static Point Preflop = new Point(922, 517);
+        public static Point Flop = new Point(1000, 517);
+        public static Point Turn = new Point(1056, 517);
+        public static Point River = new Point(1121, 517);
+        public static Point NumOfPlayer = new Point(1267, 517);
+
+        public static Point NextNW = new Point(825, 572);
+
+        // New Tree Window2
+        public static Point Potsize = new Point(779, 357);
+        public static Point firstStack = new Point(883, 356);
+        public static Point secondStack = new Point(868, 384);
+        public static Point NextStack = new Point(909, 722);
+
+        // New Tree Window3
+        public static Point AddActionsPredefined = new Point(877, 494);
+        public static Point SelectPredifined = new Point(885, 571);
+
+        public static Point NextActions = new Point(619, 630);
+
+        //SaveDialog
+        public static Point fileName = new Point(791, 673);
+        public static Point Save = new Point(1304, 673);
+
+        //Ranges
+        public static Point IpRange = new Point(292, 297);
+        public static Point OopRange = new Point(618, 302);
+
+        public static Point CloseRanges = new Point(875, 210);
+
+        public static void CreateGameTree()
+        {
+
+        }
+
 
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         
