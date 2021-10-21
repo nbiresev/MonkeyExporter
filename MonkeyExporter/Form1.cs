@@ -16,7 +16,9 @@ namespace MonkeyExporter
 {
     public partial class Form1 : Form
     {
-        public string board = "asd";
+
+        public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
+        public string board = "abc";
         private string path  = @"C:\Users\Sparta\MonkerSolver\savedRuns";
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
@@ -121,9 +123,16 @@ namespace MonkeyExporter
             //ClickOperatoins.SaveVsActionSolution("abs", "BBvsbet")
             //var result = ClickOperatoins.HasSecondButton();
             //var result2 = ClickOperatoins.HasThirdButton();
-            var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
-            var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
-            ClickOperatoins.GetBoard();
+
+            //mouse.PointClick(TurnExporter.AddActionsDropDown);
+            //Thread.Sleep(100);
+            //mouse.PointClick(TurnExporter.SelectPredifined);
+            //Thread.Sleep(100);
+            //mouse.PointClick(TurnExporter.NextActions);
+
+            //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
+            //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
+            TurnExporter.CreateGameTree(TurnExporter.Turn, "66", "33");
             ;
         }
     }

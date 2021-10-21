@@ -104,36 +104,7 @@ namespace MonkeyExporter
                 Export3way(board, pos1, pos2, pos3);
             }
         }
-        private static string GetClipBoradData()
-        {
-            try
-            {
-                string clipboardData = null;
-                Exception threadEx = null;
-                Thread staThread = new Thread(
-                    delegate ()
-                    {
-                        try
-                        {
-                            clipboardData = Clipboard.GetText(TextDataFormat.Text);
-                        }
-
-                        catch (Exception ex)
-                        {
-                            threadEx = ex;
-                        }
-                    });
-                staThread.SetApartmentState(ApartmentState.STA);
-                staThread.Start();
-                staThread.Join();
-                return clipboardData;
-            }
-            catch (Exception exception)
-            {
-                return string.Empty;
-            }
-        }
-        private static string ClearClip()
+        public static string ClearClip()
         {
             try
             {
@@ -175,6 +146,19 @@ namespace MonkeyExporter
                 return CopyTryClipboard();
             }
         }
+        public static void SetClipboard(string text)
+        {
+            try
+            {
+                Clipboard.SetText(text);
+            }
+            catch
+            {
+                Thread.Sleep(1000);
+                Clipboard.SetText(text);
+            }
+        }
+
         public static string GetBoard()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using PokerUtil;
+using System.Windows.Forms;
 
 
 namespace MonkeyExporter
@@ -21,6 +22,8 @@ namespace MonkeyExporter
     /// </summary>
     class TurnExporter
     {
+        public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
+
         public static Point NewButton = new Point(30, 80);
         public static Point SaveTree = new Point(66, 80);
         public static Point RangeBtn = new Point(150, 80);
@@ -42,7 +45,7 @@ namespace MonkeyExporter
         public static Point River = new Point(1121, 517);
         public static Point NumOfPlayer = new Point(1267, 517);
 
-        public static Point NextNW = new Point(825, 572);
+        public static Point NextNW = new Point(922, 568);
 
         // New Tree Window2
         public static Point Potsize = new Point(779, 357);
@@ -52,9 +55,10 @@ namespace MonkeyExporter
 
         // New Tree Window3
         public static Point AddActionsPredefined = new Point(877, 494);
+        public static Point AddActionsDropDown = new Point(915, 525);
         public static Point SelectPredifined = new Point(885, 571);
 
-        public static Point NextActions = new Point(619, 630);
+        public static Point NextActions = new Point(922, 631);
 
         //SaveDialog
         public static Point fileName = new Point(791, 673);
@@ -66,12 +70,80 @@ namespace MonkeyExporter
 
         public static Point CloseRanges = new Point(875, 210);
 
-        public static void CreateGameTree()
+        public static void CreateGameTree(Point street, string potsize, string stackLeft)
         {
+            MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
 
+            mouse.PointClick(NewButton);
+            Thread.Sleep(100);
+            mouse.PointClick(GameType);
+            Thread.Sleep(100);
+            mouse.PointClick(OmahaHi);
+            Thread.Sleep(100);
+            mouse.PointClick(Limit); 
+            Thread.Sleep(100);
+            mouse.PointClick(PotLimit); 
+            Thread.Sleep(100);
+            mouse.PointClick(street);
+            Thread.Sleep(100);
+            mouse.PointClick(NextNW);
+            Thread.Sleep(100);
+
+            // set stacksize 
+            mouse.PointClick(Potsize);
+            mouse.PointClick(Potsize);
+
+            Thread.Sleep(1000);
+            SendKeys.SendWait(potsize);
+            Thread.Sleep(1000);
+
+            mouse.PointClick(firstStack);
+            mouse.PointClick(firstStack);
+            Thread.Sleep(100);
+            SendKeys.SendWait(stackLeft);
+            Thread.Sleep(100);
+            mouse.PointClick(secondStack);
+            mouse.PointClick(secondStack);
+            Thread.Sleep(100);
+            SendKeys.SendWait(stackLeft);
+            Thread.Sleep(100);
+            mouse.PointClick(NextStack);
+            Thread.Sleep(100);
+
+            // select Actions
+            mouse.PointClick(AddActionsPredefined);
+            Thread.Sleep(100);
+            mouse.PointClick(AddActionsDropDown);
+            Thread.Sleep(100);
+            mouse.PointClick(SelectPredifined);
+            Thread.Sleep(100);
+            mouse.PointClick(NextActions);
+            ;
         }
 
+        public static void CopyRanges(string ipRangePath, string oopRangePath)
+        {
+            mouse.PointClick(IpRange);
+            Thread.Sleep(100);
+            string ipRangeString = "Ahkhadkd";
+            ClickOperatoins.SetClipboard(ipRangeString);
+            Thread.Sleep(1000);
+            SendKeys.SendWait("^v");
+            Thread.Sleep(1000);
+            ClickOperatoins.ClearClip();
+            Thread.Sleep(1000);
 
+            mouse.PointClick(OopRange);
+            Thread.Sleep(100);
+            string oopRangeString = "Ahkhadkd";
+            ClickOperatoins.SetClipboard(oopRangeString);
+            Thread.Sleep(1000);
+            SendKeys.SendWait("^v");
+            Thread.Sleep(1000);
+            ClickOperatoins.ClearClip();
+            mouse.PointClick(CloseRanges);
+
+        }
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         
         public static void OpenAllSolutions(int numOfSolutions)
