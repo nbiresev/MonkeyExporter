@@ -104,6 +104,47 @@ namespace MonkeyExporter
                 Export3way(board, pos1, pos2, pos3);
             }
         }
+        private static string GetClipBoardData()
+        {
+            try
+            {
+                string clipboardData = null;
+                Exception threadEx = null;
+                Thread staThread = new Thread(
+                    delegate ()
+                    {
+                        try
+                        {
+                            clipboardData = Clipboard.GetText(TextDataFormat.Text);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            threadEx = ex;
+                        }
+                    });
+                staThread.SetApartmentState(ApartmentState.STA);
+                staThread.Start();
+                staThread.Join();
+                return clipboardData;
+            }
+            catch (Exception exception)
+            {
+                return string.Empty;
+            }
+        }
+        public static void SetClipboard(string text)
+        {
+            try
+            {
+                Clipboard.SetText(text);
+            }
+            catch
+            {
+                Thread.Sleep(300);
+                Clipboard.SetText(text);
+            }
+        }
         public static string ClearClip()
         {
             try
@@ -146,19 +187,6 @@ namespace MonkeyExporter
                 return CopyTryClipboard();
             }
         }
-        public static void SetClipboard(string text)
-        {
-            try
-            {
-                Clipboard.SetText(text);
-            }
-            catch
-            {
-                Thread.Sleep(1000);
-                Clipboard.SetText(text);
-            }
-        }
-
         public static string GetBoard()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
@@ -300,7 +328,7 @@ namespace MonkeyExporter
             mouse.PointClick(copyToClip);
             Thread.Sleep(500);
 
-            string text = GetClipBoradData();
+            string text = GetClipBoardData();
 
 
             if (text == "")

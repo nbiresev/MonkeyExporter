@@ -132,7 +132,8 @@ namespace MonkeyExporter
 
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
-            TurnExporter.CreateGameTree(TurnExporter.Turn, "66", "33");
+
+            TurnExporter.CopyRanges("asd", "add");
             ;
         }
     }

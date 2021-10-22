@@ -123,6 +123,9 @@ namespace MonkeyExporter
 
         public static void CopyRanges(string ipRangePath, string oopRangePath)
         {
+            mouse.PointClick(RangeBtn);
+            Thread.Sleep(1000);
+
             mouse.PointClick(IpRange);
             Thread.Sleep(100);
             string ipRangeString = "Ahkhadkd";
