@@ -28,6 +28,9 @@ namespace MonkeyExporter
         public static Point SaveTree = new Point(66, 80);
         public static Point RangeBtn = new Point(150, 80);
 
+        public List<string> spotsIp = new List<string>() { "IpBetCheck", "IpVsBet", "IpVsRaise" };
+        public List<string> spotsOop = new List<string>() { "OopBetCheck", "OopVsBet", "OopVsRaise" };
+        public List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
 
         // New Tree Window 1
         public static Point GameType = new Point(700, 525);
@@ -147,6 +150,14 @@ namespace MonkeyExporter
             mouse.PointClick(CloseRanges);
 
         }
+
+        public static string getIpRangePath(string board, int spotPosition)
+        {
+            string path = @"C:\Users\Sparta\Desktop\SavedSolution\";
+
+            return path;
+        }
+
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         
         public static void OpenAllSolutions(int numOfSolutions)
