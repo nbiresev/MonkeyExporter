@@ -161,27 +161,27 @@ namespace MonkeyExporter
         public static bool HasLoaded (Bitmap bmp1 ,Point p1, Point p2)
         {
             bool loaded = true;
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
 
-            for (int i = 0; i < 50; i++)
-            {
-                Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
-                loaded = CompareTwoImages(bmp1, bmp2);
-                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
-                bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
+            //for (int i = 0; i < 50; i++)
+            //{
+            //    Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
+            //    loaded = CompareTwoImages(bmp1, bmp2);
+            //    bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+            //    bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
 
-                ;
-                if (loaded == false)
-                {
-                    return loaded;
-                }
-                else
-                {
-                    Thread.Sleep(200);
-                }
-                Thread.Sleep(100);
+            //    ;
+            //    if (loaded == false)
+            //    {
+            //        return loaded;
+            //    }
+            //    else
+            //    {
+            //        Thread.Sleep(200);
+            //    }
+            //    Thread.Sleep(100);
 
-            }
+            //}
             return loaded;
         }
 
@@ -194,8 +194,8 @@ namespace MonkeyExporter
             {
                 Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
                 loaded = CompareTwoImages(bmp1, bmp2);
-                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
-                bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
+                //bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                //bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
 
                 if (loaded == false)
                 {

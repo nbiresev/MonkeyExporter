@@ -38,9 +38,9 @@ namespace MonkeyExporter
         public static Point ChangeSultionPoint2 = new Point(422, 85);
 
 
-        public static Point ActionTwoPart = new Point(1130, 80);
+        public static Point ActionTwoPart = new Point(100, 900);
 
-        public static Point ActionthreePart = new Point(1390, 80);
+        public static Point ActionthreePart = new Point(150, 900);
 
         public static string savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\";
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
@@ -237,10 +237,11 @@ namespace MonkeyExporter
             CopySolution(firstSizeSolutin, board, spotDescription, "bet", betsize);
             Thread.Sleep(1000);
 
-            CopySolution(scndSizeSolt, board, spotDescription, "bet", betsize2);
+            CopySolution(thirdSizeSolution, board, spotDescription, "bet", betsize2);
         }
         public static void SaveVsActionSolution(string board, string spotDescription)
         {
+            var third = HasThirdButton();
             var fourth = HasFourthButton();
             var fifth = HasFifthButton();
             var secondBtnisCall = SecondndButtonIsCall();
@@ -255,9 +256,13 @@ namespace MonkeyExporter
                 string raiseSize = ReadBetsizeFrom3rdBtn();
                 SaveVsActionSolutionTwoSize(board, spotDescription, raiseSize, "100");
             }
+            else if (!third)
+            {
+                SaveVsActionSolutionNoCall(board, spotDescription);
+            }
             else
             {
-                string raiseSize = ReadBetsizeFrom4thBtn();
+                string raiseSize = ReadBetsizeFrom3rdBtn();
                 SaveVsActionSolutionOneSize(board, spotDescription, raiseSize);
             }
         }
@@ -270,6 +275,13 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
 
             CopySolution(thirdSizeSolution, board, spotDescription, "raise" + raiseSize, actionHistory);
+        }
+        public static void SaveVsActionSolutionNoCall(string board, string spotDescription)
+        {
+            CopySolution(checkSolution, board, spotDescription, "fold", actionHistory);
+            Thread.Sleep(1000);
+
+            CopySolution(thirdSizeSolution, board, spotDescription, "raiseAllIn" , actionHistory);
         }
         public static void SaveVsActionSolutionTwoSize(string board, string spotDescription, string raise1, string raise2)
         {
@@ -352,8 +364,7 @@ namespace MonkeyExporter
 
             Bitmap hasNext = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\HasSecondButton.png");
             Bitmap hasNext2 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\HasSecondButton2.png");
-
-            if(SubImageFinder.CompareTwoImages(image1, hasNext) || SubImageFinder.CompareTwoImages(image1, hasNext2))
+            if (SubImageFinder.CompareTwoImages(image1, hasNext) || SubImageFinder.CompareTwoImages(image1, hasNext2))
             {
                 return true;
             }
@@ -364,34 +375,34 @@ namespace MonkeyExporter
         }
         public static bool HasThirdButton()
         {
-            var image1 = SubImageFinder.PrintScreen(new Point(85, 895), new Size(10, 10));
-            //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\HasThirdButton2.png");
+            var image1 = SubImageFinder.PrintScreen(new Point(105, 895), new Size(10, 10));
+           // image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\test.png");
 
-            Bitmap hasNext = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\HasThirdButton.png");
-            Bitmap hasNext2 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\HasThirdButton2.png");
+             Bitmap noThird = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\noThird.png");
 
-            if (SubImageFinder.CompareTwoImages(image1, hasNext) || SubImageFinder.CompareTwoImages(image1, hasNext2))
-            {
-                return true;
-            }
-            else
+            if (SubImageFinder.CompareTwoImages(image1, noThird))
             {
                 return false;
+            }
+                        else
+            {
+                return true;
             }
         }
         public static bool HasFourthButton()
         {
-            var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
-            Bitmap twoSizeWind = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\HasFourthButton.png");
-            Bitmap twoSize2 = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fourthVsBet.png");
+            var image1 = SubImageFinder.PrintScreen(new Point(150, 908), new Size(10, 10));
+            //image1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
+            //return true;
 
-            if(SubImageFinder.CompareTwoImages(image1, twoSizeWind) || SubImageFinder.CompareTwoImages(image1, twoSize2))
+            Bitmap noFourth = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\noFourth.png");
+            if (SubImageFinder.CompareTwoImages(image1, noFourth))
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
         public static bool HasFifthButton()
@@ -442,10 +453,25 @@ namespace MonkeyExporter
             {
                 return "66";
             }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton50.png")))
+            {
+                return "50";
+            }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton100.png")))
+            {
+                return "100";
+            }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButtonAllIn.png")))
+            {
+                return "AllIn";
+            }
+
             else
             {
+                image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButtonXX.png");
+
                 Console.WriteLine("betsize could not be read for third button");
-                return "GetBetsize";
+                throw new Exception("Betsize Not Read");
             }
         }
         public static string ReadBetsizeFrom4thBtn()
@@ -456,10 +482,16 @@ namespace MonkeyExporter
             {
                 return "AllIn";
             }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"c:\users\sparta\documents\monkeyexporter\monkeyexporter\ImagesNew\FourthButton100.png")))
+            {
+                return "100";
+            }
+
             else
             {
+                image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\FourthButtonXX.png");
                 Console.WriteLine("betsize could not be read for fourth button");
-                return "100";
+                throw new Exception("Betsize Not Read");
             }
         }
         public static int NumberOfOptions()
@@ -639,7 +671,6 @@ namespace MonkeyExporter
                 }
                 else
                 {
-
                     SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
                     image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                     actionSize = "AllIn";
@@ -713,6 +744,7 @@ namespace MonkeyExporter
             mouse.PointClick(firstBetsize);
             ip = true;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+
             string raiseSize = ReadBetsizeFrom3rdBtn();
 
             if (HasSecondButton())

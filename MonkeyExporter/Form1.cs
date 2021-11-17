@@ -114,16 +114,20 @@ namespace MonkeyExporter
             t.Start();
 
         }
-
         private void button6_Click(object sender, EventArgs e)
         {
+            //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();
+            //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
+
             //var hasfifth = ClickOperatoins.HasFifthButton();
-            //var hasFourht = ClickOperatoins.HasFourthButton();
-            //var iscall = ClickOperatoins.SecondndButtonIsCall();
+            var has2nd = ClickOperatoins.HasSecondButton();
+            var hasthird = ClickOperatoins.HasThirdButton();
+            var hasFourht = ClickOperatoins.HasFourthButton();
+            //var hasthAhkhadkdird = ClickOperatoins.HasThirdButton();
+            //var iscall = CliAhkhadkdckOperatoins.SecondndButtonIsCall();
             //ClickOperatoins.SaveVsActionSolution("abs", "BBvsbet")
             //var result = ClickOperatoins.HasSecondButton();
-            //var result2 = ClickOperatoins.HasThirdButton();
-
+            //var result2 = AhkhadkdAhkhadkdAhkhadkdClickOperatoins.HasThirdButtonAhkhadkdAhkhadkd
             //mouse.PointClick(TurnExporter.AddActionsDropDown);
             //Thread.Sleep(100);
             //mouse.PointClick(TurnExporter.SelectPredifined);
@@ -133,7 +137,7 @@ namespace MonkeyExporter
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
 
-            TurnExporter.CopyRanges("asd", "add");
+           // TurnExporter.CopyRanges("asd", "add");
             ;
         }
     }
