@@ -167,9 +167,11 @@ namespace MonkeyExporter
             {
                 Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
                 loaded = CompareTwoImages(bmp1, bmp2);
-                // bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
 
-                if (loaded  == false)
+                ;
+                if (loaded == false)
                 {
                     return loaded;
                 }
@@ -192,7 +194,8 @@ namespace MonkeyExporter
             {
                 Bitmap bmp2 = PrintScreen(p1, GetSizeFromPoint(p1, p2));
                 loaded = CompareTwoImages(bmp1, bmp2);
-                // bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                bmp2.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image2.png");
+                bmp1.Save(@"C:\Users\Sparta\Desktop\SavedSolution\\image1.png");
 
                 if (loaded == false)
                 {

@@ -30,7 +30,9 @@ namespace MonkeyExporter
 
         public List<string> spotsIp = new List<string>() { "IpBetCheck", "IpVsBet", "IpVsRaise" };
         public List<string> spotsOop = new List<string>() { "OopBetCheck", "OopVsBet", "OopVsRaise" };
-        public List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
+        public static List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
+
+        public List<Tuple<string, string>> pathKombos = new List<Tuple<string, string>>(); 
 
         // New Tree Window 1
         public static Point GameType = new Point(700, 525);
@@ -76,7 +78,6 @@ namespace MonkeyExporter
         public static void CreateGameTree(Point street, string potsize, string stackLeft)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
-
             mouse.PointClick(NewButton);
             Thread.Sleep(100);
             mouse.PointClick(GameType);
@@ -121,9 +122,10 @@ namespace MonkeyExporter
             mouse.PointClick(SelectPredifined);
             Thread.Sleep(100);
             mouse.PointClick(NextActions);
+
+
             ;
         }
-
         public static void CopyRanges(string ipRangePath, string oopRangePath)
         {
             mouse.PointClick(RangeBtn);
@@ -150,16 +152,13 @@ namespace MonkeyExporter
             mouse.PointClick(CloseRanges);
 
         }
-
         public static string getIpRangePath(string board, int spotPosition)
         {
             string path = @"C:\Users\Sparta\Desktop\SavedSolution\";
 
             return path;
         }
-
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
-        
         public static void OpenAllSolutions(int numOfSolutions)
         {
 
@@ -171,7 +170,6 @@ namespace MonkeyExporter
                 ExportSpot(board);
             }
         }
-
         public static void ExportSpot(string board)
         {
             List<string> cardsforsoltion = GetRelevantTurnsForBoard(board);
@@ -213,7 +211,6 @@ namespace MonkeyExporter
             TurnInformation.NavBack();
 
         }
-
         public static void ExportSpotTurnwithoughtCalc(string board)
         {
             var cardsforsoltion = new List<string>();
@@ -250,7 +247,6 @@ namespace MonkeyExporter
             TurnInformation.NavBack();
 
         }
-
         public static void ReadSpot(List<string> turncards, string board)
         {
             int cardsPos = 0;
@@ -266,7 +262,6 @@ namespace MonkeyExporter
                 cardsPos++;
             }
         }
-
         public static List<string> GetRelevantTurnsForBoard (string board)
         {
             List<string> relevantCards = new List<string>();
@@ -365,7 +360,6 @@ namespace MonkeyExporter
 
             return relevantCards;
         }
-
         public static List<string> DeleteDuplicats (List<string> outs)
         {
             List<string> relOuts = new List<string>();
@@ -379,7 +373,6 @@ namespace MonkeyExporter
             }
             return relOuts;
         }
-
         public static bool ContainsCardValue (List<string> cardList, char cardvalue)
         {
             foreach (var item in cardList)

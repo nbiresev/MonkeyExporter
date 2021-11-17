@@ -76,8 +76,9 @@ namespace MonkeyExporter
                 Thread.Sleep(10);
             }
             mouse.PointClick(loadOneStreet);
+            SubImageFinder.HasLoadedSolution(image1, new Point(139, 235), new Point(175, 275));
             Thread.Sleep(1000);
-            SubImageFinder.HasLoadedSolution(image1, new Point(165, 243), new Point(185, 258));
+
         }
         public static void OpenSolutionMultiStreet(int solutionsPosition)
         {
@@ -626,7 +627,9 @@ namespace MonkeyExporter
                     image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                     actionSize = "AllIn";
                     mouse.PointClick(checkBtn);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
+
                     ip = false;
                     treePosition++;
                     actionHistory += "-" + actions[treePosition] + "_" + actionSize;
@@ -641,7 +644,9 @@ namespace MonkeyExporter
                     image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                     actionSize = "AllIn";
                     mouse.PointClick(checkBtn);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
+
                     ip = true;
                     treePosition++;
                     actionHistory += "-" + actions[treePosition] + "_" + actionSize;
@@ -658,7 +663,8 @@ namespace MonkeyExporter
                     image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                     actionSize = ReadBetsizeFrom3rdBtn();
                     mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
                     ip = false;
                     treePosition++;
                     actionHistory += "-" + actions[treePosition] + "_" + actionSize;
@@ -672,7 +678,9 @@ namespace MonkeyExporter
                     image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
                     actionSize = ReadBetsizeFrom3rdBtn();
                     mouse.PointClick(firstBetsize);
-                    SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
+
                     ip = true;
                     treePosition++;
                     actionHistory += "-" + actions[treePosition] + "_" + actionSize;
@@ -689,7 +697,8 @@ namespace MonkeyExporter
 
             mouse.PointClick(firstBetsize);
             ip = true;
-            SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+            //  SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+            Thread.Sleep(1000);
             string raiseSize = ReadBetsizeFrom3rdBtn();
 
             ImportNextAction(image1, board, raiseSize);
