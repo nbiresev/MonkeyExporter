@@ -15,7 +15,7 @@ namespace MonkeyExporter
     {
         public static Point backBtn = new Point(25, 920);
         public static Point checkBtn = new Point(75, 920);
-        public static Point firstBetsize = new Point(130, 920);
+        public static Point firstBetsize = new Point(110, 920);
         public static Point secondBetsize = new Point(175, 920);
         public static Point secondRaiseSize = new Point(220, 920);
 
@@ -457,6 +457,11 @@ namespace MonkeyExporter
             {
                 return "50";
             }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton60.png")))
+            {
+                return "60";
+            }
+
             if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton100.png")))
             {
                 return "100";
