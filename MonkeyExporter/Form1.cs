@@ -118,26 +118,19 @@ namespace MonkeyExporter
         {
             //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
+            //var path = TurnExporter.GetIpRange("check", "Js8d8s");
+            //var path1 = TurnExporter.GetIpRange("vsBet", "Js8d8s");
+            //var path2 = TurnExporter.GetIpRange("vsRaise", "Js8d8s");
 
-            //var hasfifth = ClickOperatoins.HasFifthButton();
-            //var has2nd = ClickOperatoins.HasSecondButton();
-            //var hasthird = ClickOperatoins.HasThirdButton();
-            //var hasFourht = ClickOperatoins.HasFourthButton();
-            //var hasthAhkhadkdird = ClickOperatoins.HasThirdButton();
-            //var iscall = CliAhkhadkdckOperatoins.SecondndButtonIsCall();
-            //ClickOperatoins.SaveVsActionSolution("abs", "BBvsbet")
-            //var result = ClickOperatoins.HasSecondButton();
-            //var result2 = AhkhadkdAhkhadkdAhkhadkdClickOperatoins.HasThirdButtonAhkhadkdAhkhadkd
-            //mouse.PointClick(TurnExporter.AddActionsDropDown);
-            //Thread.Sleep(100);
-            //mouse.PointClick(TurnExporter.SelectPredifined);
-            //Thread.Sleep(100);
-            //mouse.PointClick(TurnExporter.NextActions);
-            var path = TurnExporter.GetOopRange("vsBet", "Js8d8s");
+            //var path11 = TurnExporter.GetOopRange("check", "Js8d8s");
+            //var path12 = TurnExporter.GetOopRange("vsBet", "Js8d8s");
+            //var path13 = TurnExporter.GetOopRange("vsRaise", "Js8d8s");
+
+            TurnExporter.CreateFullTree();
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
 
-           // TurnExporter.CopyRanges("asd", "add");
+            // TurnExporter.CopyRanges("asd", "add");
             ;
         }
     }

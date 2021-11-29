@@ -75,6 +75,19 @@ namespace MonkeyExporter
 
         public static Point CloseRanges = new Point(875, 210);
 
+        public static void CreateFullTree()
+        {
+            string board = "Js8d8s";
+            CreateGameTree(Turn, "13", "194");
+            CopyRanges(board);
+        }
+        public static void SaveSpot(string board, string Spot)
+        {
+            string SaveName = board + "_" + Spot;
+
+            mouse.PointClick(Save);
+
+        }
         public static void CreateGameTree(Point street, string potsize, string stackLeft)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
@@ -126,14 +139,15 @@ namespace MonkeyExporter
 
             ;
         }
-        public static void CopyRanges(string ipRangePath, string oopRangePath)
+        public static void CopyRanges(string board)
         {
             mouse.PointClick(RangeBtn);
             Thread.Sleep(1000);
 
             mouse.PointClick(IpRange);
             Thread.Sleep(100);
-            string ipRangeString = "Ahkhadkd";
+            string ipPath = GetIpRange("check", board);
+            string ipRangeString = File.ReadAllText(ipPath, Encoding.UTF8);
             ClickOperatoins.SetClipboard(ipRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
@@ -143,7 +157,8 @@ namespace MonkeyExporter
 
             mouse.PointClick(OopRange);
             Thread.Sleep(100);
-            string oopRangeString = "Ahkhadkd";
+            string oopPath = GetOopRange("check", board);
+            string oopRangeString = File.ReadAllText(oopPath, Encoding.UTF8);
             ClickOperatoins.SetClipboard(oopRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
@@ -152,19 +167,26 @@ namespace MonkeyExporter
             mouse.PointClick(CloseRanges);
 
         }
-
         public static string GetOopRange (string spot, string board)
         {
             if (spot == "check")
             {
-                return @"C:\Users\Sparta\Desktop\SavedSolution\OopBetCheck\" + board + @"\check";
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopBetCheck\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("check"))
+                    {
+                        return file;
+                    }
+                }
             }
             if (spot == "vsBet")
             {
                 string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopVsBet\" + board;
                 var files = Directory.GetFiles(folder, "*.txt");
-
-
                 foreach (var file in files)
                 {
                     var actValueSplitted = file.Split('-');
@@ -177,7 +199,6 @@ namespace MonkeyExporter
                     {
                         return "error";
                     }
-
                 }
             }
             if (spot == "vsRaise")
@@ -206,12 +227,21 @@ namespace MonkeyExporter
             }
             return "error";
         }
-
         public static string GetIpRange(string spot, string board)
         {
             if (spot == "check")
             {
-                return @"C:\Users\Sparta\Desktop\SavedSolution\IpBetCheck\" + board + @"\check";
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\IpBetCheck\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("check"))
+                    {
+                        return file;
+                    }
+                }
             }
             if (spot == "vsBet")
             {
@@ -231,7 +261,6 @@ namespace MonkeyExporter
                     {
                         return "error";
                     }
-
                 }
             }
             if (spot == "vsRaise")
@@ -260,7 +289,6 @@ namespace MonkeyExporter
             }
             return "error";
         }
-
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         public static void OpenAllSolutions(int numOfSolutions)
         {
@@ -487,5 +515,6 @@ namespace MonkeyExporter
             }
             return false;
         }
+
     }
 }
