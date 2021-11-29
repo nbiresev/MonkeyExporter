@@ -120,9 +120,9 @@ namespace MonkeyExporter
             //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
 
             //var hasfifth = ClickOperatoins.HasFifthButton();
-            var has2nd = ClickOperatoins.HasSecondButton();
-            var hasthird = ClickOperatoins.HasThirdButton();
-            var hasFourht = ClickOperatoins.HasFourthButton();
+            //var has2nd = ClickOperatoins.HasSecondButton();
+            //var hasthird = ClickOperatoins.HasThirdButton();
+            //var hasFourht = ClickOperatoins.HasFourthButton();
             //var hasthAhkhadkdird = ClickOperatoins.HasThirdButton();
             //var iscall = CliAhkhadkdckOperatoins.SecondndButtonIsCall();
             //ClickOperatoins.SaveVsActionSolution("abs", "BBvsbet")
@@ -133,7 +133,7 @@ namespace MonkeyExporter
             //mouse.PointClick(TurnExporter.SelectPredifined);
             //Thread.Sleep(100);
             //mouse.PointClick(TurnExporter.NextActions);
-
+            var path = TurnExporter.GetOopRange("vsBet", "Js8d8s");
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
 

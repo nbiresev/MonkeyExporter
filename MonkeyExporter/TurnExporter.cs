@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PokerUtil;
 using System.Windows.Forms;
-
+using System.IO;
 
 namespace MonkeyExporter
 {
@@ -152,12 +152,115 @@ namespace MonkeyExporter
             mouse.PointClick(CloseRanges);
 
         }
-        public static string getIpRangePath(string board, int spotPosition)
-        {
-            string path = @"C:\Users\Sparta\Desktop\SavedSolution\";
 
-            return path;
+        public static string GetOopRange (string spot, string board)
+        {
+            if (spot == "check")
+            {
+                return @"C:\Users\Sparta\Desktop\SavedSolution\OopBetCheck\" + board + @"\check";
+            }
+            if (spot == "vsBet")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopVsBet\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("call"))
+                    {
+                        return file;
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+
+                }
+            }
+            if (spot == "vsRaise")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopVsRaise\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("call"))
+                    {
+                        return file;
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+                }
+            }
+            else
+            {
+                return "error";
+            }
+            return "error";
         }
+
+        public static string GetIpRange(string spot, string board)
+        {
+            if (spot == "check")
+            {
+                return @"C:\Users\Sparta\Desktop\SavedSolution\IpBetCheck\" + board + @"\check";
+            }
+            if (spot == "vsBet")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\IpVsBet\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("call"))
+                    {
+                        return file;
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+
+                }
+            }
+            if (spot == "vsRaise")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\IpVsRaise\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("call"))
+                    {
+                        return file;
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+                }
+            }
+            else
+            {
+                return "error";
+            }
+            return "error";
+        }
+
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         public static void OpenAllSolutions(int numOfSolutions)
         {
