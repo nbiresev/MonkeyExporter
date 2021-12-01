@@ -125,8 +125,8 @@ namespace MonkeyExporter
             //var path11 = TurnExporter.GetOopRange("check", "Js8d8s");
             //var path12 = TurnExporter.GetOopRange("vsBet", "Js8d8s");
             //var path13 = TurnExporter.GetOopRange("vsRaise", "Js8d8s");
-
-            TurnExporter.CreateFullTree();
+            TurnExporter.SaveSpot("Js8d8s", "CheckCheck");
+    //        TurnExporter.CreateFullTree();
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
 

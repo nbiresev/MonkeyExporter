@@ -66,8 +66,11 @@ namespace MonkeyExporter
         public static Point NextActions = new Point(922, 631);
 
         //SaveDialog
+        public static Point OpenSave = new Point(70, 80);
         public static Point fileName = new Point(791, 673);
-        public static Point Save = new Point(1304, 673);
+        public static Point saveSave = new Point(1304, 673);
+        public static Point includeRanges = new Point(1225, 510);
+        public static Point textSave = new Point(785, 680);
 
         //Ranges
         public static Point IpRange = new Point(292, 297);
@@ -83,9 +86,20 @@ namespace MonkeyExporter
         }
         public static void SaveSpot(string board, string Spot)
         {
+            Thread.Sleep(100);
+            mouse.PointClick(OpenSave);
+
             string SaveName = board + "_" + Spot;
 
-            mouse.PointClick(Save);
+            Thread.Sleep(500);
+            mouse.PointClick(includeRanges);
+            ClickOperatoins.SetClipboard(SaveName);
+            Thread.Sleep(500);
+            mouse.PointClick(textSave);
+            SendKeys.SendWait("^v");
+            Thread.Sleep(100);
+            mouse.PointClick(saveSave);
+            Thread.Sleep(100);
 
         }
         public static void CreateGameTree(Point street, string potsize, string stackLeft)
