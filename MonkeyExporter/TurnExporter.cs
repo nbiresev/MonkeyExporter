@@ -75,9 +75,22 @@ namespace MonkeyExporter
         //Ranges
         public static Point IpRange = new Point(292, 297);
         public static Point OopRange = new Point(618, 302);
-
         public static Point CloseRanges = new Point(875, 210);
 
+        // Solve
+        public static Point moveToSolve = new Point(180, 40);
+        public static Point scriptWindow = new Point(60, 110);
+
+        // Build Script View
+
+        public static Point selectTree = new Point(966, 420);
+        public static Point listOfBoardsText = new Point( 800,455);
+        public static Point nrOfIterationsText = new Point(820, 535);
+        public static Point listOfStacks = new Point(800, 480);
+        public static Point startScript = new Point(920, 635);
+
+        public static int scriptPos = 0;
+        public static List<string> flopSolutions = new List<string>();
         public static void CreateFullTree()
         {
             string board = "Js8d8s";
