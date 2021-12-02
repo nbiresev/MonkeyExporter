@@ -145,7 +145,6 @@ namespace MonkeyExporter
                         Thread.Sleep(1000);
 
         }
-
         public static void NavBack()
         {
             ClickOperatoins.mouse.PointClick(ClickOperatoins.backBtn);

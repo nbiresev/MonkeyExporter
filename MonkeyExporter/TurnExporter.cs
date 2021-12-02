@@ -84,6 +84,8 @@ namespace MonkeyExporter
         // Build Script View
 
         public static Point selectTree = new Point(966, 420);
+        public static Point firstTreePos = new Point(708, 381);
+        public static Point openTree = new Point(1280, 670);
         public static Point listOfBoardsText = new Point( 800,455);
         public static Point nrOfIterationsText = new Point(820, 535);
         public static Point listOfStacks = new Point(800, 480);
@@ -96,6 +98,29 @@ namespace MonkeyExporter
             string board = "Js8d8s";
             CreateGameTree(Turn, "13", "194");
             CopyRanges(board);
+
+        }
+
+        public static void buildScript (string board)
+        {
+            Thread.Sleep(100);
+            mouse.PointClick(moveToSolve);
+            Thread.Sleep(100);
+            mouse.PointClick(scriptWindow);
+            Thread.Sleep(100);
+            mouse.PointClick(selectTree);
+            // select correct script
+            Thread.Sleep(100);
+            mouse.PointClick(firstTreePos);
+            Thread.Sleep(100);
+            mouse.PointClick(openTree);
+            Thread.Sleep(100);
+            mouse.PointClick(nrOfIterationsText);
+            Thread.Sleep(100);
+            SendKeys.SendWait("50");
+            Thread.Sleep(100);
+            mouse.PointClick(startScript);
+            Thread.Sleep(100);
         }
         public static void SaveSpot(string board, string Spot)
         {
@@ -541,6 +566,16 @@ namespace MonkeyExporter
                 }
             }
             return false;
+        }
+        public static string CreateBoardString (string board)
+        {
+            string value = "";
+            var turnCards = GetRelevantTurnsForBoard(board);
+            foreach (var item in turnCards)
+            {
+                value += board + item + ',';
+            }
+            return value;
         }
 
     }

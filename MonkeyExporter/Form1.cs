@@ -121,15 +121,15 @@ namespace MonkeyExporter
             //var path = TurnExporter.GetIpRange("check", "Js8d8s");
             //var path1 = TurnExporter.GetIpRange("vsBet", "Js8d8s");
             //var path2 = TurnExporter.GetIpRange("vsRaise", "Js8d8s");
-
+            //var turncards = TurnExporter.CreateBoardString("Js8d8s");
             //var path11 = TurnExporter.GetOopRange("check", "Js8d8s");
             //var path12 = TurnExporter.GetOopRange("vsBet", "Js8d8s");
             //var path13 = TurnExporter.GetOopRange("vsRaise", "Js8d8s");
-            TurnExporter.SaveSpot("Js8d8s", "CheckCheck");
-    //        TurnExporter.CreateFullTree();
+            //    TurnExporter.SaveSpot("Js8d8s", "CheckCheck");
+            //        TurnExporter.CreateFullTree();
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
-
+            TurnExporter.buildScript("Js8d8s");
             // TurnExporter.CopyRanges("asd", "add");
             ;
         }
