@@ -109,6 +109,12 @@ namespace MonkeyExporter
             {
             }
         }
+
+        public static void GetTurnSolutionsWithExport(int flopCount)
+        {
+            ClickOperatoins.OpenAllSolutions(flopCount);
+
+        }
          
         public static void CreateFullTree(SolutionInformation flopInfo)
         {
@@ -197,12 +203,13 @@ namespace MonkeyExporter
                 return 0;
             }
             cropped.Save("c:/nenad/stacksize.png");
+            AutomationLib.ImageProcessing.BinarizeImage(ref cropped, 0.8);
+
             var bytes = Tesseract.ConvertToBytes(cropped);
             string result = Tesseract.ParseText(bytes);
             int res = Convert.ToInt32(result);
             return res;
         }
-
         public static int ReadPotsize()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");

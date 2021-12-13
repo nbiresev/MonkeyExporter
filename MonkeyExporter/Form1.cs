@@ -116,7 +116,7 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
-            var fertig = TurnExporter.isFinished();
+            //var fertig = TurnExporter.isFinished();
          //   var potsize = TurnExporter.ReadPotsize();
             var stacksize = TurnExporter.ReadStacksize();
             //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();

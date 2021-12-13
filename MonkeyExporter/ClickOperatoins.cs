@@ -8,6 +8,7 @@ using System.Threading;
 using System.Collections;
 using System.IO;
 using System.Drawing;
+using static MonkeyExporter.TurnExporter;
 
 namespace MonkeyExporter
 {
@@ -32,7 +33,7 @@ namespace MonkeyExporter
 
         public static Point copyToClip = new Point(1100, 500);
         public static Point saveOK = new Point(890, 615);
-
+        
 
         public static Point ChangeSultionPoint1 = new Point(338, 67);
         public static Point ChangeSultionPoint2 = new Point(422, 85);
@@ -45,7 +46,6 @@ namespace MonkeyExporter
         public static string savePath = @"C:\\Users\\Sparta\\Desktop\\SavedSolution\\";
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
 
-
         public static List<string> actions = new List<string>() { "Bet", "Raise", "Reraise", "Rereraise", "Rerereraise" };
         public static bool ip = false;
 
@@ -55,7 +55,8 @@ namespace MonkeyExporter
 
         public static void OpenAllSolutions(int numOfSolutions)
         {
-
+            List<SolutionInformation> solutions = new List<SolutionInformation>();
+            
             for (int i = 0; i < numOfSolutions; i++)
             {
                 OpenSolutionOneStreet(i);
@@ -528,9 +529,13 @@ namespace MonkeyExporter
             }
             return nrOf;
         }
-        public static void ReadSolution()
+        public static SolutionInformation ReadSolution()
         {
+            SolutionInformation solInfo = new SolutionInformation();
             string board = GetBoard();
+            solInfo.board = board;
+            int potsize = TurnExporter.ReadPotsize();
+            int stacksize = TurnExporter.ReadStacksize();
             string betsize1 = "";
             string betsize2 = "";
             bool twosizes = HasFourthButton();
@@ -574,6 +579,9 @@ namespace MonkeyExporter
                     ReadIpTreeSingleSize(board, betsize1);
                 }
             }
+            solInfo.flopPotsize = potsize;
+            solInfo.flopStack = stacksize;
+            return solInfo;
         }
         public static void ReadSolutionWithBoardManuel(string board)
         {
