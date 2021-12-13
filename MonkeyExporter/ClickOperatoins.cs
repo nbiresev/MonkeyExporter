@@ -53,15 +53,17 @@ namespace MonkeyExporter
 
         public static string actionHistory = "";
 
-        public static void OpenAllSolutions(int numOfSolutions)
+        public static List<SolutionInformation> OpenAllSolutions(int numOfSolutions)
         {
             List<SolutionInformation> solutions = new List<SolutionInformation>();
             
             for (int i = 0; i < numOfSolutions; i++)
             {
                 OpenSolutionOneStreet(i);
-                ReadSolution();
+                var info = ReadSolution();
+                solutions.Add(info);
             }
+            return solutions;
         }
         public static void OpenSolutionOneStreet(int solutionsPosition)
         {
@@ -544,39 +546,43 @@ namespace MonkeyExporter
             {
                 betsize1 = ReadBetsizeFrom3rdBtn();
 
-                ReadOopTreeSingleSize(board, betsize1);
+                ReadOopTreeSingleSize(board, betsize1,ref solInfo);
+                solInfo.flopOopBetsize = Convert.ToInt32(betsize1);
+
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
 
-                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2, ref solInfo);
                 }
                 else
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
-                    ReadIpTreeSingleSize(board, betsize1);
+                    solInfo.flopIpBetsize = Convert.ToInt32(betsize1);
+                    ReadIpTreeSingleSize(board, betsize1, ref solInfo);
                 }
             }
             else
             {
                 betsize1 = ReadBetsizeFrom3rdBtn();
                 betsize2 = ReadBetsizeFrom4thBtn();
-                ReadOopTreeTwoSize(board, betsize1, betsize2);
+                ReadOopTreeTwoSize(board, betsize1, betsize2, ref solInfo);
+                solInfo.flopOopBetsize = Convert.ToInt32(betsize1);
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
-
-                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                    solInfo.flopIpBetsize = Convert.ToInt32(betsize1);
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2, ref solInfo);
                 }
                 else
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
-
-                    ReadIpTreeSingleSize(board, betsize1);
+                    solInfo.flopIpBetsize = Convert.ToInt32(betsize1);
+                    ReadIpTreeSingleSize(board, betsize1, ref solInfo);
                 }
             }
             solInfo.flopPotsize = potsize;
@@ -589,47 +595,47 @@ namespace MonkeyExporter
             string betsize2 = "";
             bool twosizes = HasFourthButton();
 
-
+            SolutionInformation solInfo = new SolutionInformation();
 
 
             if (HasFourthButton() == false)
             {
                 betsize1 = ReadBetsizeFrom3rdBtn();
 
-                ReadOopTreeSingleSize(board, betsize1);
+                ReadOopTreeSingleSize(board, betsize1, ref solInfo);
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
                     Thread.Sleep(500);
-                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2, ref solInfo);
                 }
                 else
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     Thread.Sleep(500);
-                    ReadIpTreeSingleSize(board, betsize1);
+                    ReadIpTreeSingleSize(board, betsize1, ref solInfo);
                 }
             }
             else
             {
                 betsize1 = ReadBetsizeFrom3rdBtn();
                 betsize2 = ReadBetsizeFrom4thBtn();
-                ReadOopTreeTwoSize(board, betsize1, betsize2);
+                ReadOopTreeTwoSize(board, betsize1, betsize2, ref solInfo);
                 mouse.PointClick(checkBtn);
                 if (HasFourthButton())
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
                     betsize2 = ReadBetsizeFrom4thBtn();
 
-                    ReadIpTreeTwoSizes(board, betsize1, betsize2);
+                    ReadIpTreeTwoSizes(board, betsize1, betsize2, ref solInfo);
                 }
                 else
                 {
                     betsize1 = ReadBetsizeFrom3rdBtn();
 
-                    ReadIpTreeSingleSize(board, betsize1);
+                    ReadIpTreeSingleSize(board, betsize1, ref solInfo);
                 }
             }
         }
@@ -733,7 +739,7 @@ namespace MonkeyExporter
                 }
             }
         }
-        public static void ReadOopTreeSingleSize(string board, string betsize)
+        public static void ReadOopTreeSingleSize(string board, string betsize, ref SolutionInformation solInfo)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             SaveBetSolution(board, "OopBetCheck");
@@ -744,11 +750,11 @@ namespace MonkeyExporter
             //  SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             Thread.Sleep(1000);
             string raiseSize = ReadBetsizeFrom3rdBtn();
-
+            solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
             ImportNextAction(image1, board, raiseSize);
 
         }
-        public static void ReadOopTreeTwoSize(string board, string betsize, string betsize2)
+        public static void ReadOopTreeTwoSize(string board, string betsize, string betsize2, ref SolutionInformation solInfo)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             SaveTwoBetsizeSolution(board, "OopBetCheck", betsize, betsize2);
@@ -759,6 +765,7 @@ namespace MonkeyExporter
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
 
             string raiseSize = ReadBetsizeFrom3rdBtn();
+            solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
 
             if (HasSecondButton())
             {
@@ -793,7 +800,7 @@ namespace MonkeyExporter
             }
 
         }
-        public static void ReadIpTreeSingleSize(string board, string betsize)
+        public static void ReadIpTreeSingleSize(string board, string betsize, ref SolutionInformation solInfo)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             SaveBetSolution(board, "IpBetCheck");
@@ -804,11 +811,12 @@ namespace MonkeyExporter
             ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
+            solInfo.flopOopRaiseSize = Convert.ToInt32(raiseSize);
 
             ImportNextAction(image1, board, raiseSize);
 
         }
-        public static void ReadIpTreeTwoSizes(string board, string betsize, string betsize2)
+        public static void ReadIpTreeTwoSizes(string board, string betsize, string betsize2, ref SolutionInformation solInfo)
         {
             var image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
             SaveTwoBetsizeSolution(board, "IpBetCheck", betsize, betsize2);
@@ -818,6 +826,7 @@ namespace MonkeyExporter
             ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
+            solInfo.flopOopRaiseSize = Convert.ToInt32(raiseSize);
 
             if (HasSecondButton())
             {

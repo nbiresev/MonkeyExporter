@@ -25,6 +25,9 @@ namespace MonkeyExporter
     {
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
 
+        public static Point StopCalc = new Point(25,110);
+        public static Point ConfirmStop = new Point(900,550);
+        public static Point MoveToTree = new Point(60, 45);
         public static Point NewButton = new Point(30, 80);
         public static Point SaveTree = new Point(66, 80);
         public static Point RangeBtn = new Point(150, 80);
@@ -92,8 +95,7 @@ namespace MonkeyExporter
         public static Point listOfStacks = new Point(800, 480);
         public static Point startScript = new Point(920, 635);
 
-        public static int scriptPos = 0;
-        public static List<string> flopSolutions = new List<string>();
+        public static int nrOfSolutions = 0;
 
         public class SolutionInformation
         {
@@ -102,6 +104,8 @@ namespace MonkeyExporter
             public int turnPotsize;
             public int flopIpBetsize;
             public int flopOopBetsize;
+            public int flopIpRaiseSize;
+            public int flopOopRaiseSize;
             public int flopStack;
             public int turnStacksize;
             public int SolutionSavePos;
@@ -112,15 +116,53 @@ namespace MonkeyExporter
 
         public static void GetTurnSolutionsWithExport(int flopCount)
         {
-            ClickOperatoins.OpenAllSolutions(flopCount);
+            nrOfSolutions = 0;
+            var infos = ClickOperatoins.OpenAllSolutions(flopCount);
+            mouse.PointClick(StopCalc);
+            Thread.Sleep(100);
+            mouse.PointClick(ConfirmStop);
+            Thread.Sleep(500);
+            mouse.PointClick(MoveToTree);
+            Thread.Sleep(1000);
+            
+            foreach (var sol in infos)
+            {
+                // create cctree, betcall, checkbetcall, betraisecall, checkbetraisecall
+                CreateFullTree(sol, "check", "check", sol.flopPotsize, sol.flopStack);
 
+                // oopbet ip callt
+                double turnBetsizeOop = sol.flopPotsize * (sol.flopOopBetsize / 100.0);
+                double turnPsOopbet = sol.flopPotsize + (2 * turnBetsizeOop);
+                double turnStackoopBet = sol.flopStack - sol.flopOopBetsize;
+                CreateFullTree(sol, "vsBet", "call", turnPsOopbet, turnStackoopBet);
+
+                // oop bet ip raise oop call
+                double raiseSizeIp = turnPsOopbet * (sol.flopIpRaiseSize/100.0);
+                double turnPSoopvsRaise = turnPsOopbet + (2 * raiseSizeIp);
+                double turnStacvsRaise = turnStackoopBet - sol.flopIpRaiseSize;
+                CreateFullTree(sol, "vsRaise", "raise", turnPSoopvsRaise, turnStacvsRaise);
+
+                //ip bettet oop callt
+                double turnBetsizeIp = sol.flopPotsize * (sol.flopIpBetsize/100.0);
+                double turnPSIpbet = sol.flopPotsize + (2 * turnBetsizeIp);
+                double turnStacklIpBet = sol.flopStack - sol.flopIpBetsize;
+                CreateFullTree(sol, "vsBet", "bet", turnPSIpbet, turnStacklIpBet);
+
+                // ip bet oop raist oop callt
+                double raiseSizeOop = turnPSIpbet  * (sol.flopIpRaiseSize / 100.0);
+                double turnPSIpvsRaise = turnPSIpbet + (2 * raiseSizeOop);
+                double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
+                CreateFullTree(sol, "vsRaise", "raise", turnPSIpvsRaise, turnStacvsRaiseIp);
+            }
+            ;
         }
-         
-        public static void CreateFullTree(SolutionInformation flopInfo)
+        public static void CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
             string board = flopInfo.board;
-            CreateGameTree(Turn, flopInfo.turnPotsize.ToString() , flopInfo.turnStacksize.ToString());
-            CopyRanges(board);
+            CreateGameTree(Turn, turnPotsize.ToString(), turnStacksize.ToString());
+            CopyRanges(board,oopAction,ipAction);
+            SaveSpot(flopInfo.board, oopAction + ipAction);
+            nrOfSolutions++;
         }
         public static void buildScript (SolutionInformation flopInfo)
         {
@@ -225,6 +267,7 @@ namespace MonkeyExporter
                 return 0;
             }
             cropped.Save("c:/nenad/potsize.png");
+            AutomationLib.ImageProcessing.BinarizeImage(ref cropped, 0.8);
             var bytes = Tesseract.ConvertToBytes(cropped);
             string result = Tesseract.ParseText(bytes);
             int res = Convert.ToInt32(result);
@@ -295,18 +338,16 @@ namespace MonkeyExporter
             mouse.PointClick(SelectPredifined);
             Thread.Sleep(100);
             mouse.PointClick(NextActions);
-
-
             ;
         }
-        public static void CopyRanges(string board)
+        public static void CopyRanges(string board, string oopAction, string ipActions)
         {
             mouse.PointClick(RangeBtn);
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 
             mouse.PointClick(IpRange);
             Thread.Sleep(100);
-            string ipPath = GetIpRange("check", board);
+            string ipPath = GetIpRange(oopAction, board);
             string ipRangeString = File.ReadAllText(ipPath, Encoding.UTF8);
             ClickOperatoins.SetClipboard(ipRangeString);
             Thread.Sleep(1000);
@@ -317,7 +358,7 @@ namespace MonkeyExporter
 
             mouse.PointClick(OopRange);
             Thread.Sleep(100);
-            string oopPath = GetOopRange("check", board);
+            string oopPath = GetOopRange(oopAction, board);
             string oopRangeString = File.ReadAllText(oopPath, Encoding.UTF8);
             ClickOperatoins.SetClipboard(oopRangeString);
             Thread.Sleep(1000);
@@ -325,7 +366,6 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
             ClickOperatoins.ClearClip();
             mouse.PointClick(CloseRanges);
-
         }
         public static string GetOopRange (string spot, string board)
         {
@@ -338,6 +378,20 @@ namespace MonkeyExporter
                     var actValueSplitted = file.Split('-');
 
                     if (actValueSplitted[0].Contains("check"))
+                    {
+                        return file;
+                    }
+                }
+            }
+            if (spot == "bet")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopBetCheck\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("bet"))
                     {
                         return file;
                     }
@@ -381,6 +435,27 @@ namespace MonkeyExporter
                     }
                 }
             }
+            if (spot == "raise")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\OopVsBet\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("raise"))
+                    {
+                        return file;
+                    }
+                    else
+                    {
+                        return "error";
+                    }
+                }
+            }
+
             else
             {
                 return "error";
@@ -398,6 +473,20 @@ namespace MonkeyExporter
                     var actValueSplitted = file.Split('-');
 
                     if (actValueSplitted[0].Contains("check"))
+                    {
+                        return file;
+                    }
+                }
+            }
+            if (spot == "bet")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\IpBetCheck\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("bet"))
                     {
                         return file;
                     }
@@ -449,6 +538,7 @@ namespace MonkeyExporter
             }
             return "error";
         }
+
         public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
         public static void OpenAllSolutions(int numOfSolutions)
         {
