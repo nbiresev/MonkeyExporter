@@ -133,19 +133,19 @@ namespace MonkeyExporter
                 // oopbet ip callt
                 double turnBetsizeOop = sol.flopPotsize * (sol.flopOopBetsize / 100.0);
                 double turnPsOopbet = sol.flopPotsize + (2 * turnBetsizeOop);
-                double turnStackoopBet = sol.flopStack - sol.flopOopBetsize;
+                double turnStackoopBet = sol.flopStack - turnBetsizeOop;
                 CreateFullTree(sol, "vsBet", "call", turnPsOopbet, turnStackoopBet);
 
                 // oop bet ip raise oop call
                 double raiseSizeIp = turnPsOopbet * (sol.flopIpRaiseSize/100.0);
                 double turnPSoopvsRaise = turnPsOopbet + (2 * raiseSizeIp);
-                double turnStacvsRaise = turnStackoopBet - sol.flopIpRaiseSize;
+                double turnStacvsRaise = turnStackoopBet - raiseSizeIp;
                 CreateFullTree(sol, "vsRaise", "raise", turnPSoopvsRaise, turnStacvsRaise);
 
                 //ip bettet oop callt
                 double turnBetsizeIp = sol.flopPotsize * (sol.flopIpBetsize/100.0);
                 double turnPSIpbet = sol.flopPotsize + (2 * turnBetsizeIp);
-                double turnStacklIpBet = sol.flopStack - sol.flopIpBetsize;
+                double turnStacklIpBet = sol.flopStack - turnBetsizeIp;
                 CreateFullTree(sol, "vsBet", "bet", turnPSIpbet, turnStacklIpBet);
 
                 // ip bet oop raist oop callt
