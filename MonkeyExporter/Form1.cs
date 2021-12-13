@@ -116,6 +116,9 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            var fertig = TurnExporter.isFinished();
+         //   var potsize = TurnExporter.ReadPotsize();
+            var stacksize = TurnExporter.ReadStacksize();
             //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
             //var path = TurnExporter.GetIpRange("check", "Js8d8s");
@@ -129,7 +132,7 @@ namespace MonkeyExporter
             //        TurnExporter.CreateFullTree();
             //var size = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var size2 = ClickOperatoins.ReadBetsizeFrom4thBtn();
-            TurnExporter.buildScript("Js8d8s");
+            // TurnExporter.buildScript("Js8d8s");
             // TurnExporter.CopyRanges("asd", "add");
             ;
         }

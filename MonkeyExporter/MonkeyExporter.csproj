@@ -59,6 +59,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutomationLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\AutomationLib.dll</HintPath>
+    </Reference>
     <Reference Include="HumanMouse">
       <HintPath>Libs\HumanMouse.dll</HintPath>
     </Reference>
@@ -111,6 +115,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include=".editorconfig" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -166,6 +171,7 @@
     <Content Include="Images\HasThirdButton.png" />
     <Content Include="Images\HasFourthButton.png" />
     <Content Include="Images\readSolution.png" />
+    <Content Include="Libs\AutomationLib.dll" />
     <Content Include="Libs\MouseKeyboardActivityMonitor.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

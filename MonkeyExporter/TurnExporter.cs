@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using PokerUtil;
 using System.Windows.Forms;
 using System.IO;
+using AutomationLib;
 
 namespace MonkeyExporter
 {
@@ -32,7 +33,7 @@ namespace MonkeyExporter
         public List<string> spotsOop = new List<string>() { "OopBetCheck", "OopVsBet", "OopVsRaise" };
         public static List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
 
-        public List<Tuple<string, string>> pathKombos = new List<Tuple<string, string>>(); 
+        public List<Tuple<string, string>> pathKombos = new List<Tuple<string, string>>();
 
         // New Tree Window 1
         public static Point GameType = new Point(700, 525);
@@ -86,22 +87,36 @@ namespace MonkeyExporter
         public static Point selectTree = new Point(966, 420);
         public static Point firstTreePos = new Point(708, 381);
         public static Point openTree = new Point(1280, 670);
-        public static Point listOfBoardsText = new Point( 800,455);
+        public static Point listOfBoardsText = new Point(800, 455);
         public static Point nrOfIterationsText = new Point(820, 535);
         public static Point listOfStacks = new Point(800, 480);
         public static Point startScript = new Point(920, 635);
 
         public static int scriptPos = 0;
         public static List<string> flopSolutions = new List<string>();
-        public static void CreateFullTree()
+
+        public class SolutionInformation
         {
-            string board = "Js8d8s";
-            CreateGameTree(Turn, "13", "194");
-            CopyRanges(board);
-
+            public string board;
+            public int flopPotsize;
+            public int turnPotsize;
+            public int flopIpBetsize;
+            public int flopOopBetsize;
+            public int flopStack;
+            public int turnStacksize;
+            public int SolutionSavePos;
+            public SolutionInformation()
+            {
+            }
         }
-
-        public static void buildScript (string board)
+         
+        public static void CreateFullTree(SolutionInformation flopInfo)
+        {
+            string board = flopInfo.board;
+            CreateGameTree(Turn, flopInfo.turnPotsize.ToString() , flopInfo.turnStacksize.ToString());
+            CopyRanges(board);
+        }
+        public static void buildScript (SolutionInformation flopInfo)
         {
             Thread.Sleep(100);
             mouse.PointClick(moveToSolve);
@@ -109,18 +124,104 @@ namespace MonkeyExporter
             mouse.PointClick(scriptWindow);
             Thread.Sleep(100);
             mouse.PointClick(selectTree);
+
             // select correct script
             Thread.Sleep(100);
             mouse.PointClick(firstTreePos);
+
+            for (int i = 0; i < flopInfo.SolutionSavePos; i++)
+            {
+                SendKeys.SendWait("{DOWN}");
+                Thread.Sleep(10);
+            }
+            flopInfo.SolutionSavePos++;
+
             Thread.Sleep(100);
             mouse.PointClick(openTree);
             Thread.Sleep(100);
             mouse.PointClick(nrOfIterationsText);
+            mouse.PointClick(nrOfIterationsText);
             Thread.Sleep(100);
-            SendKeys.SendWait("50");
+            SendKeys.SendWait("100");
             Thread.Sleep(100);
             mouse.PointClick(startScript);
             Thread.Sleep(100);
+            
+        }
+        public static bool isFinished()
+        {
+            var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+
+            Rectangle Area = new Rectangle(new Point(137, 285), new Size(90, 16));
+
+            var img = PrimitiveActions.CaptureWindowImage(handle);
+            img.Save("c:/nenad/full.png");
+
+            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            if (cropped == null)
+            {
+                return false;
+            }
+            cropped.Save("c:/nenad/cropped.png");
+            var bytes = Tesseract.ConvertToBytes(cropped);
+            try
+            {
+                string result = Tesseract.ParseText(bytes);
+                double res = Convert.ToDouble(result);
+                if (res > 100000000.00)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+           catch(Exception e) 
+            {
+                return false;
+            }
+        }
+        public static int ReadStacksize()
+        {
+            var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+
+            Rectangle Area = new Rectangle(new Point(170, 581), new Size(43, 40));
+
+            var img = PrimitiveActions.CaptureWindowImage(handle);
+            img.Save("c:/nenad/full.png");
+
+            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            if (cropped == null)
+            {
+                return 0;
+            }
+            cropped.Save("c:/nenad/stacksize.png");
+            var bytes = Tesseract.ConvertToBytes(cropped);
+            string result = Tesseract.ParseText(bytes);
+            int res = Convert.ToInt32(result);
+            return res;
+        }
+
+        public static int ReadPotsize()
+        {
+            var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+
+            Rectangle Area = new Rectangle(new Point(140, 747), new Size(30, 30));
+
+            var img = PrimitiveActions.CaptureWindowImage(handle);
+            img.Save("c:/nenad/full.png");
+
+            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            if (cropped == null)
+            {
+                return 0;
+            }
+            cropped.Save("c:/nenad/potsize.png");
+            var bytes = Tesseract.ConvertToBytes(cropped);
+            string result = Tesseract.ParseText(bytes);
+            int res = Convert.ToInt32(result);
+            return res;
         }
         public static void SaveSpot(string board, string Spot)
         {
