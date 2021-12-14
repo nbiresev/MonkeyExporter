@@ -96,7 +96,7 @@ namespace MonkeyExporter
         public static Point startScript = new Point(920, 635);
 
         public static int nrOfSolutions = 0;
-
+        public static int currentSolPos = 0;
         public class SolutionInformation
         {
             public string board;
@@ -134,7 +134,7 @@ namespace MonkeyExporter
                 double turnBetsizeOop = sol.flopPotsize * (sol.flopOopBetsize / 100.0);
                 double turnPsOopbet = sol.flopPotsize + (2 * turnBetsizeOop);
                 double turnStackoopBet = sol.flopStack - turnBetsizeOop;
-                CreateFullTree(sol, "vsBet", "call", turnPsOopbet, turnStackoopBet);
+                CreateFullTree(sol, "bet", "vsBet", turnPsOopbet, turnStackoopBet);
 
                 // oop bet ip raise oop call
                 double raiseSizeIp = turnPsOopbet * (sol.flopIpRaiseSize/100.0);
@@ -154,7 +154,11 @@ namespace MonkeyExporter
                 double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
                 CreateFullTree(sol, "vsRaise", "raise", turnPSIpvsRaise, turnStacvsRaiseIp);
             }
-            ;
+
+            for (int i = 0; i < nrOfSolutions; i++)
+            {
+
+            }
         }
         public static void CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
@@ -164,7 +168,7 @@ namespace MonkeyExporter
             SaveSpot(flopInfo.board, oopAction + ipAction);
             nrOfSolutions++;
         }
-        public static void buildScript (SolutionInformation flopInfo)
+        public static void buildScript (string nrOfIterations, string flop)
         {
             Thread.Sleep(100);
             mouse.PointClick(moveToSolve);
@@ -177,12 +181,12 @@ namespace MonkeyExporter
             Thread.Sleep(100);
             mouse.PointClick(firstTreePos);
 
-            for (int i = 0; i < flopInfo.SolutionSavePos; i++)
+            for (int i = 0; i < currentSolPos; i++)
             {
                 SendKeys.SendWait("{DOWN}");
                 Thread.Sleep(10);
             }
-            flopInfo.SolutionSavePos++;
+            currentSolPos++;
 
             Thread.Sleep(100);
             mouse.PointClick(openTree);
@@ -190,7 +194,21 @@ namespace MonkeyExporter
             mouse.PointClick(nrOfIterationsText);
             mouse.PointClick(nrOfIterationsText);
             Thread.Sleep(100);
-            SendKeys.SendWait("100");
+            SendKeys.SendWait(nrOfIterations);
+            Thread.Sleep(100);
+            string listOfBoards = CreateBoardString(flop);
+            ClickOperatoins.SetClipboard(listOfBoards);
+            Thread.Sleep(1000);
+            mouse.PointClick(listOfBoardsText);
+            mouse.PointClick(listOfBoardsText);
+            mouse.PointClick(listOfBoardsText);
+
+            SendKeys.SendWait("^v");
+
+
+            Thread.Sleep(100);
+
+
             Thread.Sleep(100);
             mouse.PointClick(startScript);
             Thread.Sleep(100);
@@ -347,7 +365,7 @@ namespace MonkeyExporter
 
             mouse.PointClick(IpRange);
             Thread.Sleep(100);
-            string ipPath = GetIpRange(oopAction, board);
+            string ipPath = GetIpRange(ipActions, board);
             string ipRangeString = File.ReadAllText(ipPath, Encoding.UTF8);
             ClickOperatoins.SetClipboard(ipRangeString);
             Thread.Sleep(1000);
@@ -409,10 +427,6 @@ namespace MonkeyExporter
                     {
                         return file;
                     }
-                    else
-                    {
-                        return "error";
-                    }
                 }
             }
             if (spot == "vsRaise")
@@ -428,10 +442,6 @@ namespace MonkeyExporter
                     if (actValueSplitted[0].Contains("call"))
                     {
                         return file;
-                    }
-                    else
-                    {
-                        return "error";
                     }
                 }
             }
@@ -449,13 +459,8 @@ namespace MonkeyExporter
                     {
                         return file;
                     }
-                    else
-                    {
-                        return "error";
-                    }
                 }
             }
-
             else
             {
                 return "error";
@@ -506,11 +511,24 @@ namespace MonkeyExporter
                     {
                         return file;
                     }
-                    else
+                }
+            }
+            if (spot == "raise")
+            {
+                string folder = @"C:\Users\Sparta\Desktop\SavedSolution\IpVsBet\" + board;
+                var files = Directory.GetFiles(folder, "*.txt");
+
+
+                foreach (var file in files)
+                {
+                    var actValueSplitted = file.Split('-');
+
+                    if (actValueSplitted[0].Contains("raise"))
                     {
-                        return "error";
+                        return file;
                     }
                 }
+
             }
             if (spot == "vsRaise")
             {
@@ -525,10 +543,6 @@ namespace MonkeyExporter
                     if (actValueSplitted[0].Contains("call"))
                     {
                         return file;
-                    }
-                    else
-                    {
-                        return "error";
                     }
                 }
             }
@@ -722,8 +736,6 @@ namespace MonkeyExporter
                         blanks.Add(item);
                     }
                 }
-
-
 
             }
             var straightwodup = DeleteDuplicats(straightouts);

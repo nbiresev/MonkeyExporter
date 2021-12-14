@@ -116,12 +116,13 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
-            //var fertig = TurnExporter.isFinished();
-            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
-            TurnExporter.GetTurnSolutionsWithExport(fCount);
+            //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
+            //TurnExporter.GetTurnSolutionsWithExport(fCount);
 
-            var potsize = TurnExporter.ReadPotsize();
-            var stacksize = TurnExporter.ReadStacksize();
+            TurnExporter.buildScript("50", "Js8d8s");
+
+            //var potsize = TurnExporter.ReadPotsize();
+            //var stacksize = TurnExporter.ReadStacksize();
             //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
             //var path = TurnExporter.GetIpRange("check", "Js8d8s");
