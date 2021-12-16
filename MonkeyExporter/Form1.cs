@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using static MonkeyExporter.TurnExporter;
 
 namespace MonkeyExporter
 {
@@ -116,10 +117,22 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            //var info = new SolutionInformation();
+            //info.board = "AsJs9d";
+            //info.flopStack = 176;
+            //info.flopPotsize = 48;
+            //info.flopIpBetsize = 24;
+            //info.flopIpRaiseSize = 100;
+            //info.flopOopBetsize = 24;
+            //info.flopOopRaiseSize = 100;
+
+            // TurnExporter.buildScript("50", info.board);
+            var finished = isFinished(50.0);
+            ;
             //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
             //TurnExporter.GetTurnSolutionsWithExport(fCount);
 
-            TurnExporter.buildScript("50", "Js8d8s");
+            //TurnExporter.buildScript("50", "Js8d8s");
 
             //var potsize = TurnExporter.ReadPotsize();
             //var stacksize = TurnExporter.ReadStacksize();

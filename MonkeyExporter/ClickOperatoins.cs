@@ -59,7 +59,7 @@ namespace MonkeyExporter
             
             for (int i = 0; i < numOfSolutions; i++)
             {
-                OpenSolutionOneStreet(i);
+                OpenSolutionOneStreet(i + 1);
                 var info = ReadSolution();
                 solutions.Add(info);
             }
@@ -451,7 +451,10 @@ namespace MonkeyExporter
         public static string ReadBetsizeFrom3rdBtn()
         {
             var image1 = SubImageFinder.PrintScreen(ActionTwoPart, new Size(25, 13));
-
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\SingleBetsize33.png")))
+            {
+                return "33";
+            }
             if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\SingleBetsize66.png")))
             {
                 return "66";
@@ -460,6 +463,11 @@ namespace MonkeyExporter
             {
                 return "50";
             }
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButtonHalf.png")))
+            {
+                return "50";
+            }
+
             if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton60.png")))
             {
                 return "60";
@@ -479,7 +487,8 @@ namespace MonkeyExporter
                 image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButtonXX.png");
 
                 Console.WriteLine("betsize could not be read for third button");
-                throw new Exception("Betsize Not Read");
+                // throw new Exception("Betsize Not Read");
+                return "66";
             }
         }
         public static string ReadBetsizeFrom4thBtn()
@@ -499,7 +508,8 @@ namespace MonkeyExporter
             {
                 image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\FourthButtonXX.png");
                 Console.WriteLine("betsize could not be read for fourth button");
-                throw new Exception("Betsize Not Read");
+                // throw new Exception("Betsize Not Read");
+                return "100";
             }
         }
         public static int NumberOfOptions()

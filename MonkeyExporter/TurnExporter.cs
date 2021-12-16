@@ -117,16 +117,22 @@ namespace MonkeyExporter
         public static void GetTurnSolutionsWithExport(int flopCount)
         {
             nrOfSolutions = 0;
-            var infos = ClickOperatoins.OpenAllSolutions(flopCount);
-            mouse.PointClick(StopCalc);
+            mouse.PointClick(moveToSolve);
             Thread.Sleep(100);
-            mouse.PointClick(ConfirmStop);
-            Thread.Sleep(500);
-            mouse.PointClick(MoveToTree);
-            Thread.Sleep(1000);
-            
-            foreach (var sol in infos)
-            {
+            int solutionCounter = 0;
+
+            for (int i = 0; i < flopCount; i++)
+                {
+                ClickOperatoins.OpenSolutionOneStreet(solutionCounter + 1);
+                var sol = ClickOperatoins.ReadSolution();
+                solutionCounter++;
+                mouse.PointClick(StopCalc);
+                Thread.Sleep(100);
+                mouse.PointClick(ConfirmStop);
+                Thread.Sleep(500);
+                mouse.PointClick(MoveToTree);
+                Thread.Sleep(1000);
+
                 // create cctree, betcall, checkbetcall, betraisecall, checkbetraisecall
                 CreateFullTree(sol, "check", "check", sol.flopPotsize, sol.flopStack);
 
@@ -153,12 +159,30 @@ namespace MonkeyExporter
                 double turnPSIpvsRaise = turnPSIpbet + (2 * raiseSizeOop);
                 double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
                 CreateFullTree(sol, "vsRaise", "raise", turnPSIpvsRaise, turnStacvsRaiseIp);
+
+                    
+                buildScript("50", sol.board);
+                currentSolPos++;
+                Thread.Sleep(108000000);
+
+                buildScript("50", sol.board);
+                currentSolPos++;
+                Thread.Sleep(108000000);
+
+                buildScript("50", sol.board);
+                currentSolPos++;
+                Thread.Sleep(108000000);
+
+                buildScript("50", sol.board);
+                currentSolPos++;
+                Thread.Sleep(108000000);
+
+                buildScript("50", sol.board);
+                currentSolPos++;
+                Thread.Sleep(108000000);
+                // here call is finished at some point
             }
 
-            for (int i = 0; i < nrOfSolutions; i++)
-            {
-
-            }
         }
         public static void CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
@@ -184,41 +208,36 @@ namespace MonkeyExporter
             for (int i = 0; i < currentSolPos; i++)
             {
                 SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(10);
+                Thread.Sleep(100);
             }
             currentSolPos++;
-
-            Thread.Sleep(100);
+            Thread.Sleep(2000);
             mouse.PointClick(openTree);
-            Thread.Sleep(100);
-            mouse.PointClick(nrOfIterationsText);
-            mouse.PointClick(nrOfIterationsText);
-            Thread.Sleep(100);
-            SendKeys.SendWait(nrOfIterations);
-            Thread.Sleep(100);
+
             string listOfBoards = CreateBoardString(flop);
-            ClickOperatoins.SetClipboard(listOfBoards);
             Thread.Sleep(1000);
             mouse.PointClick(listOfBoardsText);
             mouse.PointClick(listOfBoardsText);
             mouse.PointClick(listOfBoardsText);
-
+            ClickOperatoins.SetClipboard(listOfBoards);
+            Thread.Sleep(1000);
             SendKeys.SendWait("^v");
-
-
-            Thread.Sleep(100);
-
-
-            Thread.Sleep(100);
+            Thread.Sleep(2000);
+            mouse.PointClick(nrOfIterationsText);
+            mouse.PointClick(nrOfIterationsText);
+            mouse.PointClick(nrOfIterationsText);
+            Thread.Sleep(500);
+            SendKeys.SendWait(nrOfIterations);
+            Thread.Sleep(500);
+            Thread.Sleep(500);
             mouse.PointClick(startScript);
-            Thread.Sleep(100);
-            
+            Thread.Sleep(500);
         }
-        public static bool isFinished()
+        public static bool isFinished(double numberOfNodes)
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
 
-            Rectangle Area = new Rectangle(new Point(137, 285), new Size(90, 16));
+            Rectangle Area = new Rectangle(new Point(137, 321), new Size(55, 13));
 
             var img = PrimitiveActions.CaptureWindowImage(handle);
             img.Save("c:/nenad/full.png");
@@ -234,7 +253,8 @@ namespace MonkeyExporter
             {
                 string result = Tesseract.ParseText(bytes);
                 double res = Convert.ToDouble(result);
-                if (res > 100000000.00)
+                Console.WriteLine(res);
+                if (res > numberOfNodes)
                 {
                     return true;
                 }
@@ -267,14 +287,22 @@ namespace MonkeyExporter
 
             var bytes = Tesseract.ConvertToBytes(cropped);
             string result = Tesseract.ParseText(bytes);
-            int res = Convert.ToInt32(result);
+            int res = 0;
+            try
+            {
+                 res = Convert.ToInt32(result);
+            }
+            catch(Exception e)
+            {
+                res = 177;
+            }
             return res;
         }
         public static int ReadPotsize()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
 
-            Rectangle Area = new Rectangle(new Point(140, 747), new Size(30, 30));
+            Rectangle Area = new Rectangle(new Point(140, 750), new Size(25, 25));
 
             var img = PrimitiveActions.CaptureWindowImage(handle);
             img.Save("c:/nenad/full.png");
@@ -288,7 +316,16 @@ namespace MonkeyExporter
             AutomationLib.ImageProcessing.BinarizeImage(ref cropped, 0.8);
             var bytes = Tesseract.ConvertToBytes(cropped);
             string result = Tesseract.ParseText(bytes);
-            int res = Convert.ToInt32(result);
+            int res = 0;
+
+            try
+            {
+                res = Convert.ToInt32(result);
+            }
+            catch (Exception e)
+            {
+                res = 13;
+            }
             return res;
         }
         public static void SaveSpot(string board, string Spot)
@@ -296,9 +333,9 @@ namespace MonkeyExporter
             Thread.Sleep(100);
             mouse.PointClick(OpenSave);
 
-            string SaveName = board + "_" + Spot;
+            string SaveName = currentSolPos.ToString() + board + "_" + Spot;
 
-            Thread.Sleep(500);
+            Thread.Sleep(5000);
             mouse.PointClick(includeRanges);
             ClickOperatoins.SetClipboard(SaveName);
             Thread.Sleep(500);
