@@ -117,6 +117,12 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
+            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
+            TurnExporter.GetTurnSolutionsWithExport(fCount);
+
+
+            ;
+
             //var info = new SolutionInformation();
             //info.board = "AsJs9d";
             //info.flopStack = 176;
@@ -127,12 +133,8 @@ namespace MonkeyExporter
             //info.flopOopRaiseSize = 100;
 
             // TurnExporter.buildScript("50", info.board);
-            var finished = isFinished(50.0);
+            //var finished = checkFinished(50.0);
             ;
-            //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
-            //TurnExporter.GetTurnSolutionsWithExport(fCount);
-
-            //TurnExporter.buildScript("50", "Js8d8s");
 
             //var potsize = TurnExporter.ReadPotsize();
             //var stacksize = TurnExporter.ReadStacksize();

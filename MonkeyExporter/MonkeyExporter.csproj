@@ -144,6 +144,7 @@
     <Content Include="ImagesNew\singleBetsize66.png" />
     <Content Include="ImagesNew\singleRaiseAllIn.png" />
     <Content Include="ImagesNew\singleRaisesize.png" />
+    <Content Include="ImagesNew\stoppedBtn.png" />
     <Content Include="ImagesNew\ThirdButton100.png" />
     <Content Include="ImagesNew\ThirdButton50.png" />
     <Content Include="ImagesNew\ThirdButton60.png" />

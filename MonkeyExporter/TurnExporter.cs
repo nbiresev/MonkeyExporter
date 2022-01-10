@@ -93,10 +93,13 @@ namespace MonkeyExporter
         public static Point listOfBoardsText = new Point(800, 455);
         public static Point nrOfIterationsText = new Point(820, 535);
         public static Point listOfStacks = new Point(800, 480);
+        public static Point futureFileName = new Point(740, 595);
+
         public static Point startScript = new Point(920, 635);
 
         public static int nrOfSolutions = 0;
         public static int currentSolPos = 0;
+        public static int nrOfScript = 0;
         public class SolutionInformation
         {
             public string board;
@@ -134,63 +137,82 @@ namespace MonkeyExporter
                 Thread.Sleep(1000);
 
                 // create cctree, betcall, checkbetcall, betraisecall, checkbetraisecall
-                CreateFullTree(sol, "check", "check", sol.flopPotsize, sol.flopStack);
+                bool tree1 = CreateFullTree(sol, "check", "check", sol.flopPotsize, sol.flopStack);
 
                 // oopbet ip callt
                 double turnBetsizeOop = sol.flopPotsize * (sol.flopOopBetsize / 100.0);
                 double turnPsOopbet = sol.flopPotsize + (2 * turnBetsizeOop);
                 double turnStackoopBet = sol.flopStack - turnBetsizeOop;
-                CreateFullTree(sol, "bet", "vsBet", turnPsOopbet, turnStackoopBet);
+                bool tree2 = CreateFullTree(sol, "bet", "vsBet", turnPsOopbet, turnStackoopBet);
 
                 // oop bet ip raise oop call
                 double raiseSizeIp = turnPsOopbet * (sol.flopIpRaiseSize/100.0);
                 double turnPSoopvsRaise = turnPsOopbet + (2 * raiseSizeIp);
                 double turnStacvsRaise = turnStackoopBet - raiseSizeIp;
-                CreateFullTree(sol, "vsRaise", "raise", turnPSoopvsRaise, turnStacvsRaise);
+                bool tree3 = CreateFullTree(sol, "vsRaise", "raise", turnPSoopvsRaise, turnStacvsRaise);
 
                 //ip bettet oop callt
                 double turnBetsizeIp = sol.flopPotsize * (sol.flopIpBetsize/100.0);
                 double turnPSIpbet = sol.flopPotsize + (2 * turnBetsizeIp);
                 double turnStacklIpBet = sol.flopStack - turnBetsizeIp;
-                CreateFullTree(sol, "vsBet", "bet", turnPSIpbet, turnStacklIpBet);
+                bool tree4 = CreateFullTree(sol, "vsBet", "bet", turnPSIpbet, turnStacklIpBet);
 
                 // ip bet oop raist oop callt
                 double raiseSizeOop = turnPSIpbet  * (sol.flopIpRaiseSize / 100.0);
                 double turnPSIpvsRaise = turnPSIpbet + (2 * raiseSizeOop);
                 double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
-                CreateFullTree(sol, "vsRaise", "raise", turnPSIpvsRaise, turnStacvsRaiseIp);
+                bool tree5 = CreateFullTree(sol, "raise", "vsRaise", turnPSIpvsRaise, turnStacvsRaiseIp);
 
-                    
-                buildScript("50", sol.board);
-                currentSolPos++;
-                Thread.Sleep(108000000);
+                if (tree1)
+                {
+                    buildScript("50", sol.board);
+                    currentSolPos++;
+                    checkFinished();
+                }
 
-                buildScript("50", sol.board);
-                currentSolPos++;
-                Thread.Sleep(108000000);
+                if (tree2)
+                {
+                    buildScript("50", sol.board);
+                    currentSolPos++;
+                    checkFinished();
+                }
 
-                buildScript("50", sol.board);
-                currentSolPos++;
-                Thread.Sleep(108000000);
+                if (tree3)
+                {
+                    buildScript("50", sol.board);
+                    currentSolPos++;
+                    checkFinished();
+                }
 
-                buildScript("50", sol.board);
-                currentSolPos++;
-                Thread.Sleep(108000000);
+                if (tree4)
+                {
+                    buildScript("50", sol.board);
+                    currentSolPos++;
+                    checkFinished();
+                }
 
-                buildScript("50", sol.board);
-                currentSolPos++;
-                Thread.Sleep(108000000);
+                if (tree5)
+                {
+                    buildScript("50", sol.board);
+                    currentSolPos++;
+                    checkFinished();
+                }
+               
                 // here call is finished at some point
             }
 
         }
-        public static void CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
+        public static bool CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
             string board = flopInfo.board;
             CreateGameTree(Turn, turnPotsize.ToString(), turnStacksize.ToString());
-            CopyRanges(board,oopAction,ipAction);
+            bool succ = CopyRanges(board,oopAction,ipAction);
             SaveSpot(flopInfo.board, oopAction + ipAction);
-            nrOfSolutions++;
+            if (succ)
+            {
+                nrOfSolutions++;
+            }
+            return succ;
         }
         public static void buildScript (string nrOfIterations, string flop)
         {
@@ -230,42 +252,34 @@ namespace MonkeyExporter
             SendKeys.SendWait(nrOfIterations);
             Thread.Sleep(500);
             Thread.Sleep(500);
+
+            mouse.PointClick(futureFileName);
+            mouse.PointClick(futureFileName);
+            mouse.PointClick(futureFileName);
+
+            ClickOperatoins.SetClipboard(nrOfScript.ToString());
+            nrOfScript++;
+            Thread.Sleep(1000);
+            SendKeys.SendWait("^v");
+            Thread.Sleep(500);
             mouse.PointClick(startScript);
             Thread.Sleep(500);
         }
-        public static bool isFinished(double numberOfNodes)
+        public static bool checkFinished()
         {
-            var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
+            Thread.Sleep(120000);
 
-            Rectangle Area = new Rectangle(new Point(137, 321), new Size(55, 13));
+            var image1 = SubImageFinder.PrintScreen(new Point(132, 262), new Size(20, 11));
+            // image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\stoppedBtn.png");
 
-            var img = PrimitiveActions.CaptureWindowImage(handle);
-            img.Save("c:/nenad/full.png");
-
-            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
-            if (cropped == null)
+            Bitmap stopped = (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\stoppedBtn.png");
+            if (SubImageFinder.CompareTwoImages(image1, stopped))
             {
-                return false;
+                return true;
             }
-            cropped.Save("c:/nenad/cropped.png");
-            var bytes = Tesseract.ConvertToBytes(cropped);
-            try
+            else
             {
-                string result = Tesseract.ParseText(bytes);
-                double res = Convert.ToDouble(result);
-                Console.WriteLine(res);
-                if (res > numberOfNodes)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-           catch(Exception e) 
-            {
-                return false;
+                return checkFinished();
             }
         }
         public static int ReadStacksize()
@@ -333,7 +347,7 @@ namespace MonkeyExporter
             Thread.Sleep(100);
             mouse.PointClick(OpenSave);
 
-            string SaveName = currentSolPos.ToString() + board + "_" + Spot;
+            string SaveName = nrOfSolutions.ToString() + board + "_" + Spot;
 
             Thread.Sleep(5000);
             mouse.PointClick(includeRanges);
@@ -395,7 +409,7 @@ namespace MonkeyExporter
             mouse.PointClick(NextActions);
             ;
         }
-        public static void CopyRanges(string board, string oopAction, string ipActions)
+        public static bool CopyRanges(string board, string oopAction, string ipActions)
         {
             mouse.PointClick(RangeBtn);
             Thread.Sleep(100);
@@ -403,7 +417,16 @@ namespace MonkeyExporter
             mouse.PointClick(IpRange);
             Thread.Sleep(100);
             string ipPath = GetIpRange(ipActions, board);
-            string ipRangeString = File.ReadAllText(ipPath, Encoding.UTF8);
+            string ipRangeString = "";
+            try
+            {
+                ipRangeString = File.ReadAllText(ipPath, Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
             ClickOperatoins.SetClipboard(ipRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
@@ -414,13 +437,22 @@ namespace MonkeyExporter
             mouse.PointClick(OopRange);
             Thread.Sleep(100);
             string oopPath = GetOopRange(oopAction, board);
-            string oopRangeString = File.ReadAllText(oopPath, Encoding.UTF8);
+            string oopRangeString = "";
+            try
+            {
+                oopRangeString = File.ReadAllText(oopPath, Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
             ClickOperatoins.SetClipboard(oopRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(1000);
             ClickOperatoins.ClearClip();
             mouse.PointClick(CloseRanges);
+            return true;
         }
         public static string GetOopRange (string spot, string board)
         {
