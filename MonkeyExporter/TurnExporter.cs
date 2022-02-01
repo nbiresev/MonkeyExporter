@@ -23,10 +23,23 @@ namespace MonkeyExporter
     /// </summary>
     class TurnExporter
     {
-        public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
 
-        public static Point StopCalc = new Point(25,110);
-        public static Point ConfirmStop = new Point(900,550);
+        public AutomationLib.AutomationModel model;
+        public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
+        IntPtr monkeyHandle;
+        IntPtr scriptHandle;
+        public ClickOperatoins clickOp;
+
+        public TurnExporter(ClickOperatoins cop)
+        {
+            model = new AutomationModel(@"C:\Nenad\AutoModels\monkeyExporter.txt");
+            monkeyHandle = PrimitiveActions.GetHandleWithTitle("MonkerSolver");
+            clickOp = cop;
+            ;
+        }
+
+        public static Point StopCalc = new Point(25, 110);
+        public static Point ConfirmStop = new Point(900, 550);
         public static Point MoveToTree = new Point(60, 45);
         public static Point NewButton = new Point(30, 80);
         public static Point SaveTree = new Point(66, 80);
@@ -34,8 +47,10 @@ namespace MonkeyExporter
 
         public List<string> spotsIp = new List<string>() { "IpBetCheck", "IpVsBet", "IpVsRaise" };
         public List<string> spotsOop = new List<string>() { "OopBetCheck", "OopVsBet", "OopVsRaise" };
+        public Dictionary<string, string> listofTrees = new Dictionary<string, string>();
         public static List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
-
+        public static string treeMonkeFoldet = @"C:\Users\Sparta\MonkerSolver\trees\";
+        public static string treeBUFolder = @"C:\Nenad\MonkeyTrees\";                        
         public List<Tuple<string, string>> pathKombos = new List<Tuple<string, string>>();
 
         // New Tree Window 1
@@ -116,8 +131,7 @@ namespace MonkeyExporter
             {
             }
         }
-
-        public static void GetTurnSolutionsWithExport(int flopCount)
+        public void GetTurnSolutionsWithExport(int flopCount)
         {
             nrOfSolutions = 0;
             mouse.PointClick(moveToSolve);
@@ -126,8 +140,8 @@ namespace MonkeyExporter
 
             for (int i = 0; i < flopCount; i++)
                 {
-                ClickOperatoins.OpenSolutionOneStreet(solutionCounter + 1);
-                var sol = ClickOperatoins.ReadSolution();
+                clickOp.OpenSolutionOneStreet(solutionCounter + 1);
+                var sol = clickOp.ReadSolution();
                 solutionCounter++;
                 mouse.PointClick(StopCalc);
                 Thread.Sleep(100);
@@ -163,37 +177,40 @@ namespace MonkeyExporter
                 double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
                 bool tree5 = CreateFullTree(sol, "raise", "vsRaise", turnPSIpvsRaise, turnStacvsRaiseIp);
 
+                mouse.PointClick(moveToSolve);
+                Thread.Sleep(1000);
+
                 if (tree1)
                 {
-                    buildScript("50", sol.board);
+                    buildScript("50", sol.board, "checkcheck");
                     currentSolPos++;
                     checkFinished();
                 }
 
                 if (tree2)
                 {
-                    buildScript("50", sol.board);
+                    buildScript("50", sol.board, "betvsBet");
                     currentSolPos++;
                     checkFinished();
                 }
 
                 if (tree3)
                 {
-                    buildScript("50", sol.board);
+                    buildScript("50", sol.board, "vsRaiseraise");
                     currentSolPos++;
                     checkFinished();
                 }
 
                 if (tree4)
                 {
-                    buildScript("50", sol.board);
+                    buildScript("50", sol.board, "vsBetbet");
                     currentSolPos++;
                     checkFinished();
                 }
 
                 if (tree5)
                 {
-                    buildScript("50", sol.board);
+                    buildScript("50", sol.board, "raisevsRaise");
                     currentSolPos++;
                     checkFinished();
                 }
@@ -202,7 +219,7 @@ namespace MonkeyExporter
             }
 
         }
-        public static bool CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
+        public bool CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
             string board = flopInfo.board;
             CreateGameTree(Turn, turnPotsize.ToString(), turnStacksize.ToString());
@@ -212,36 +229,58 @@ namespace MonkeyExporter
             {
                 nrOfSolutions++;
             }
+
             return succ;
         }
-        public static void buildScript (string nrOfIterations, string flop)
+
+        public Tuple<string,string> GetTreeFile(string flop, string spotdescrption)
         {
-            Thread.Sleep(100);
-            mouse.PointClick(moveToSolve);
-            Thread.Sleep(100);
+            var path = new Tuple<string, string> ("", "");
+            foreach (var item in listofTrees)
+            {
+                if(item.Key.Contains(flop) && item.Key.Contains(spotdescrption))
+                {
+                    return new Tuple<string, string>(item.Key, item.Value);
+                }
+            }
+            return path;
+        }
+        public void buildScript (string nrOfIterations, string flop, string spotdesc)
+
+        {
+            //var openResult = model.RunAction("clickScripting",monkeyHandle);
             mouse.PointClick(scriptWindow);
+
+            var fileName = GetTreeFile(flop, spotdesc);
+            string fileDest = treeMonkeFoldet + fileName.Item1 + ".tree";
+
+            moveFile(fileName.Item2, fileDest);
             Thread.Sleep(100);
             mouse.PointClick(selectTree);
+            scriptHandle = PrimitiveActions.GetHandleWithTitle("Scripting");
 
             // select correct script
             Thread.Sleep(100);
             mouse.PointClick(firstTreePos);
 
-            for (int i = 0; i < currentSolPos; i++)
-            {
-                SendKeys.SendWait("{DOWN}");
-                Thread.Sleep(100);
-            }
-            currentSolPos++;
+            //for (int i = 0; i < currentSolPos; i++)
+            //{
+            //    SendKeys.SendWait("{DOWN}");
+            //    Thread.Sleep(100);
+            //}
+            // currentSolPos++;
             Thread.Sleep(2000);
             mouse.PointClick(openTree);
 
-            string listOfBoards = CreateBoardString(flop);
+            string listOfBoards = this.CreateBoardString(flop);
+            //model.SetVariableValue("listOfBoards", listOfBoards);
+            //var writeBoards = model.RunAction("writeListofBoard", scriptHandle);
+
             Thread.Sleep(1000);
             mouse.PointClick(listOfBoardsText);
             mouse.PointClick(listOfBoardsText);
             mouse.PointClick(listOfBoardsText);
-            ClickOperatoins.SetClipboard(listOfBoards);
+            clickOp.SetClipboard(listOfBoards);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(2000);
@@ -257,15 +296,17 @@ namespace MonkeyExporter
             mouse.PointClick(futureFileName);
             mouse.PointClick(futureFileName);
 
-            ClickOperatoins.SetClipboard(nrOfScript.ToString());
+            clickOp.SetClipboard(nrOfScript.ToString());
             nrOfScript++;
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(500);
             mouse.PointClick(startScript);
             Thread.Sleep(500);
+            moveFile(fileDest, fileName.Item2);
+
         }
-        public static bool checkFinished()
+        public bool checkFinished()
         {
             Thread.Sleep(120000);
 
@@ -282,7 +323,7 @@ namespace MonkeyExporter
                 return checkFinished();
             }
         }
-        public static int ReadStacksize()
+        public int ReadStacksize()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
 
@@ -291,7 +332,7 @@ namespace MonkeyExporter
             var img = PrimitiveActions.CaptureWindowImage(handle);
             img.Save("c:/nenad/full.png");
 
-            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            var cropped = AutomationLib.Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
             if (cropped == null)
             {
                 return 0;
@@ -299,8 +340,7 @@ namespace MonkeyExporter
             cropped.Save("c:/nenad/stacksize.png");
             AutomationLib.ImageProcessing.BinarizeImage(ref cropped, 0.8);
 
-            var bytes = Tesseract.ConvertToBytes(cropped);
-            string result = Tesseract.ParseText(bytes);
+            string result = AutomationLib.Tesseract.ParseText((Bitmap)cropped);
             int res = 0;
             try
             {
@@ -312,24 +352,23 @@ namespace MonkeyExporter
             }
             return res;
         }
-        public static int ReadPotsize()
+        public  int ReadPotsize()
         {
             var handle = TableHandles.GetHandleWithTitle("MonkerSolver");
 
             Rectangle Area = new Rectangle(new Point(140, 750), new Size(25, 25));
 
             var img = PrimitiveActions.CaptureWindowImage(handle);
-            img.Save("c:/nenad/full.png");
+          //  img.Save("c:/nenad/full.png");
 
-            var cropped = Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            var cropped =AutomationLib.Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
             if (cropped == null)
             {
                 return 0;
             }
             cropped.Save("c:/nenad/potsize.png");
             AutomationLib.ImageProcessing.BinarizeImage(ref cropped, 0.8);
-            var bytes = Tesseract.ConvertToBytes(cropped);
-            string result = Tesseract.ParseText(bytes);
+            string result =AutomationLib.Tesseract.ParseText((Bitmap)cropped);
             int res = 0;
 
             try
@@ -342,25 +381,64 @@ namespace MonkeyExporter
             }
             return res;
         }
-        public static void SaveSpot(string board, string Spot)
+
+        public void moveFile(string path, string path2)
+        {
+            try
+            {
+                if (!File.Exists(path))
+                {
+                    // This statement ensures that the file is created,
+                    // but the handle is not kept.
+                    using (FileStream fs = File.Create(path)) { }
+                }
+
+                // Ensure that the target does not exist.
+                if (File.Exists(path2))
+                    File.Delete(path2);
+
+                // Move the file.
+                File.Move(path, path2);
+                Console.WriteLine("{0} was moved to {1}.", path, path2);
+
+                // See if the original exists now.
+                if (File.Exists(path))
+                {
+                    Console.WriteLine("The original file still exists, which is unexpected.");
+                }
+                else
+                {
+                    Console.WriteLine("The original file no longer exists, which is expected.");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The process failed: {0}", e.ToString());
+            }
+        }
+        public  void SaveSpot(string board, string Spot)
         {
             Thread.Sleep(100);
             mouse.PointClick(OpenSave);
 
-            string SaveName = nrOfSolutions.ToString() + board + "_" + Spot;
+            string SaveName =  board + "_" + Spot;
 
             Thread.Sleep(5000);
             mouse.PointClick(includeRanges);
-            ClickOperatoins.SetClipboard(SaveName);
+            clickOp.SetClipboard(SaveName);
             Thread.Sleep(500);
             mouse.PointClick(textSave);
             SendKeys.SendWait("^v");
             Thread.Sleep(100);
             mouse.PointClick(saveSave);
             Thread.Sleep(100);
+            string treefilename = treeMonkeFoldet + SaveName + ".tree";
+            string treeDestName = treeBUFolder + SaveName + ".tree";
+            moveFile(treefilename, treeDestName);
 
+            listofTrees.Add(SaveName, treeDestName);
         }
-        public static void CreateGameTree(Point street, string potsize, string stackLeft)
+        public  void CreateGameTree(Point street, string potsize, string stackLeft)
         {
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
             mouse.PointClick(NewButton);
@@ -409,7 +487,7 @@ namespace MonkeyExporter
             mouse.PointClick(NextActions);
             ;
         }
-        public static bool CopyRanges(string board, string oopAction, string ipActions)
+        public bool CopyRanges(string board, string oopAction, string ipActions)
         {
             mouse.PointClick(RangeBtn);
             Thread.Sleep(100);
@@ -427,11 +505,11 @@ namespace MonkeyExporter
                 return false;
             }
 
-            ClickOperatoins.SetClipboard(ipRangeString);
+            clickOp.SetClipboard(ipRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(1000);
-            ClickOperatoins.ClearClip();
+            clickOp.ClearClip();
             Thread.Sleep(1000);
 
             mouse.PointClick(OopRange);
@@ -446,15 +524,16 @@ namespace MonkeyExporter
             {
                 return false;
             }
-            ClickOperatoins.SetClipboard(oopRangeString);
+            clickOp.SetClipboard(oopRangeString);
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(1000);
-            ClickOperatoins.ClearClip();
+            clickOp.ClearClip();
             mouse.PointClick(CloseRanges);
+            Thread.Sleep(500);
             return true;
         }
-        public static string GetOopRange (string spot, string board)
+        public  string GetOopRange (string spot, string board)
         {
             if (spot == "check")
             {
@@ -536,7 +615,7 @@ namespace MonkeyExporter
             }
             return "error";
         }
-        public static string GetIpRange(string spot, string board)
+        public  string GetIpRange(string spot, string board)
         {
             if (spot == "check")
             {
@@ -622,19 +701,19 @@ namespace MonkeyExporter
             return "error";
         }
 
-        public static Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
-        public static void OpenAllSolutions(int numOfSolutions)
+        public  Dictionary<string, List<string>> cards = new Dictionary<string, List<string>>();
+        public  void OpenAllSolutions(int numOfSolutions)
         {
 
             for (int i = 0; i < numOfSolutions; i++)
             {
-                ClickOperatoins.OpenSolutionMultiStreet(i + 2);
+                clickOp.OpenSolutionMultiStreet(i + 2);
                 Thread.Sleep(120000);
-                string board = ClickOperatoins.GetBoard();
+                string board = clickOp.GetBoard();
                 ExportSpot(board);
             }
         }
-        public static void ExportSpot(string board)
+        public  void ExportSpot(string board)
         {
             List<string> cardsforsoltion = GetRelevantTurnsForBoard(board);
 
@@ -675,7 +754,7 @@ namespace MonkeyExporter
             TurnInformation.NavBack();
 
         }
-        public static void ExportSpotTurnwithoughtCalc(string board)
+        public  void ExportSpotTurnwithoughtCalc(string board)
         {
             var cardsforsoltion = new List<string>();
 
@@ -711,7 +790,7 @@ namespace MonkeyExporter
             TurnInformation.NavBack();
 
         }
-        public static void ReadSpot(List<string> turncards, string board)
+        public  void ReadSpot(List<string> turncards, string board)
         {
             int cardsPos = 0;
 
@@ -720,13 +799,13 @@ namespace MonkeyExporter
                 TurnInformation.SelectTurnCard(turncards[cardsPos]);
                 Thread.Sleep(30000);
 
-                ClickOperatoins.ReadSolutionWithBoardManuel(board + turncards[cardsPos]);
+                clickOp.ReadSolutionWithBoardManuel(board + turncards[cardsPos]);
                 TurnInformation.UnselectTurn(turncards[cardsPos]);
 
                 cardsPos++;
             }
         }
-        public static List<string> GetRelevantTurnsForBoard (string board)
+        public List<string> GetRelevantTurnsForBoard (string board)
         {
             List<string> relevantCards = new List<string>();
 
@@ -822,7 +901,7 @@ namespace MonkeyExporter
 
             return relevantCards;
         }
-        public static List<string> DeleteDuplicats (List<string> outs)
+        public List<string> DeleteDuplicats (List<string> outs)
         {
             List<string> relOuts = new List<string>();
             foreach (var item in outs) 
@@ -835,7 +914,7 @@ namespace MonkeyExporter
             }
             return relOuts;
         }
-        public static bool ContainsCardValue (List<string> cardList, char cardvalue)
+        public bool ContainsCardValue (List<string> cardList, char cardvalue)
         {
             foreach (var item in cardList)
             {
@@ -846,7 +925,7 @@ namespace MonkeyExporter
             }
             return false;
         }
-        public static string CreateBoardString (string board)
+        public string CreateBoardString (string board)
         {
             string value = "";
             var turnCards = GetRelevantTurnsForBoard(board);

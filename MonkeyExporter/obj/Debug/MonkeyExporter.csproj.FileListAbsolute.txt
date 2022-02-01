@@ -23,3 +23,16 @@ C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.pdb
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Libs\MouseKeyboardActivityMonitor.dll
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\MouseKeyboardActivityMonitor.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\x86\leptonica-1.80.0.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\x86\tesseract41.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\x64\leptonica-1.80.0.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\x64\tesseract41.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\AutomationLib.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\HumanMouse.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\PokerUtil.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Tesseract.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\MouseKeyboardActivityMonitor.xml
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\log4net.dll
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\log4net.xml

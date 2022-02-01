@@ -20,7 +20,8 @@ namespace MonkeyExporter
 
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
         public string board = "abc";
-        private string path  = @"C:\Users\Sparta\MonkerSolver\savedRuns";
+        private string path = @"C:\Users\Sparta\MonkerSolver\savedRuns";
+                public  AutomationLib.AutomationModel model;
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
@@ -35,10 +36,11 @@ namespace MonkeyExporter
 
         private void button1_Click(object sender, EventArgs e)
         {
+            ClickOperatoins clickop = new ClickOperatoins();
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
             int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
 
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutions(fCount));
+            Task t = new Task(() => clickop.OpenAllSolutions(fCount));
             t.Start();
         }
 
@@ -76,13 +78,17 @@ namespace MonkeyExporter
 
         private void button2_Click(object sender, EventArgs e)
         {
-            ClickOperatoins.SnapAllButtons();
+            ClickOperatoins clickop = new ClickOperatoins();
+
+            clickop.SnapAllButtons();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            ClickOperatoins clickop = new ClickOperatoins();
             MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
-            Task t = new Task(() => ClickOperatoins.ExportTurn(board));
+
+            Task t = new Task(() => clickop.ExportTurn(board));
             t.Start();
         }
 
@@ -96,7 +102,7 @@ namespace MonkeyExporter
             // TurnExporter.OpenAllSolutions();
             //TurnExporter.GetRelevantTurnsForBoard("8s6d5s");
 
-            TurnExporter.GetRelevantTurnsForBoard("Qs7s6s");
+            //TurnExporter.GetRelevantTurnsForBoard("Qs7s6s");
 
             //MouseOperations.handle = TableHandles.GetHandleWithTitle("MonkerSolver");
             //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
@@ -110,18 +116,29 @@ namespace MonkeyExporter
         private void button5_Click(object sender, EventArgs e)
         {
             int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
-
-            Task t = new Task(() => ClickOperatoins.OpenAllSolutionsMW(fCount, "EP", "CO", "BTN"));
+            ClickOperatoins clickop = new ClickOperatoins();
+            Task t = new Task(() => clickop.OpenAllSolutionsMW(fCount, "EP", "CO", "BTN"));
             t.Start();
 
         }
         private void button6_Click(object sender, EventArgs e)
         {
             int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
-            TurnExporter.GetTurnSolutionsWithExport(fCount);
+            ClickOperatoins ce = new ClickOperatoins();
 
+            TurnExporter exporter = new TurnExporter(ce);
 
-            ;
+            exporter.GetTurnSolutionsWithExport(fCount);
+
+            //exporter.buildScript("50", "askc6h", "checkcheck");
+
+            //ClickOperatoins ce = new ClickOperatoins();
+            //exporter.buildScript("1", "AsKc2d");
+
+            //ClickOperatoins co = new ClickOperatoins();
+
+            //co.OpenSolutionOneStreet(2);
+            //;
 
             //var info = new SolutionInformation();
             //info.board = "AsJs9d";
@@ -136,7 +153,7 @@ namespace MonkeyExporter
             //var finished = checkFinished(50.0);
             ;
 
-            //var potsize = TurnExporter.ReadPotsize();
+            //var potsize = TurnExporter.ReadPotsize1
             //var stacksize = TurnExporter.ReadStacksize();
             //var thirdButtonSize = ClickOperatoins.ReadBetsizeFrom3rdBtn();
             //var fourthButtonSize = ClickOperatoins.ReadBetsizeFrom4thBtn();
