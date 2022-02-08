@@ -789,7 +789,15 @@ namespace MonkeyExporter
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
 
             string raiseSize = ReadBetsizeFrom3rdBtn();
-            solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+
+            try
+            {
+                solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+            }
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
+            }
 
             if (HasSecondButton())
             {

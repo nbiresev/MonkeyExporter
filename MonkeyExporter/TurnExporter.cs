@@ -47,7 +47,9 @@ namespace MonkeyExporter
 
         public List<string> spotsIp = new List<string>() { "IpBetCheck", "IpVsBet", "IpVsRaise" };
         public List<string> spotsOop = new List<string>() { "OopBetCheck", "OopVsBet", "OopVsRaise" };
-        public Dictionary<string, string> listofTrees = new Dictionary<string, string>();
+        public Dictionary<string, string> listofTreesMonkey = new Dictionary<string, string>(); 
+        public Dictionary<string, string> listofTreesMoved = new Dictionary<string, string>();
+
         public static List<string> actionOrder = new List<string>() { "check", "bet", "raise" };
         public static string treeMonkeFoldet = @"C:\Users\Sparta\MonkerSolver\trees\";
         public static string treeBUFolder = @"C:\Nenad\MonkeyTrees\";                        
@@ -177,14 +179,23 @@ namespace MonkeyExporter
                 double turnStacvsRaiseIp = turnStacklIpBet - raiseSizeOop;
                 bool tree5 = CreateFullTree(sol, "raise", "vsRaise", turnPSIpvsRaise, turnStacvsRaiseIp);
 
+                CreateGameTree(Turn, "100", "100");
+
+
                 mouse.PointClick(moveToSolve);
                 Thread.Sleep(1000);
+
+
+                MoveAlleFiles();
+
+
 
                 if (tree1)
                 {
                     buildScript("50", sol.board, "checkcheck");
                     currentSolPos++;
                     checkFinished();
+                    MoveAlleFiles();
                 }
 
                 if (tree2)
@@ -192,6 +203,8 @@ namespace MonkeyExporter
                     buildScript("50", sol.board, "betvsBet");
                     currentSolPos++;
                     checkFinished();
+                    MoveAlleFiles();
+
                 }
 
                 if (tree3)
@@ -199,6 +212,8 @@ namespace MonkeyExporter
                     buildScript("50", sol.board, "vsRaiseraise");
                     currentSolPos++;
                     checkFinished();
+                    MoveAlleFiles();
+
                 }
 
                 if (tree4)
@@ -206,6 +221,8 @@ namespace MonkeyExporter
                     buildScript("50", sol.board, "vsBetbet");
                     currentSolPos++;
                     checkFinished();
+                    MoveAlleFiles();
+
                 }
 
                 if (tree5)
@@ -213,11 +230,25 @@ namespace MonkeyExporter
                     buildScript("50", sol.board, "raisevsRaise");
                     currentSolPos++;
                     checkFinished();
+                    MoveAlleFiles();
                 }
-               
+
                 // here call is finished at some point
             }
 
+        }
+
+        public void MoveAlleFiles()
+        {
+            foreach (var file in listofTreesMonkey.ToList())
+            {
+                var fileOld = file.Value;
+                var filenew = treeBUFolder + file.Key + ".tree";
+
+                moveFile(file.Value, filenew);
+                listofTreesMoved.Add(file.Key, filenew);
+                listofTreesMonkey.Remove(file.Key);
+            }
         }
         public bool CreateFullTree(SolutionInformation flopInfo, string oopAction, string ipAction, double turnPotsize, double turnStacksize)
         {
@@ -236,7 +267,7 @@ namespace MonkeyExporter
         public Tuple<string,string> GetTreeFile(string flop, string spotdescrption)
         {
             var path = new Tuple<string, string> ("", "");
-            foreach (var item in listofTrees)
+            foreach (var item in listofTreesMoved)
             {
                 if(item.Key.Contains(flop) && item.Key.Contains(spotdescrption))
                 {
@@ -255,6 +286,8 @@ namespace MonkeyExporter
             string fileDest = treeMonkeFoldet + fileName.Item1 + ".tree";
 
             moveFile(fileName.Item2, fileDest);
+            listofTreesMoved.Remove(fileName.Item1);
+            listofTreesMonkey.Add(fileName.Item1, fileDest);
             Thread.Sleep(100);
             mouse.PointClick(selectTree);
             scriptHandle = PrimitiveActions.GetHandleWithTitle("Scripting");
@@ -296,14 +329,14 @@ namespace MonkeyExporter
             mouse.PointClick(futureFileName);
             mouse.PointClick(futureFileName);
 
-            clickOp.SetClipboard(nrOfScript.ToString());
+            clickOp.SetClipboard(spotdesc);
             nrOfScript++;
             Thread.Sleep(1000);
             SendKeys.SendWait("^v");
             Thread.Sleep(500);
             mouse.PointClick(startScript);
             Thread.Sleep(500);
-            moveFile(fileDest, fileName.Item2);
+           // moveFile(fileDest, fileName.Item2);
 
         }
         public bool checkFinished()
@@ -415,6 +448,7 @@ namespace MonkeyExporter
             {
                 Console.WriteLine("The process failed: {0}", e.ToString());
             }
+            Thread.Sleep(500);
         }
         public  void SaveSpot(string board, string Spot)
         {
@@ -434,9 +468,9 @@ namespace MonkeyExporter
             Thread.Sleep(100);
             string treefilename = treeMonkeFoldet + SaveName + ".tree";
             string treeDestName = treeBUFolder + SaveName + ".tree";
-            moveFile(treefilename, treeDestName);
+            //moveFile(treefilename, treeDestName);
 
-            listofTrees.Add(SaveName, treeDestName);
+            listofTreesMonkey.Add(SaveName, treefilename);
         }
         public  void CreateGameTree(Point street, string potsize, string stackLeft)
         {
@@ -530,6 +564,8 @@ namespace MonkeyExporter
             Thread.Sleep(1000);
             clickOp.ClearClip();
             mouse.PointClick(CloseRanges);
+            mouse.PointClick(CloseRanges);
+
             Thread.Sleep(500);
             return true;
         }

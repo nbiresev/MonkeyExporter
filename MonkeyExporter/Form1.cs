@@ -129,6 +129,9 @@ namespace MonkeyExporter
             TurnExporter exporter = new TurnExporter(ce);
 
             exporter.GetTurnSolutionsWithExport(fCount);
+            // exporter.moveFile(@"C:\Users\Sparta\MonkerSolver\trees\AsJs9d_test.tree", @"C:\Nenad\MonkeyTrees\AsJs9d_test.tree");
+            ;
+             //exporter.moveFile(@"C:\Nenad\MonkeyTrees\AsJs9d_AsJs9d_test.tree", @"C:\Users\Sparta\MonkerSolver\trees\AsJs9d_AsJs9d_test.tree");
 
             //exporter.buildScript("50", "askc6h", "checkcheck");
 
