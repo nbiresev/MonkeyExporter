@@ -111,6 +111,7 @@ namespace MonkeyExporter
         public static Point nrOfIterationsText = new Point(820, 535);
         public static Point listOfStacks = new Point(800, 480);
         public static Point futureFileName = new Point(740, 595);
+        public static Point saveForStorage = new Point(1007, 509);
 
         public static Point startScript = new Point(920, 635);
 
@@ -324,6 +325,9 @@ namespace MonkeyExporter
             SendKeys.SendWait(nrOfIterations);
             Thread.Sleep(500);
             Thread.Sleep(500);
+            mouse.PointClick(saveForStorage);
+            Thread.Sleep(100);
+
 
             mouse.PointClick(futureFileName);
             mouse.PointClick(futureFileName);

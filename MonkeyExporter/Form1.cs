@@ -21,7 +21,7 @@ namespace MonkeyExporter
         public static HumanLikeMouse.Mouse mouse = new HumanLikeMouse.Mouse(true);
         public string board = "abc";
         private string path = @"C:\Users\Sparta\MonkerSolver\savedRuns";
-                public  AutomationLib.AutomationModel model;
+        public  AutomationLib.AutomationModel model;
 
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
