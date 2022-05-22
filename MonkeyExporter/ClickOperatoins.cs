@@ -63,8 +63,8 @@ namespace MonkeyExporter
         public ClickOperatoins()
         {
             turnExporter = new TurnExporter(this);
-            model = new AutomationModel(@"C:\Nenad\AutoModels\monkeyExporter.txt");
-            monkeyHandle = PrimitiveActions.GetHandleWithTitle("MonkerSolver");
+            // model = new AutomationModel(@"C:\Nenad\AutoModels\monkeyExporter.txt");
+            // monkeyHandle = PrimitiveActions.GetHandleWithTitle("MonkerSolver");
         }
 
         public List<SolutionInformation> OpenAllSolutions(int numOfSolutions)
@@ -150,19 +150,21 @@ namespace MonkeyExporter
                 }
             }
 
-            var lines = File.ReadAllLines(filePath);
-            List<string> adjustedRange = new List<string>();
-            for (int i = 0; i < lines.Length; i += faktor)
+            var lines = File.ReadAllText(filePath);
+            var linessplitted = lines.Split(',');
+            string output = "";
+
+            for (int i = 0; i < linessplitted.Length; i += faktor)
             {
-                adjustedRange.Add(lines[i]);
+               output += linessplitted[i] + ',';
             }
             var pathSplitted = filePath.Split('.');
-            char delim = ',';
+            //char delim = ',';
 
-            string newRangeString = adjustedRange.Aggregate((x, y) => x + delim + y);
+            //string newRangeString = adjustedRange.Aggregate((x, y) => x + delim + y);
 
             string newPath = pathSplitted[0] + "adjusted by " + faktor + ".txt";
-            File.WriteAllLines(newPath, adjustedRange);
+            File.WriteAllText(newPath, output);
 
 
 

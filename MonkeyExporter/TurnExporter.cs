@@ -32,8 +32,8 @@ namespace MonkeyExporter
 
         public TurnExporter(ClickOperatoins cop)
         {
-            model = new AutomationModel(@"C:\Nenad\AutoModels\monkeyExporter.txt");
-            monkeyHandle = PrimitiveActions.GetHandleWithTitle("MonkerSolver");
+            // model = new AutomationModel(@"C:\Nenad\AutoModels\monkeyExporter.txt");
+            //monkeyHandle = PrimitiveActions.GetHandleWithTitle("MonkerSolver");
             clickOp = cop;
             ;
         }
