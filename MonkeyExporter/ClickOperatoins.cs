@@ -10,7 +10,8 @@ using System.IO;
 using System.Drawing;
 using static MonkeyExporter.TurnExporter;
 using AutomationLib;
-
+using Microsoft.Win32;
+using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace MonkeyExporter
 {
@@ -121,6 +122,51 @@ namespace MonkeyExporter
                 string board = GetBoard();
                 Export3way(board, pos1, pos2, pos3);
             }
+        }
+        public void minimizeRange(int faktor)
+        {
+            var fileContent = string.Empty;
+            var filePath = string.Empty;
+
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = @"C:\Users\Sparta\Desktop\exports\Preflop";
+                openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                openFileDialog.FilterIndex = 2;
+                openFileDialog.RestoreDirectory = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    filePath = openFileDialog.FileName;
+
+                    //Read the contents of the file into a stream
+                    var fileStream = openFileDialog.OpenFile();
+
+                    using (StreamReader reader = new StreamReader(fileStream))
+                    {
+                        fileContent = reader.ReadToEnd();
+                    }
+                }
+            }
+
+            var lines = File.ReadAllLines(filePath);
+            List<string> adjustedRange = new List<string>();
+            for (int i = 0; i < lines.Length; i += faktor)
+            {
+                adjustedRange.Add(lines[i]);
+            }
+            var pathSplitted = filePath.Split('.');
+            char delim = ',';
+
+            string newRangeString = adjustedRange.Aggregate((x, y) => x + delim + y);
+
+            string newPath = pathSplitted[0] + "adjusted by " + faktor + ".txt";
+            File.WriteAllLines(newPath, adjustedRange);
+
+
+
+
         }
         private string GetClipBoardData()
         {
@@ -677,7 +723,7 @@ namespace MonkeyExporter
         {
             int noOpt = NumberOfOptions();
 
-            if (noOpt == 1)
+            if (noOpt == 1 || actionSize == "AllIn")
             {
                 if (ip)
                 {
@@ -774,7 +820,14 @@ namespace MonkeyExporter
             //  SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             Thread.Sleep(1000);
             string raiseSize = ReadBetsizeFrom3rdBtn();
+            if(raiseSize == "AllIn")
+            {
+                solInfo.flopIpRaiseSize = Convert.ToInt32(100);
+                ImportNextAction(image1, board, raiseSize);
+                return;
+            }
             solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+
             ImportNextAction(image1, board, raiseSize);
 
         }
@@ -843,6 +896,13 @@ namespace MonkeyExporter
             ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
+            if(raiseSize == "AllIn")
+            {
+                solInfo.flopOopRaiseSize = Convert.ToInt32(100);
+
+                ImportNextAction(image1, board, raiseSize);
+                return;
+            }
             solInfo.flopOopRaiseSize = Convert.ToInt32(raiseSize);
 
             ImportNextAction(image1, board, raiseSize);

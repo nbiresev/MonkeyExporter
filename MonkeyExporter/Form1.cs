@@ -22,7 +22,6 @@ namespace MonkeyExporter
         public string board = "abc";
         private string path = @"C:\Users\Sparta\MonkerSolver\savedRuns";
         public  AutomationLib.AutomationModel model;
-
         private readonly KeyboardHookListener m_KeyboardHookManager;
 
         public Form1()
@@ -123,12 +122,13 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
-            int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
+            //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
             ClickOperatoins ce = new ClickOperatoins();
+            ce.minimizeRange(5);
+            //TurnExporter exporter = new TurnExporter(ce);
 
-            TurnExporter exporter = new TurnExporter(ce);
+            //exporter.GetTurnSolutionsWithExport(fCount);
 
-            exporter.GetTurnSolutionsWithExport(fCount);
             // exporter.moveFile(@"C:\Users\Sparta\MonkerSolver\trees\AsJs9d_test.tree", @"C:\Nenad\MonkeyTrees\AsJs9d_test.tree");
             ;
              //exporter.moveFile(@"C:\Nenad\MonkeyTrees\AsJs9d_AsJs9d_test.tree", @"C:\Users\Sparta\MonkerSolver\trees\AsJs9d_AsJs9d_test.tree");
