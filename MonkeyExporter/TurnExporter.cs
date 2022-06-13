@@ -398,7 +398,7 @@ namespace MonkeyExporter
             var img = PrimitiveActions.CaptureWindowImage(handle);
           //  img.Save("c:/nenad/full.png");
 
-            var cropped =AutomationLib.Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
+            var cropped = AutomationLib.Tesseract.CropImage((Bitmap)img, Area.Width, Area.Height, new System.Drawing.Point(Area.X, Area.Y));
             if (cropped == null)
             {
                 return 0;

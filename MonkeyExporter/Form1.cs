@@ -124,7 +124,7 @@ namespace MonkeyExporter
         {
             //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
             ClickOperatoins ce = new ClickOperatoins();
-            ce.minimizeRange(5);
+            ce.minimizeRange(10);
             //TurnExporter exporter = new TurnExporter(ce);
 
             //exporter.GetTurnSolutionsWithExport(fCount);

@@ -81,7 +81,7 @@ namespace MonkeyExporter
         }
         public void OpenSolutionOneStreet(int solutionsPosition)
         {
-            var openResult = model.RunAction("openSolutionOneStreet", monkeyHandle);
+          //  var openResult = model.RunAction("openSolutionOneStreet", monkeyHandle);
 
             mouse.PointClick(openSolution);
             Thread.Sleep(1000);
@@ -616,6 +616,7 @@ namespace MonkeyExporter
 
             if (HasFourthButton() == false)
             {
+
                 betsize1 = ReadBetsizeFrom3rdBtn();
 
                 ReadOopTreeSingleSize(board, betsize1,ref solInfo);
@@ -725,7 +726,7 @@ namespace MonkeyExporter
         {
             int noOpt = NumberOfOptions();
 
-            if (noOpt == 1 || actionSize == "AllIn")
+            if (noOpt == 1 && actionSize == "AllIn")
             {
                 if (ip)
                 {
@@ -741,6 +742,43 @@ namespace MonkeyExporter
                     return;
                 }
             }
+            else if (noOpt == 2 && actionSize == "AllIn")
+            {
+                if (ip)
+                {
+
+                    SaveTwoItemSolution(board, "IpVs" + actions[treePosition], actionSize);
+                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                    actionSize = "AllIn";
+                    mouse.PointClick(checkBtn);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
+
+                    ip = false;
+                    treePosition++;
+                    actionHistory += "-" + actions[treePosition] + "_" + actionSize;
+                    ImportNextAction(image1, board, actionSize);
+                    return;
+
+                }
+                else
+                {
+                    SaveTwoItemSolution(board, "OopVs" + actions[treePosition], actionSize);
+                    image1 = SubImageFinder.PrintScreen(ChangeSultionPoint1, SubImageFinder.GetSizeFromPoint(ChangeSultionPoint1, ChangeSultionPoint2));
+                    actionSize = "AllIn";
+                    mouse.PointClick(checkBtn);
+                    //SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
+                    Thread.Sleep(1000);
+
+                    ip = true;
+                    treePosition++;
+                    actionHistory += "-" + actions[treePosition] + "_" + actionSize;
+                    ImportNextAction(image1, board, actionSize);
+                    return;
+
+                }
+            }
+
             else if (noOpt == 2)
             {
                 if (ip)
