@@ -36,3 +36,8 @@ C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Newtonsoft.Jso
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\log4net.dll
 C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\log4net.xml
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\MonkeyExporter.exe.manifest
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\MonkeyExporter.application
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.exe.manifest
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\obj\Debug\MonkeyExporter.application
+C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\bin\Debug\DBLib.dll

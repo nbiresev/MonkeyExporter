@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.IO;
 using static MonkeyExporter.TurnExporter;
+using AutomationLib;
 
 namespace MonkeyExporter
 {
@@ -122,9 +123,11 @@ namespace MonkeyExporter
         }
         private void button6_Click(object sender, EventArgs e)
         {
+
+            UploadModel.DownloadFromServer("C:/nenad/tesseract/", "/poker/tesseract/", "tesseract.zip");
             //int fCount = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly).Length;
-            ClickOperatoins ce = new ClickOperatoins();
-            ce.minimizeRange(10);
+            //ClickOperatoins ce = new ClickOperatoins();
+            //ce.minimizeRange(10);
             //TurnExporter exporter = new TurnExporter(ce);
 
             //exporter.GetTurnSolutionsWithExport(fCount);

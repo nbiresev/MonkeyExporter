@@ -481,13 +481,13 @@ namespace MonkeyExporter
             //var image1 = SubImageFinder.PrintScreen(new Point(201, 908), new Size(18, 25));
             //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\Images\fourthVsBet.png");
 
-            var image1 = SubImageFinder.PrintScreen(ActionTwoPart, new Size(25, 13));
-            image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\singleBetsize.png");
+            //var image1 = SubImageFinder.PrintScreen(ActionTwoPart, new Size(25, 13));
+            //image1.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\singleBetsize.png");
 
-            var image2 = SubImageFinder.PrintScreen(ActionthreePart, new Size(25, 13));
-            image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\singleRaisesize.png");
+            //var image2 = SubImageFinder.PrintScreen(ActionthreePart, new Size(25, 13));
+            //image2.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\singleRaisesize.png");
 
-            //var image3 = SubImageFinder.PrintScreen(new Point(142, 900), new Size(54, 26));
+            var image3 = SubImageFinder.PrintScreen(new Point(142, 900), new Size(54, 26));
             //image3.Save(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNEW\thirdButton.png");
 
             //var image4 = SubImageFinder.PrintScreen(new Point(202, 900), new Size(54, 26));
@@ -513,6 +513,10 @@ namespace MonkeyExporter
         public string ReadBetsizeFrom3rdBtn()
         {
             var image1 = SubImageFinder.PrintScreen(ActionTwoPart, new Size(25, 13));
+            if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\ThirdButton25.png")))
+            {
+                return "25";
+            }
             if (SubImageFinder.CompareTwoImages(image1, (Bitmap)Image.FromFile(@"C:\Users\Sparta\Documents\MonkeyExporter\MonkeyExporter\ImagesNew\SingleBetsize33.png")))
             {
                 return "33";
@@ -726,7 +730,7 @@ namespace MonkeyExporter
         {
             int noOpt = NumberOfOptions();
 
-            if (noOpt == 1 && actionSize == "AllIn")
+            if (noOpt == 1)
             {
                 if (ip)
                 {
@@ -778,7 +782,6 @@ namespace MonkeyExporter
 
                 }
             }
-
             else if (noOpt == 2)
             {
                 if (ip)
@@ -848,6 +851,22 @@ namespace MonkeyExporter
                     return;
                 }
             }
+            else
+            {
+                if (ip)
+                {
+                    SaveVsActionSolutionNoRaise(board, "IpVs" + actions[treePosition]);
+                    TreeReadComplete();
+                    return;
+
+                }
+                else
+                {
+                    SaveVsActionSolutionNoRaise(board, "OopVs" + actions[treePosition]);
+                    TreeReadComplete();
+                    return;
+                }
+            }
         }
         public void ReadOopTreeSingleSize(string board, string betsize, ref SolutionInformation solInfo)
         {
@@ -860,13 +879,14 @@ namespace MonkeyExporter
             //  SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             Thread.Sleep(1000);
             string raiseSize = ReadBetsizeFrom3rdBtn();
-            if(raiseSize == "AllIn")
+            try
             {
-                solInfo.flopIpRaiseSize = Convert.ToInt32(100);
-                ImportNextAction(image1, board, raiseSize);
-                return;
+                solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
             }
-            solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
+            }
 
             ImportNextAction(image1, board, raiseSize);
 
@@ -936,12 +956,14 @@ namespace MonkeyExporter
             ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
-            if(raiseSize == "AllIn")
-            {
-                solInfo.flopOopRaiseSize = Convert.ToInt32(100);
 
-                ImportNextAction(image1, board, raiseSize);
-                return;
+            try
+            {
+                solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+            }
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
             }
             solInfo.flopOopRaiseSize = Convert.ToInt32(raiseSize);
 
@@ -958,7 +980,15 @@ namespace MonkeyExporter
             ip = false;
             SubImageFinder.HasLoaded(image1, ChangeSultionPoint1, ChangeSultionPoint2);
             string raiseSize = ReadBetsizeFrom3rdBtn();
-            solInfo.flopOopRaiseSize = Convert.ToInt32(raiseSize);
+
+            try
+            {
+                solInfo.flopIpRaiseSize = Convert.ToInt32(raiseSize);
+            }
+            catch (Exception e)
+            {
+                raiseSize = "AllIn";
+            }
 
             if (HasSecondButton())
             {
